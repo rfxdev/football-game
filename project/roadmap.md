@@ -1,6 +1,6 @@
 # Roadmap
 
-The build order for a SWOS clone, arranged so something is playable at every phase — which keeps solo-dev motivation up, and keeps a new problem down to one candidate explanation. Original design, meaning anything that departs from the reference, waits until the clone plays; ideas for it go in [Ideas](ideas.md).
+The build order for a SWOS clone, arranged so something is playable at every phase — which keeps solo-dev motivation up, and keeps a new problem down to one candidate explanation. Original design, meaning anything that departs from the reference, waits until the clone plays. The roadmap holds only what's scheduled; everything else is in [Ideas](ideas.md) until it's added.
 
 How a milestone file works — what it is, how it exits, its status — is in the [project README](README.md). Cross-phase notes are after the phases.
 
@@ -62,13 +62,6 @@ How a milestone file works — what it is, how it exits, its status — is in th
 
 - [6.1 Squads](milestones/6.1-squads.md) — players with their own ratings, and teams built from them
 - [6.2 Team Management](milestones/6.2-team-management.md) — pick a formation, place players on its grid, substitutions and formation changes mid-match
-
-## After Phase 6
-
-**Accepted, not yet scheduled** — parked here per [the spec chain](../ways-of-working/spec-chain.md#accepted-but-not-scheduled). No milestone files until something is scheduled into a phase.
-
-- **Two-player mode** — couch co-op, a pad per player. The input seam that makes it cheap is in [Player Controller and Input](../docs/design/match-engine/player-controller-and-input.md)
-- **Keyboard controls** — bound to the same actions as the pad, per [Gamepad Input and Steam Deck Parity](../ways-of-working/gamepad-input-and-steam-deck-parity.md)
 
 ---
 

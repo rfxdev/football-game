@@ -22,11 +22,12 @@ Copying another game's *feel* is the point. Copying its files is not.
 - Fun over realism
 - Easy to pick up, difficult to master — single-button input
 - Match-first
+- Depth without grind
 - Failure is meaningful
 
 In scope alongside single-player: local couch co-op.
 
-Out of scope: online multiplayer, mobile, management-sim depth.
+Out of scope: online multiplayer, mobile.
 
 ## Where Things Live
 

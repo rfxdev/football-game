@@ -17,6 +17,11 @@ What SWOS has around the match that the roadmap doesn't build yet.
 - **Front end** — menus, team select, friendlies, pause. The match clone has no way in except a debug scene
 - **Replays and highlights**
 
+#### Controls and Players
+
+- **Two-player mode** — couch co-op, a pad per player. The input seam that makes it cheap is in [Player Controller and Input](../docs/design/match-engine/player-controller-and-input.md)
+- **Keyboard controls** — bound to the same actions as the pad, per [Gamepad Input and Steam Deck Parity](../ways-of-working/gamepad-input-and-steam-deck-parity.md)
+
 #### Tactics Beyond Formations
 
 Formations as grid layouts are planned — [Formation and Shape System](../docs/design/match-engine/formation-and-shape-system.md), and [6.2 Team Management](milestones/6.2-team-management.md) for picking and changing them. What that leaves out:
@@ -28,12 +33,12 @@ Formations as grid layouts are planned — [Formation and Shape System](../docs/
 
 #### Career With Static Attributes
 
-A ladder, each rung playable on its own:
+SWOS-weight, as a player-manager controlling the whole side. A ladder, each rung playable on its own:
 
 1. **Season mode** — league and cup fixtures, tables, everyone else's matches simulated. No squad changes. Needs [CPU vs CPU Simulation](../docs/design/tournament-and-career-mode/cpu-vs-cpu-simulation.md) settled, as does every rung after it
 2. **Squad upkeep** — injuries and suspensions carry between matches, squad status tiers (TRIAL, RES, LOAN)
-3. **Transfer market** — buy and sell, domestic and foreign browsing, filters, part-exchange. With static attributes a player's value can be a fixed function of skills, position and nothing else
-4. **Finances and jobs** — wages tied to squad value, gate receipts to form, the sack, job offers, starting small. See [Career Mode Mechanics](../sources/swos/career-mode-mechanics.md)
+3. **Transfer market** — buy and sell, domestic and foreign browsing, filters, part-exchange. With static attributes a player's value can be a fixed function of skills, position and nothing else. No negotiation: fee and wage come from skill and league. Contracts are indefinite, so selling is the only way a player leaves
+4. **Finances and jobs** — wages tied to squad value, gate receipts to form, the sack, job offers, starting small. A signing's wage joins the bill. Wages adjust on promotion and relegation, but on a separate scale from revenue, so relegation opens a gap the adjustment doesn't close. Over the wage limit: no signings past a set margin, and a drag on board approval. Far enough over, the board accepts bids you can't refuse; selling first keeps the choice yours. See [Career Mode Mechanics](../sources/swos/career-mode-mechanics.md)
 
 Open:
 
@@ -56,12 +61,16 @@ Tracks, mostly independent of each other.
 
 - **Modernised attributes** — more than SWOS's seven, informed by [FM](../sources/fm/player-attributes.md)
 - **Attributes that drive AI** — mental attributes such as Positioning and Decisions shape how the 21 uncontrolled players behave, adding depth without touching single-button input
-- **Ability that moves across a career** — progression and decline, which gives attributes a reason to change. Links career and attributes
+- **Ability that moves across a career** — progression and decline, which gives attributes a reason to change. Links career and attributes. Championship Soccer did this on top of a SWOS clone
 - **Youth intake and retirement** — follows from progression. How long saves avoid filling up with old players is [Data Architecture §4](data-architecture-open-questions.md#4-statistics-granularity-and-population-lifecycle)
 - **Form** — short-term swings on top of fixed ability. A cheaper way to make selection matter than full progression
 - **Summary ratings over detail** — FM-style star ratings or role suitability, so extra attributes don't slow the buy/don't-buy call
 - **Fix speed dominance** — SWOS's [biggest balance fault](../sources/swos/overview.md#weaknesses). More attributes do nothing if pace still decides everything
-- **Player career** — you are one player, not the manager. Play badly and you lose your place, per the Championship Soccer direction in the [vision](../docs/design/game-vision-and-design-goals.md)
+
+#### Management
+
+- **Career roles** — Championship Soccer's range past SWOS's player-manager controlling the whole side. Manager only, directing from the touchline, is in the [vision](../docs/design/game-vision-and-design-goals.md#the-game) and only works once a directed match is as interesting as a played one. A player-manager who is one player on the pitch is possible. A lone player with no say over the team is lower interest
+- **Management-sim depth** — transfers, finances and running the club, towards FM's depth. The furthest off of any track. Bounded by the [vision](../docs/design/game-vision-and-design-goals.md#scope--boundaries): each system still has to shape the matches. Each layer replaces a competent default with a trade-off: player desires, such as refusing to drop a level or take a pay cut; renewals; negotiation, only as trade-offs such as wage for length; financial fair play, with points deductions that reach the match
 
 #### Presentation
 
@@ -75,9 +84,9 @@ Tracks, mostly independent of each other.
 
 ## Graduating an Idea
 
-When one is concrete enough to argue with, run it through [the gate](../ways-of-working/spec-chain.md#the-gate).
+When one is next, run it through [the gate](../ways-of-working/spec-chain.md#the-gate).
 
-- Passed but not being built next → [Roadmap](roadmap.md#after-phase-6) → *After Phase 6*
+- Passed → onto the [Roadmap](roadmap.md), into a phase
 - Declined → `docs/decisions/`, with why
 
 ## Parked

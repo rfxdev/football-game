@@ -21,7 +21,7 @@ Whether 50–150k players at up to 40 attributes is a deliberate target or scope
 Why it matters:
 
 - Every question below scales with it. At a small enough population, retention strategies and precomputed valuation columns stop being necessary at all
-- Check against [Game Vision and Design Goals](../docs/design/game-vision-and-design-goals.md) and the scope boundaries in [AGENTS](../AGENTS.md), which rules out management-sim depth, before any schema work
+- Check against the scope boundaries in [Game Vision and Design Goals](../docs/design/game-vision-and-design-goals.md#scope--boundaries) before any schema work — career depth is bounded by what changes matches, not by size
 
 ### 2. Dataset Provenance
 

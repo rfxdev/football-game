@@ -23,6 +23,7 @@ Checked before anything is written:
 - Against the design pillars in [Game Vision and Design Goals](../docs/design/game-vision-and-design-goals.md)
 - Against the [Player Manual](../docs/manual/player-manual.md)'s controls section, for anything on the *told* route. Single-button input means every action competes for the same button in some context, so that table is the scarcest resource in the project — a proposal needing a new input, or a new context-sensitive meaning for an existing one, declares that cost here rather than at implementation
 - Against [Licensing and IP](../docs/decisions/licensing-and-ip.md) where content is involved
+- Against the systems it interlocks with, per the vision's [Scope & Boundaries](../docs/design/game-vision-and-design-goals.md#scope--boundaries): what's automatic, what the player controls, and whether it gets ahead of the systems it touches
 
 If a *told* proposal can't be written as a sentence a player would understand, it isn't ready, and it may not belong.
 
@@ -65,9 +66,9 @@ Playtesting can overturn the manual — that is the point of the loop. But a man
 - Three lines is enough. The cost is deliberate, and it is what keeps the manual worth writing first
 - Without it the drift is the same one written criteria protect against for tuning values: every change locally reasonable, and twenty sessions later the game is somewhere nobody chose
 
-## Accepted but Not Scheduled
+## Not Yet Scheduled
 
-Not everything passing the gate gets built next. Park it in the [Roadmap](../project/roadmap.md) rather than writing its manual section years early — a manual entry is a commitment to build the thing soon. Earlier still, before an idea has been checked against the gate at all, it belongs in [Ideas](../project/ideas.md), not here.
+Anything not on the [Roadmap](../project/roadmap.md) is in [Ideas](../project/ideas.md), unchecked. The gate runs when an idea is scheduled, not before: which dimension deepens first can't be decided until the systems around it are known.
 
 ## Declined
 
