@@ -2,7 +2,7 @@
 
 Copy the block below into `<phase>.<milestone>-<slug>.md` — `1.2-kicking.md` — and overwrite the italics. Delete any field that doesn't apply rather than leaving it empty.
 
-How to decide what goes in each field — what a milestone is, how it exits, and what takes it from Outline to Ready — is in the [project README](../README.md).
+How to decide what goes in each field — what a milestone is, how it exits, and how its status moves — is in the [project README](../README.md).
 
 ````markdown
 # N.M Name

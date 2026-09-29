@@ -35,11 +35,16 @@ Three routes out, and a milestone's **Reference** field says which one applies:
 
 A milestone that is correctness- or variety-shaped rather than feel-shaped — most of Phase 5 — skips *Asking* and *Session shape* entirely rather than forcing a playtest protocol where none is warranted.
 
-## Outline → Ready
+## Status
 
-A milestone file carries a **Status**, and there are two values.
+A milestone file carries a **Status**:
 
 - **Outline** — it holds what the roadmap already knew: the summary, the reference, and whatever notes came with the sequencing decision. Every file starts here
 - **Ready** — every field this milestone is going to have is written. For most that means the playtest and testing fields; for a scaffolding milestone that legitimately has neither, it means the decision to omit them has been taken and recorded
+- **Done** — built, and the exit decision taken. The file is now a record of what was built and isn't reopened: a later change to the design it delivered goes through [the spec chain](../ways-of-working/spec-chain.md), and later milestones reach its tests through 360 Testing
 
-**Fill the playtest and testing fields in shortly before the milestone is built, not up front.** A session protocol written today for a milestone five phases away is fiction about a game nobody has played — the same reason the manual isn't written up front in [the spec chain](../ways-of-working/spec-chain.md).
+**Fill the playtest and testing fields in shortly before the milestone is built, not up front** — once the milestone before it is Done. A session protocol written today for a milestone five phases away is fiction about a game nobody has played — the same reason the manual isn't written up front in the spec chain.
+
+**Ready holds only while the file matches its design.** When it stops matching — the file has drifted, or a design doc it links has changed since — it goes back to Outline until the two agree again.
+
+Filling in a milestone, or checking a filled one against its design, is the [`milestone-reconcile`](../.claude/skills/milestone-reconcile/SKILL.md) skill. It follows the process above rather than adding to it.

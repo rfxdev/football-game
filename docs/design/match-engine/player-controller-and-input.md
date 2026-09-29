@@ -1,6 +1,11 @@
 # Player Controller and Input
 
-movement, acceleration curves, possession states, gamepad input binding
+movement, acceleration curves, possession states, and what input means to a player. The binding plumbing underneath is [Gamepad Input and Steam Deck Parity](../../../ways-of-working/gamepad-input-and-steam-deck-parity.md)
+
+## Input
+
+- **Game code reads a per-player intent** — a direction and the action — never the device. One player uses it today; two-player mode assigns each player a pad behind the same seam, without touching anything that reads intent
+- **Stick deadzone is a movement feel value**, not a hardware default. It decides whether fine positioning feels responsive or twitchy, and it lives per-action in the Input Map, where it's tuned without a code edit
 
 ## Turning Radius
 
@@ -28,3 +33,4 @@ movement, acceleration curves, possession states, gamepad input binding
 - Are players solid to each other, and does that differ for teammates vs opponents?
 - Turning radius stays one global feel constant through the early milestones and becomes a per-player stat once squads are differentiated at [6.1 Squads](../../../project/milestones/6.1-squads.md), alongside speed, shot power, and passing range. Does anything before that need it to vary?
 - If tap/hold is taken by pass vs shoot, what expresses lofted — a second button, a modifier, or stick direction?
+- In two-player mode, how is a pad assigned to a player — by connection order, or chosen on a join screen? Parked with two-player mode in [Roadmap](../../../project/roadmap.md) → *After Phase 6*

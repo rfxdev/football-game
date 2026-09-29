@@ -18,6 +18,8 @@ Don't write it when:
 - Playtesting fails loudly and immediately on it — the player doesn't move, the ball doesn't spawn
 - It asserts an exact value that legitimate tuning will change — see Threshold Tests
 - It restates the implementation. If changing the code always means changing the test, the test knows nothing the code doesn't
+- It asserts the engine's behaviour, not the project's — a Godot built-in, Input Map clamping, a deadzone, the physics server. That belongs to Godot's suite
+- What's under test is configuration, not code — a project setting, or a resource with no logic around it. There's nothing to assert
 - It's visual or audio. Judged by eye and ear; tooling to do otherwise costs more than it returns
 
 ## Tooling

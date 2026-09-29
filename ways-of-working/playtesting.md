@@ -35,6 +35,14 @@ Most of what follows is the apparatus that makes both cheap, because the cost of
 - The editor's Monitors tab (FPS, physics frame time, draw calls) is the cheap early-warning signal — worth glancing at rather than waiting for the Steam Deck to tell you
 - Custom debug overlays (drawing AI target positions, decision states, pass lanes) will earn their keep once [Team AI and Decision Making](../docs/design/match-engine/team-ai-and-decision-making.md) starts. Cheap to add, and AI behaviour is otherwise judged by vibes alone
 
+## What a Session Asks
+
+A milestone's *Asking* and *Session shape* fields.
+
+- **One variable — the one this milestone isolates.** A question that could have been asked at the previous milestone belongs to that one
+- **Answerable no.** "Does it feel good?" can't fail. Name the failure mode, and its opposite where there is one, so the session can come back with either
+- **Shape follows the question.** Length, solo or with someone, structured or free play — chosen by what the question needs. A second player earns their place when the thing being judged is something the solo player has stopped noticing
+
 ## Session Habits
 
 These govern the milestone session, whatever it is asking. The logging and the A/B rule carry back to tuning runs too — without them a run tells you the game feels different, not which change did it.
