@@ -8,10 +8,11 @@ sprite approach, colour palette, camera behaviour, UI/HUD design. Separate from 
 
 ## Camera
 
-The viewport stretches to fill wider displays rather than letterboxing ([Technical Architecture and Stack](../decisions/architecture-and-stack.md)), so a 16:9 window sees further left and right than the Deck does. That is a design problem, not a configuration one: how much pitch is visible changes whether a pass or a run reads on screen.
+How much pitch is visible changes whether a pass or a run reads on screen, so it is a design decision, not a configuration one. The supported displays, and the settings that deliver this, are [Technical Architecture and Stack](../decisions/architecture-and-stack.md)'s.
 
-- **The camera frames a fixed amount of *world*, not a fixed fraction of the screen.** Extra screen space on a wider display becomes margin, not extra pitch — otherwise the same match plays differently on two equally supported displays and neither is wrong
-- Worth settling before camera work starts rather than after, since it decides what the camera is scaling against
+- **The visible world is 800 units tall at every supported aspect**, with width floating between 1280 (16:10) and 1422 (16:9). A wider display sees more pitch, not margin
+- **A 16:9 player sees about 11% more pitch width than a Deck player, and no extra height.** Not a fairness problem, since [couch co-op](game-vision-and-design-goals.md) puts both players on the same screen
+- Built and judged at [3.0 Pitch and Camera](../../project/milestones/3.0-pitch-and-camera.md)
 
 ## Showing Height
 

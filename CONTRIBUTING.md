@@ -17,8 +17,8 @@ You also confirm that the material is yours to give — that you wrote it, or th
 
 The project contains no licensed football content and no material taken from other games. Contributions are declined if they include:
 
-- **Real-world team, player, league, or competition data** — names, squads, crests, badges, kits, or competition marks. This includes seeding a name generator from real squad lists, and generated content that lands on a real club's name, city, and colours together
-- **Assets extracted from another game** — sprites, tilesets, palettes, audio, or fonts pulled from a game's files or ROM, and pixel-copied menu or HUD layouts
+- **Real-world team, player, league, or competition data** — names, squads, crests, badges, kits, or competition marks. This includes names derived from real squad lists, and a fictional club that matches a real club's name, city, and colours together
+- **Assets extracted from another game** — sprites, tilesets, palettes, audio, or fonts pulled from a game's files or ROM, and pixel-copied menu or HUD layouts — or its name or logo used in this project's name or branding
 - **Assets whose licence is unknown, non-commercial, or personal-use-only** — CC BY-NC in particular is incompatible with this project's licensing
 
 This isn't a comment on anyone's intentions; it's that a public repo keeps everything forever, and removing infringing material means rewriting history. [Licensing and IP](docs/decisions/licensing-and-ip.md) has the full reasoning, including where the line falls between taking inspiration from a game and taking its material.
@@ -37,4 +37,4 @@ Documentation is the project's main artefact right now, so doc PRs are real cont
 - **`ways-of-working/`** — how it gets built. If it's a decision you'd make at the keyboard, it goes here
 - **`project/`** — where the work stands: roadmap and live tracking
 
-Keep docs short — bullets over prose. A review pass for duplication and drift is in progress, tracked in [`project/doc-review.md`](project/doc-review.md); `/doc-consistency` runs it.
+Keep docs short — bullets over prose. A review pass for duplication and drift is in progress, tracked in [`project/doc-review.md`](project/doc-review.md); `/doc-review` reviews one doc at a time and `/doc-consistency` checks the whole set for duplication and drift.

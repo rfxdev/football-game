@@ -11,6 +11,7 @@ The build order is [Roadmap](roadmap.md). Everything else here supports it, and 
 | [Roadmap](roadmap.md) | The build order — phases, milestones, and the notes that span them |
 | [`milestones/`](milestones/) | One file per milestone: what it adds, how it exits, what its playtest is asking. Started from [TEMPLATE.md](milestones/TEMPLATE.md) |
 | [Ideas](ideas.md) | Where the game could go, before any of it has been checked against anything. No commitment |
+| [Data Architecture — Open Questions](data-architecture-open-questions.md) | Parked career-mode data questions — what must be answered before a persistence schema and storage tech are picked |
 | [Documentation Review Tracker](doc-review.md) | Temporary — review status per doc, deleted when the pass ends |
 
 ## Milestones

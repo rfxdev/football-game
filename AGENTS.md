@@ -11,8 +11,8 @@ Top-down 2D arcade football, inspired by Sensible World of Soccer. Non-profit, o
 **No licensed football content, no material from other games.** The repo is public, so removing infringing material means rewriting history. Ruled out:
 
 - Real teams, players, leagues, competitions, crests, kits
-- Name generators seeded from real squads; generated content landing on a real club's name, city and colours together
-- Assets extracted from another game, including pixel-copied HUD layouts
+- Names derived from real squads; a fictional club matching a real one's name, city and colours together
+- Assets extracted from another game, including pixel-copied HUD layouts; its name or logo in our name or branding
 - Unknown, non-commercial or personal-use-only licences (CC BY-NC especially)
 
 Copying another game's *feel* is the point. Copying its files is not.

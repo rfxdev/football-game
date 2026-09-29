@@ -8,7 +8,7 @@ passing, shooting, tackling, loose ball contention, reach radius logic
 - **Ground pass** — stays on the deck, faster to arrive, interceptable along its whole length
 - **Lofted pass** — leaves the ground, clears players between passer and target, arrives slower and harder to control on the bounce
 - The lofted case is where this doc meets [Ball Physics and Aerial Simulation](ball-physics-and-aerial-simulation.md): a lofted pass is the fake-Z height system being driven by a player action, and height-gated collision is what makes it pass *over* an opponent. The two systems have to agree on how height is set and read
-- Shooting has the same split — a driven shot along the ground and a lifted one are different actions — so whatever input scheme distinguishes the two passes should probably carry over
+- Shooting has the same split — a driven shot along the ground and a lifted one are different actions. All of them share one input: tap/hold decides pass or shot, and aftertouch decides height, per [Player Controller and Input](player-controller-and-input.md)
 
 ## Reach Radius and Height
 
@@ -34,9 +34,8 @@ Expect this to be the hardest single thing in the match engine, and expect it to
 - Depends on both the fake-Z height system in [Ball Physics and Aerial Simulation](ball-physics-and-aerial-simulation.md) and on lofted passing existing at all
 - The mechanism mirrors the ball's: a jumping player gets **their own height float**, and wins the header contest by being near the peak of that jump when the ball arrives at head height. The fake-Z architecture extends to players without changing, which is the main argument for building it as a general height system rather than a ball-only special case
 - Timing is what makes it a distinct skill — the contest is decided by *when* the jump was pressed, not by position, and that is a different thing for the player to be good at than ground contention
-- Deliberately late — after the phases that establish shape, not among them. Ground contention needs to feel right first, because heading inherits its contest logic
+- Heading itself lands at [1.3 Contextual Action](../../../project/milestones/1.3-contextual-action.md); contesting it waits for Phase 2 with every other contest. Ground contention needs to feel right first, because heading inherits its contest logic
 
 ## Open Questions
 
-- How does input distinguish ground from lofted — a separate button, a modifier, or press duration? This lands in the [Player Manual](../../manual/player-manual.md)'s controls section once decided
 - Does the receiving player need a distinct control/trap action for a ball arriving at height, or does the reach radius handle it once the ball is low enough?

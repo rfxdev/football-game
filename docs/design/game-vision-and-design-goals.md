@@ -10,7 +10,7 @@ The core experience is immediate and playful — easy to pick up with single-but
 
 Couch co-op multiplayer is a priority alongside the core single-player vs CPU experience.
 
-Career mode is future scope and undecided in shape, partly inspired by discovering Championship Soccer. The aim is for it to be genuinely tough rather than guaranteeing the player's success — for example, in a single-player career, underperforming could mean losing your starting place and ending up on the bench. Procedural generation is under consideration as a possible way to sidestep the need for licensed teams and players, not as a confirmed roguelike design direction.
+Career mode is future scope and undecided in shape, partly inspired by discovering Championship Soccer. The aim is for it to be genuinely tough rather than guaranteeing the player's success — for example, in a single-player career, underperforming could mean losing your starting place and ending up on the bench.
 
 ## Scope & Boundaries
 
@@ -18,9 +18,7 @@ Career mode is future scope and undecided in shape, partly inspired by discoveri
 
 Player attributes are limited to those that meaningfully affect match engine behaviour — there's no intent to model exhaustive real-world player statistics.
 
-The game is non-profit and open source. As a result, it will not feature licensed teams, players, leagues, or kits — any resemblance to real-world football will be through original or procedurally generated content. [Licensing and IP](../decisions/licensing-and-ip.md) covers why that constraint exists and what it rules in and out, including how the project relates to the published games it takes inspiration from.
-
-Online multiplayer and mobile platforms are not a current focus. The target platforms are Windows, macOS, and Steam Deck (Linux), with local couch co-op as the multiplayer model.
+Online multiplayer and mobile are out of scope. Local couch co-op is the multiplayer model.
 
 ## Design Pillars
 

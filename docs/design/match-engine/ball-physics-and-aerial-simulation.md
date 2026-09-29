@@ -47,7 +47,6 @@ These are feel constants, not implementation details — they belong in a tuning
 
 - Is aerial flight simulated (gravity, real projectile maths) or authored as a tuned curve?
 - Does the ball stay a `RigidBody2D` once fake-Z height is bolted on, or does the height axis force custom integration?
-- Does bounce differ by surface — ground, wall, goalframe, player — or is it one restitution value?
+- Does bounce differ by surface — ground, goalframe, player — or is it one restitution value?
 - Does the sort-order override flip at a single height threshold, or scale continuously with height? A hard threshold is simpler and may pop visibly on a low bouncing ball
 - Does height decay horizontal pace at all, or are the two axes fully independent? Fully independent is the simpler model and probably the right starting point, but a lofted ball that arrives at full speed may play wrong
-- Do players get their own height float for jumping, or is a header just a timing window with no player height at all? The first generalises the system, the second is far less to maintain — see [Ball Interaction System](ball-interaction-system.md)

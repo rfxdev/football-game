@@ -21,7 +21,7 @@ What each button *does* is the [Player Manual](../docs/manual/player-manual.md)'
 - **Keyboard and gamepad bind to the same action**, so game code never branches on input device
 - Read movement with `Input.get_vector()`, not four booleans — analog directional control is not optional in a football game
 - **If a trigger is ever bound, bind it as an axis.** `JOY_AXIS_TRIGGER_LEFT` / `RIGHT` as axes keep `Input.get_action_strength()` analog; both the 8BitDo and the Deck are pressure-sensitive, and a digital binding discards that silently. Nothing in the reference scheme needs it — shot power is hold duration, not pressure — so this is insurance, not a plan
-- Deadzones are per-action in the Input Map. Tune them against real hardware rather than accepting the defaults — they decide whether fine positioning feels responsive or twitchy
+- Deadzones are per-action in the Input Map, tuned against real hardware rather than left at the defaults — a feel value, per [Player Controller and Input](../docs/design/match-engine/player-controller-and-input.md)
 - **Ship one prompt set: Xbox glyphs** (A/B/X/Y, LB/RB, LT/RT). Correct on the Deck, on the dev controller, and for most PC players — no controller-family detection
 - Godot has no built-in user-facing label (`InputEvent.as_text()` returns developer-facing strings), so the action → glyph lookup is yours to write. Key it off the *action*, not the call site, so remapping stays a change in one place
 

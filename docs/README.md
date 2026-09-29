@@ -27,7 +27,7 @@ Settled, with their reasoning recorded. Checked against rather than rewritten.
 | --- | --- |
 | [Player Manual](manual/player-manual.md) | What the player is told the game does, including every control and what it does in each context |
 
-Written **before** the design docs it describes, deliberately: settling what the player is told should inform the design set rather than summarise it afterwards.
+Written **before** the design docs it describes — see [The Spec Chain](../ways-of-working/spec-chain.md).
 
 ## Design — `design/`
 
@@ -55,8 +55,7 @@ The playable match, in reading order. Each doc is one system.
 | Document | What it covers |
 | --- | --- |
 | [CPU vs CPU Simulation](design/tournament-and-career-mode/cpu-vs-cpu-simulation.md) | How matches resolve when nobody is playing them |
-| [Data Architecture — Open Questions](design/tournament-and-career-mode/data-architecture-open-questions.md) | What must be answered before the persistence schema and storage tech are picked |
 
-Whether that is the match engine above running without visuals, or a second cheaper model, is unresolved and is the main open architectural question in the project. It constrains how the match engine is built, so it is a `design/` concern now rather than a career-mode one later.
+In `design/` now, not later, because the open question in it constrains how the match engine is built.
 
 *Review status for every doc here is tracked in [`project/doc-review.md`](../project/doc-review.md) — temporary, delete this line when the review ends.*

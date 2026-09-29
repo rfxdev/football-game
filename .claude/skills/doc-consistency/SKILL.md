@@ -32,12 +32,10 @@ Read all of it before forming an opinion. Include the short files — a 15-word 
 
 For every normative statement — a rule, a constraint, a rationale, a target — note the claim and **every** file that states it, not just the first two. Work from claims, not phrases: the same rule appears as prose in one doc and a bullet in another.
 
-Standing suspects — the first found by inspection, the rest flagged in `project/doc-review.md`:
+Standing suspects — overlaps that recur by design, so check them every pass:
 
 - The IP rules — `AGENTS.md`, `CONTRIBUTING.md` and `docs/decisions/licensing-and-ip.md` all carry them. The largest overlap in the repo, deliberate under the audience rule below, and therefore the most likely place for drift. Check all three agree, and that only one argues the case.
 - Feel constants and the tuning Resource — `playtesting.md` against `AGENTS.md` and the `design/match-engine/` docs that name it
-- `match-engine/overview-and-architecture.md` against `game-vision-and-design-goals.md`
-- `manual/controls-reference.md` against `manual/player-manual.md` — the merge is still open
 
 ## 3. Classify each repeat
 

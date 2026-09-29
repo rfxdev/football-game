@@ -5,7 +5,7 @@ movement, acceleration curves, possession states, and what input means to a play
 ## Input
 
 - **Game code reads a per-player intent** — a direction and the action — never the device. One player uses it today; two-player mode assigns each player a pad behind the same seam, without touching anything that reads intent
-- **Stick deadzone is a movement feel value**, not a hardware default. It decides whether fine positioning feels responsive or twitchy, and it lives per-action in the Input Map, where it's tuned without a code edit
+- **Stick deadzone is a movement feel value**, not a hardware default. It decides whether fine positioning feels responsive or twitchy. Where it's set and how it's tuned is [Gamepad Input and Steam Deck Parity](../../../ways-of-working/gamepad-input-and-steam-deck-parity.md)'s
 
 ## Turning Radius
 
@@ -23,14 +23,12 @@ movement, acceleration curves, possession states, and what input means to a play
 
 ## Tap vs Hold
 
-- A candidate scheme for the two on-ball actions: **tap to pass, hold to shoot**, with hold duration setting power. One button, two actions, no modifier
-- It gets tested across [Phase 1](../../../project/roadmap.md), starting at [1.1 Movement and Possession](../../../project/milestones/1.1-movement-and-possession.md), with no AI on the pitch — the last point at which the control scheme can be judged without an opponent to blame for a bad-feeling moment
+- **Tap to pass, hold to shoot or lob**, with hold duration setting power and aftertouch shaping the ball in flight — the reference scheme, per [1.2 Kicking](../../../project/milestones/1.2-kicking.md). One button, no modifier
 - The open cost of the scheme is that hold-to-shoot delays the shot by however long the player holds, which is exactly the wrong place to add latency. Whether that reads as *charging* or as *lag* is a feel question, not a design one
-- Interacts with the ground/lofted distinction in [Ball Interaction System](ball-interaction-system.md): if tap/hold is already spent on pass vs shoot, height needs a different input
+- Height needs no input of its own: aftertouch decides it, which settles the ground/lofted distinction in [Ball Interaction System](ball-interaction-system.md)
 
 ## Open Questions
 
 - Are players solid to each other, and does that differ for teammates vs opponents?
-- Turning radius stays one global feel constant through the early milestones and becomes a per-player stat once squads are differentiated at [6.1 Squads](../../../project/milestones/6.1-squads.md), alongside speed, shot power, and passing range. Does anything before that need it to vary?
-- If tap/hold is taken by pass vs shoot, what expresses lofted — a second button, a modifier, or stick direction?
+- Turning with the ball reads Ball Control from [1.1 Movement and Possession](../../../project/milestones/1.1-movement-and-possession.md), per the [Roadmap](../../../project/roadmap.md)'s rule that attributes are wired in with the mechanic. Does turning off the ball read any attribute, or stay one global feel constant?
 - In two-player mode, how is a pad assigned to a player — by connection order, or chosen on a join screen? Parked with two-player mode in [Roadmap](../../../project/roadmap.md) → *After Phase 6*

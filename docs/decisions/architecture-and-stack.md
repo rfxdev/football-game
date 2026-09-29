@@ -18,7 +18,7 @@ Distribution platforms: Windows, macOS, Steam Deck (Linux) — Godot supports na
 
 Display targets: Steam Deck (1280×800, 16:10) is preferred, with standard laptop and monitor configurations (16:9) equally supported — **the game runs unletterboxed across the 16:10–16:9 band, and gets bars outside it.** Within the band, a display sees the maximum its aspect allows; beyond it, the view is clamped and the excess is filled with bars — pillarboxed on anything wider than 16:9, letterboxed on anything narrower than 16:10. Ultrawide is explicitly not a target: a pitch stretched that wide doesn't read well.
 
-Concretely, the visible world is **800 units tall at every supported aspect**, with width floating between 1280 (16:10) and 1422 (16:9). A 16:9 player therefore sees about 11% more pitch width than a Deck player and no extra height. That is a design consequence rather than a fairness one, since [couch co-op](../design/game-vision-and-design-goals.md) puts both players on the same screen.
+What the player sees across that band — how much pitch, and why the difference between displays is fine — is the [Visual Style Guide](../design/visual-style-guide.md)'s.
 
 Configured in Project Settings → Display → Window: base viewport 1280×800, stretch mode `canvas_items`, stretch aspect `expand` — `keep` is the setting that letterboxes unconditionally, `expand` adds no bars and never shows less than the base area. `expand` alone does not clamp, so the 1422-unit width cap and the bars beyond it need implementing rather than configuring. Work at 1280×800 by default and check 16:9 routinely; both are primary.
 

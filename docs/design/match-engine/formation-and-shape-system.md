@@ -8,7 +8,7 @@ This doc owns each player's **anchor**: where the formation wants them to stand,
 - **Eleven a side is a 5×5 grid plus a keeper.** Rows are position bands within the team's shape — defence, defensive midfield, midfield, attacking midfield, strikers — and columns run left to right. The keeper sits outside the grid
 - **Five a side is a 2×2 grid plus a keeper**, holding a 2-2
 - **Grid dimensions are data.** Moving from 2×2 to 5×5 will still need code for the extra fidelity
-- **Human and CPU teams use the same format.** A generated club's style is its layout
+- **Human and CPU teams use the same format.** A CPU club's style is its layout
 
 ## The Moving Block
 

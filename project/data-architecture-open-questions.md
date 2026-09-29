@@ -6,7 +6,7 @@ Each question changes how data is structured or stored, not just how a feature b
 
 Ordered by dependency — work top-down, because the earlier answers change what the later ones mean.
 
-Relevant prior art: [SWOS Career Mode Mechanics](../../../sources/swos/career-mode-mechanics.md) — how skill scale, valuation, and club finances tie together in the game this one is inspired by. Part of a split covering SWOS as a whole — see [overview.md](../../../sources/swos/overview.md).
+Relevant prior art: [SWOS Career Mode Mechanics](../sources/swos/career-mode-mechanics.md) — how skill scale, valuation, and club finances tie together in the game this one is inspired by. Part of a split covering SWOS as a whole — see [overview.md](../sources/swos/overview.md).
 
 ## Scope and Source
 
@@ -21,7 +21,7 @@ Whether 50–150k players at up to 40 attributes is a deliberate target or scope
 Why it matters:
 
 - Every question below scales with it. At a small enough population, retention strategies and precomputed valuation columns stop being necessary at all
-- Check against [Game Vision and Design Goals](../game-vision-and-design-goals.md) and the scope boundaries in [AGENTS](../../../AGENTS.md), which rules out management-sim depth, before any schema work
+- Check against [Game Vision and Design Goals](../docs/design/game-vision-and-design-goals.md) and the scope boundaries in [AGENTS](../AGENTS.md), which rules out management-sim depth, before any schema work
 
 ### 2. Dataset Provenance
 
@@ -29,9 +29,9 @@ Where the initial world comes from — generated at new-career time from a seed,
 
 *Under consideration:* condensing FM26's database as the source, held locally rather than distributed.
 
-**Distribution context, settled:** personal hobby project, sideloaded onto the developer's own Deck rather than published to the Steam store. Real data (FM26, SWOS 2020, squad-data sites) may be used locally and is never committed to the repo. [Licensing and IP](../../decisions/licensing-and-ip.md) can be amended if the assets licence conflicts.
+**Distribution context — a working assumption, not a decision:** personal hobby project, sideloaded onto the developer's own Deck rather than published to the Steam store. Real data (FM26, SWOS 2020, squad-data sites) may be used locally and is never committed to the repo. [Licensing and IP](../docs/decisions/licensing-and-ip.md) can be amended if the assets licence conflicts.
 
-That resolves the licensing and distribution exposure. What remains is architectural.
+If that holds, the licensing and distribution exposure is resolved and what remains is architectural.
 
 **The requirement that falls out:** a fresh clone of the public repo has no licensed data, so it must still produce a working game. The generator is therefore the default path regardless — not a chosen alternative — and real data is a local import layer on top. Both get built; the open question is the seam between them.
 
@@ -44,7 +44,7 @@ Still open:
 Decide alongside:
 
 - **Test fixtures must be synthetic.** GdUnit4 suites and any CI cannot depend on uncommitted data, so the generator has to produce usable test worlds from the start
-- **Keep licensed data out by construction, not discipline** — a gitignored path or `user://`, settled before an importer exists. [AGENTS](../../../AGENTS.md) notes that removing anything from a public repo means rewriting history
+- **Keep licensed data out by construction, not discipline** — a gitignored path or `user://`, settled before an importer exists. [AGENTS](../AGENTS.md) notes that removing anything from a public repo means rewriting history
 - Reverts if the distribution model changes. Generator-as-default keeps that reversal cheap
 
 ## Simulation and Schema Shape
@@ -62,7 +62,7 @@ Why it matters:
 
 - Sets the hot in-memory working set per matchday — roughly 500–750 players per division, to be confirmed against final squad sizes
 - Decides whether a shared matchday context is needed at all, or just an event timeline per match with timestamps
-- Bears directly on [CPU vs CPU Simulation](cpu-vs-cpu-simulation.md). Pre-resolve-and-replay costs the displayless-engine option nothing; genuine lockstep would need N concurrent instances
+- Bears directly on [CPU vs CPU Simulation](../docs/design/tournament-and-career-mode/cpu-vs-cpu-simulation.md). Pre-resolve-and-replay costs the displayless-engine option nothing; genuine lockstep would need N concurrent instances
 
 ### 4. Statistics Granularity and Population Lifecycle
 
@@ -125,4 +125,4 @@ Why it matters:
 
 Not an open question — a constraint on anything above that feeds simulation.
 
-- Query results consumed by simulation need explicit `ORDER BY`. Unordered results break reproducibility, which [CPU vs CPU Simulation](cpu-vs-cpu-simulation.md) depends on if the displayless-engine option survives
+- Query results consumed by simulation need explicit `ORDER BY`. Unordered results break reproducibility, which [CPU vs CPU Simulation](../docs/design/tournament-and-career-mode/cpu-vs-cpu-simulation.md) depends on if the displayless-engine option survives

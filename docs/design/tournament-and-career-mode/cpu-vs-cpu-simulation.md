@@ -9,7 +9,7 @@ How matches resolve when nobody's playing them — needed for tournaments and ca
 
 The decision matters early even though the feature is late: the first option only stays available if the match engine is built to support it.
 
-How other matches on a matchday resolve bears on this, and is open — see [Data Architecture — Open Questions](data-architecture-open-questions.md). If they only need to *appear* live (goal alerts, a moving table), they can be pre-resolved and their event timelines replayed during the player's match, which costs the first option nothing. If AI in those matches must genuinely react to live scores elsewhere, the first option needs N concurrent instances in lockstep on a shared clock rather than N sequential fast runs.
+How other matches on a matchday resolve bears on this, and is open — see [Data Architecture — Open Questions](../../../project/data-architecture-open-questions.md). If they only need to *appear* live (goal alerts, a moving table), they can be pre-resolved and their event timelines replayed during the player's match, which costs the first option nothing. If AI in those matches must genuinely react to live scores elsewhere, the first option needs N concurrent instances in lockstep on a shared clock rather than N sequential fast runs.
 
 ## Open Questions
 

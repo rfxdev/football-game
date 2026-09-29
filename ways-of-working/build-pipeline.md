@@ -45,7 +45,7 @@ No Steam listing required — Developer Mode is enough:
 
 ## What to Verify on Real Hardware
 
-At major milestones, not every iteration:
+At each phase boundary, per [Roadmap](../project/roadmap.md) — not every iteration:
 
 - **Performance at 1280×800**, using a release build, and ideally on battery — the Deck throttles under power constraints in ways a desk-bound test won't show
 - **Gamepad input end to end.** Everything in the parity doc is a well-founded assumption until it has run on the actual device

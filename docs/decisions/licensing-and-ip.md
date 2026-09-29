@@ -19,14 +19,14 @@ Taking inspiration from published games (SWOS and similar) is the point of the p
 
 ## 3. No Licensed Football Content
 
-No real teams, players, leagues, competitions, crests, or kits. The repo is public — already distribution — so this applies now, not at some future release.
+No real teams, players, leagues, competitions, crests, or kits. The repo is public — already distribution, and removing anything means rewriting history — so this applies now, not at some future release.
 
 - **Protected:** real player names and name-plus-club combinations (image/personality rights), club names/crests/badges and competition names/marks (trademarks)
 - **Not protected:** kit colours alone
 
-Generation is the answer: procedurally generated clubs, players, kits, and competition names are original by construction; hand-authored fictional teams work too. Two traps to avoid — don't seed a name generator from real squad lists, and don't let a generated club land on a real club's name, city, and colours together.
+Everything in the game is fictional. Two traps: don't derive names from real squad lists, and don't let a fictional club combine a real club's name, city, and colours.
 
-The project stays capable of *loading* an external real-teams data pack someone else builds, but doesn't host, bundle, link to, or endorse one.
+The project doesn't host, bundle, link to, or endorse real-teams data.
 
 ## 4. Third-Party Asset Intake
 

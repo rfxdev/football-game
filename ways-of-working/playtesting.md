@@ -5,7 +5,7 @@ Judging the game by playing it. [Automation Testing](automation-testing.md) tell
 Two modes, and conflating them is how a session stops meaning anything:
 
 - **The tuning run** — short, constant, in-editor. Change a value, run it, feel the difference, change it again. Nothing is logged and nothing is held still; the point is speed.
-- **The milestone session** — time-boxed, deliberate, and you change *nothing* while it runs. What each one is asking sits with its milestone in [`project/milestones/`](../project/milestones/). This is the one that gets logged.
+- **The milestone session** — time-boxed, deliberate, and you change *nothing* while it runs: note a problem, don't fix it. A mid-session fix means judging two builds, loses the run of play that produced the observation, and biases you toward whatever is easiest to fix. What each one is asking sits with its milestone in [`project/milestones/`](../project/milestones/). This is the one that gets logged.
 
 Most of what follows is the apparatus that makes both cheap, because the cost of judging feel is what decides how often you do it. The principle underneath: **never build to test something the editor can show you.** Builds are platform checks, triggered at phase boundaries — see [Build Pipeline](build-pipeline.md).
 

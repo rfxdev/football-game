@@ -15,7 +15,6 @@ What SWOS has around the match that the roadmap doesn't build yet.
 #### Getting Into a Match
 
 - **Front end** — menus, team select, friendlies, pause. The match clone has no way in except a debug scene
-- **Couch co-op** — 2 players against each other
 - **Replays and highlights**
 
 #### Tactics Beyond Formations
@@ -42,7 +41,7 @@ Open:
 - **Do CPU clubs trade with each other, or only with you?** Without it every other squad stays the same for the whole save
 - **Why buy anyone if nobody gets better or worse?** Covering injuries and suspensions, fixing a tactic's weak slot, and a bigger budget as you move up. Enough for SWOS; possibly thin across many seasons
 - **A squad screen where players can be compared** — fixes SWOS's [worst UI weakness](../sources/swos/overview.md#weaknesses) without any new systems
-- **Generated world or imported one** — [Data Architecture §2](../docs/design/tournament-and-career-mode/data-architecture-open-questions.md#2-dataset-provenance)
+- **Generated world or imported one** — [Data Architecture §2](data-architecture-open-questions.md#2-dataset-provenance)
 - **International management and tournaments** — 20-player squads for finals, picking from every league
 
 ### Stage 2 — Beyond SWOS
@@ -58,7 +57,7 @@ Tracks, mostly independent of each other.
 - **Modernised attributes** — more than SWOS's seven, informed by [FM](../sources/fm/player-attributes.md)
 - **Attributes that drive AI** — mental attributes such as Positioning and Decisions shape how the 21 uncontrolled players behave, adding depth without touching single-button input
 - **Ability that moves across a career** — progression and decline, which gives attributes a reason to change. Links career and attributes
-- **Youth intake and retirement** — follows from progression. How long saves avoid filling up with old players is [Data Architecture §4](../docs/design/tournament-and-career-mode/data-architecture-open-questions.md#4-statistics-granularity-and-population-lifecycle)
+- **Youth intake and retirement** — follows from progression. How long saves avoid filling up with old players is [Data Architecture §4](data-architecture-open-questions.md#4-statistics-granularity-and-population-lifecycle)
 - **Form** — short-term swings on top of fixed ability. A cheaper way to make selection matter than full progression
 - **Summary ratings over detail** — FM-style star ratings or role suitability, so extra attributes don't slow the buy/don't-buy call
 - **Fix speed dominance** — SWOS's [biggest balance fault](../sources/swos/overview.md#weaknesses). More attributes do nothing if pace still decides everything
@@ -72,13 +71,13 @@ Tracks, mostly independent of each other.
 
 #### World
 
-- **Community packs** — kits, sprites and team data, loadable but not hosted, per [Licensing and IP §3](../docs/decisions/licensing-and-ip.md#3-no-licensed-football-content)
+- **Community packs** — kits, sprites and team data, loadable but not hosted — hosting is ruled out by [Licensing and IP §3](../docs/decisions/licensing-and-ip.md#3-no-licensed-football-content)
 
 ## Graduating an Idea
 
 When one is concrete enough to argue with, run it through [the gate](../ways-of-working/spec-chain.md#the-gate).
 
-- Passed but not being built next → [Roadmap](roadmap.md)'s "Accepted but Not Scheduled"
+- Passed but not being built next → [Roadmap](roadmap.md#after-phase-6) → *After Phase 6*
 - Declined → `docs/decisions/`, with why
 
 ## Parked
