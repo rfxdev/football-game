@@ -33,6 +33,7 @@ Out of scope: online multiplayer, mobile, management-sim depth.
 - **[`docs/`](docs/README.md)** — what the game is. Split three ways: `design/` (intent and systems), `manual/` (player-facing), `decisions/` (settled, with reasoning — the stack and the IP policy)
 - **[`ways-of-working/`](ways-of-working/README.md)** — how it gets built
 - **[`project/`](project/README.md)** — where the work stands
+- **[`sources/`](sources/README.md)** — what the reference games do, in our own words. Where *our* game is heading is `project/ideas.md`, not here
 
 If it's a decision you'd make at the keyboard, it's `ways-of-working/`.
 

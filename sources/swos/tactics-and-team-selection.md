@@ -19,7 +19,7 @@ The tick/cross evaluation described above only fires for changes made from the p
 
 ## The Manual's Own Design Guidance
 
-Distilled from the manual's own tactical hints — useful as a sanity check for whatever fit-scoring or formation system we build:
+Distilled from the manual's own tactical hints:
 
 - Pull central midfielders slightly behind the ball rather than sitting level with it.
 - Have wingers track back and follow the ball rather than holding the touchline statically.
@@ -43,7 +43,7 @@ A long-running player myth: swap a player to the reserve keeper's slot and back 
 
 > No this will do nothing.. all this tick means is that he is better than the reserve goalkeeper.. the X before meant he is not so well suited in the new position after you made the formation change and that he preferred the old formation.
 
-Worth a design caution: an advisory display this easy to mistake for a live stat cost SWOS a decade of community myth-building. Any equivalent we build (fit scoring, morale, tactic familiarity) should read unambiguously as pre-match advice, not something to be gamed by fiddling with selection.
+An advisory display this easy to mistake for a live stat cost SWOS a decade of community myth-building.
 
 ## Some Formations Are Eccentric By Design
 

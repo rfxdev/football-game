@@ -11,7 +11,7 @@ Sensible World of Soccer is the primary reference game for this project's arcade
 
 ## Trade-offs
 
-Three of SWOS's best decisions are also its worst, depending on which way you look at them. Some began as hardware constraints rather than design choices — worth separating, because a constraint we no longer have is only worth keeping if it was load-bearing for the feel.
+Some of SWOS's best decisions are also its worst, depending on which way you look at them. Each says whether it began as a hardware constraint or as a deliberate choice.
 
 ### One Action Button
 
@@ -19,7 +19,6 @@ The Amiga joystick had one button. The constraint came first; the design made a 
 
 - **Buys** — nothing to learn before playing and no animation to wait out. The skill ceiling lives in timing and aftertouch rather than a button chart.
 - **Costs** — every attacking idea goes through the same tap/hold, so play skews heavily direct. Variety another game spends a dedicated button on isn't reachable.
-- **For us** — the constraint is gone, the pillar isn't: single-button input is a design choice now. The open question is whether the missing variety can come from context and stick position instead of a second button.
 
 ### Seven Skills, Fixed for Life
 
@@ -27,7 +26,6 @@ Skills are [stored 0–7](player-ratings.md) — eight values per attribute. On 
 
 - **Buys** — a squad readable at a glance and a transfer call made in seconds: is he better than the man he replaces, and can I afford him? Career mode never becomes a spreadsheet.
 - **Costs** — no progression, no decline, no form or morale. A 19-year-old is exactly as good in his tenth season, so nobody is worth developing and scouting is a shopping trip.
-- **For us** — storage is free now. The open question is whether depth can go up without the decision getting slower: ability that moves across a career, while buy/don't-buy stays a glance rather than a study.
 
 ### Fully Editable Tactics
 
@@ -35,7 +33,6 @@ Not a constraint — a deliberate choice. A tactic is a 35-entry table of where 
 
 - **Buys** — real expression. How you want the team to play is genuinely representable, not picked from a list.
 - **Costs** — hours in a grid editor to beat the 12 presets. Most players never open it, so most of the depth ships unused.
-- **For us** — the ceiling is worth keeping, the entry cost isn't. The open question is whether the same expressiveness is reachable from a few high-level choices, with the grid underneath for anyone who wants it.
 
 ## Weaknesses
 
