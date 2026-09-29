@@ -15,3 +15,15 @@ export_credentials.cfg
 .mono/
 data_*/
 mono_crash.*.json
+
+#IDE
+.idea
+
+# Playtest session recordings — large, kept locally (see docs/playtesting.md)
+recordings/
+
+# Exported builds (see docs/build-pipeline.md)
+builds/
+
+# Raw third-party research material — not our own words, kept local only (see sources/README.md)
+sources/**/raw/

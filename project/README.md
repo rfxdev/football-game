@@ -1,0 +1,45 @@
+# Project
+
+Where the work stands — what gets built next, and the files that record it. [`docs/`](../docs/README.md) holds what the game *is*; [`ways-of-working/`](../ways-of-working/README.md) holds how it gets built.
+
+The build order is [Roadmap](roadmap.md). Everything else here supports it, and how a milestone file is written is below.
+
+## What's Here
+
+| File | What it covers |
+| --- | --- |
+| [Roadmap](roadmap.md) | The build order — phases, milestones, and the notes that span them |
+| [`milestones/`](milestones/) | One file per milestone: what it adds, how it exits, what its playtest is asking. Started from [TEMPLATE.md](milestones/TEMPLATE.md) |
+| [Ideas](ideas.md) | Where the game could go, before any of it has been checked against anything. No commitment |
+| [Documentation Review Tracker](doc-review.md) | Temporary — review status per doc, deleted when the pass ends |
+
+## Milestones
+
+A **milestone** is the gated unit of work: one file in [`milestones/`](milestones/), one playtest session, one exit decision. A **phase** groups them and is a claim about what the project can do — *"every on-ball action works"* — with no file and no gate of its own. Phases live in [Roadmap](roadmap.md).
+
+- **The milestone file owns everything specific to it** — why it exists, what its playtest is asking, its failure modes, the sprites it first needs, its tests. The roadmap owns the order, and only the notes that span phases
+- **Anything finer than a milestone is content inside its file, not a milestone of its own.** *Tap for pass* and *hold for shot* are lines in [1.2 Kicking](milestones/1.2-kicking.md), not entries in the build order
+- **Files are named `<phase>.<milestone>-<slug>.md`**, so the directory reads in build order. Renumbering renames files and breaks inbound links, so re-cut the order deliberately rather than casually, and cite milestones by name as well as by link
+- **Link to the design docs a milestone depends on rather than restating them.** A milestone file says what to build and how it will be judged, not how the system works
+- **[TEMPLATE.md](milestones/TEMPLATE.md) is the file's shape** — the fields, in order, and what each is for. Copy it to start a new milestone; the sections below say how to decide what goes in them
+
+## Exit Criteria
+
+**A milestone exits against [the SWOS reference](../sources/swos/), not against "it feels right".** The reference is disassembly-grade — hardcoded speeds, frame counts, the formula a passive duel resolves on — so it is checkable in a way that taste is not.
+
+Three routes out, and a milestone's **Reference** field says which one applies:
+
+- **The reference fixes a number** — matching it is the exit condition, and *Asking* is thin or absent
+- **The reference is silent** — the milestone falls back to a playtest judgement and *Asking* carries the weight. See [Playtesting](../ways-of-working/playtesting.md)
+- **There is no reference** — Phase 0 is invisible scaffolding, the *neither* route in [the spec chain](../ways-of-working/spec-chain.md), and exits on working. The Reference field is omitted rather than left empty
+
+A milestone that is correctness- or variety-shaped rather than feel-shaped — most of Phase 5 — skips *Asking* and *Session shape* entirely rather than forcing a playtest protocol where none is warranted.
+
+## Outline → Ready
+
+A milestone file carries a **Status**, and there are two values.
+
+- **Outline** — it holds what the roadmap already knew: the summary, the reference, and whatever notes came with the sequencing decision. Every file starts here
+- **Ready** — every field this milestone is going to have is written. For most that means the playtest and testing fields; for a scaffolding milestone that legitimately has neither, it means the decision to omit them has been taken and recorded
+
+**Fill the playtest and testing fields in shortly before the milestone is built, not up front.** A session protocol written today for a milestone five phases away is fiction about a game nobody has played — the same reason the manual isn't written up front in [the spec chain](../ways-of-working/spec-chain.md).
