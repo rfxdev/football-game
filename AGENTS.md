@@ -10,10 +10,11 @@ Top-down 2D arcade football, inspired by Sensible World of Soccer. Non-profit, o
 
 **No licensed football content, no material from other games.** The repo is public, so removing infringing material means rewriting history. Ruled out:
 
-- Real teams, players, leagues, competitions, crests, kits
+- Real teams, players, leagues, competitions, crests, kits — in the repo or any export. Real data a player imports lives under `user://`, never `res://`
 - Names derived from real squads; a fictional club matching a real one's name, city and colours together
-- Assets extracted from another game, including pixel-copied HUD layouts; its name or logo in our name or branding
-- Unknown, non-commercial or personal-use-only licences (CC BY-NC especially)
+- Code or assets taken from another game, including pixel-copied HUD layouts; its name or logo in our name or branding
+- Unknown, non-commercial, personal-use-only or GPL licences (CC BY-NC especially)
+- AI-generated assets outside the conditions in [Third-Party Intake](docs/decisions/licensing-and-ip.md#third-party-intake) — never prompted with another game or real football
 
 Copying another game's *feel* is the point. Copying its files is not.
 
@@ -66,4 +67,4 @@ Its index is imported rather than summarised here — the pipeline and the deliv
 
 ## Licensing
 
-Code MIT, assets CC BY-SA 4.0. See [Licensing and IP](docs/decisions/licensing-and-ip.md).
+Code MIT, assets CC BY-SA 4.0 — split by what a file does, so tuning Resources and other data the engine reads count as code. See [Licensing and IP](docs/decisions/licensing-and-ip.md).

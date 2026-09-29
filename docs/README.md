@@ -19,7 +19,7 @@ Settled, with their reasoning recorded. Checked against rather than rewritten.
 | Document | What it covers |
 | --- | --- |
 | [Technical Architecture and Stack](decisions/architecture-and-stack.md) | Godot 4.x, GDScript, tooling, target platforms, and why not Unity |
-| [Licensing and IP](decisions/licensing-and-ip.md) | Outbound licences, why there is no licensed content, inspiration versus appropriation |
+| [Licensing and IP](decisions/licensing-and-ip.md) | What can go into the repo and the game — licences, other games, real football, local data, third-party intake |
 
 ## Design and Manual
 

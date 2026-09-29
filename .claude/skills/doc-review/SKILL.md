@@ -32,14 +32,10 @@ Work through the section list from gate 2 in order, one gate per section. Don't 
 
 Once every section is agreed, assemble the full doc and read it once more end to end — sections approved in isolation can still misalign with each other (repeated framing, an inconsistent term, a transition that no longer makes sense). Fix what surfaces here without reopening the per-section gates unless the fix is substantial.
 
-## 5. Update and report
+## 5. Report
 
-If `project/doc-review.md` exists, update its entry: what changed structurally and why. Report briefly — lead with what's now clearer or easier to act on.
+Report briefly — lead with what's now clearer or easier to act on.
 
 ## 6. Follow-on: audit what didn't make the cut
 
 Once the rewrite is settled, compile everything from the old version that isn't in the new one and has no obvious owner elsewhere in the doc set — deferred items, open questions, asides dropped along the way. Check each against the rest of the doc set for an existing home first. Bring what's left to the user as one consolidated decision — keep, move, or drop, per item — rather than deciding unilaterally.
-
-## Worked example
-
-`docs/decisions/licensing-and-ip.md`: purpose settled as "what a contributor needs to check before touching content, assets, or a PR." From there, the old Project Posture section (justifying the hobby/public-repo stance) and Open Questions section (three deferred asides) were flagged as not making the cut before any titles were even proposed. Agreed titles: Licensing, Inspiration limits, Content limits, Third-party intake, Contributions. Each was filled and checked in turn — the mod-import escape hatch folded into Content limits as one line rather than keeping its own heading, a call made only once that section was drafted and reviewed on its own. The follow-on audit then took the three dropped open questions to the user in one round: one overlapped an existing question in a data-architecture doc, one fit an existing Open Questions section in a build-pipeline doc, one had no home anywhere — all three dropped for good.

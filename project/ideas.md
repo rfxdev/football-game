@@ -46,7 +46,12 @@ Open:
 - **Do CPU clubs trade with each other, or only with you?** Without it every other squad stays the same for the whole save
 - **Why buy anyone if nobody gets better or worse?** Covering injuries and suspensions, fixing a tactic's weak slot, and a bigger budget as you move up. Enough for SWOS; possibly thin across many seasons
 - **A squad screen where players can be compared** — fixes SWOS's [worst UI weakness](../sources/swos/overview.md#weaknesses) without any new systems
-- **Generated world or imported one** — [Data Architecture §2](data-architecture-open-questions.md#2-dataset-provenance)
+- **How big is the world?** 50–150k players at up to 40 attributes was floated; 150k is likely high. Every question below scales with it, and at a small enough population retention rules and precomputed values stop being needed. Career depth is bounded by what changes matches, not by size
+- **How much of the pyramid is simulated?** Only the user's division, or every loaded competition. If other matches only *appear* live — goal alerts, a live table — pre-resolve them and replay their event timelines during the player's match. If their teams genuinely react to scores elsewhere, that needs lockstep on a shared clock and one context per matchday
+- **How detailed are stats, and what happens to old players?** Match-level for everyone, for followed leagues only, or season aggregates. Match-level everywhere compounds every season, so it probably needs older seasons collapsed to aggregates. Retired players stay in full, archive, or become a stub — stats rows and player rows grow independently
+- **How often do attributes and value change?** A weekly tick, end of season, or both; every player or tracked leagues only, with a cheaper pass so background players don't go stale. Value as a stored column recalculated on the same cadence plus events (standout performance, new contract, promotion or relegation), or recomputed whenever a screen opens
+- **Generated world, imported one, or both** — the generator is the default, per [Licensing and IP](../docs/decisions/licensing-and-ip.md). Open: how much of the schema an import format pins, and how closely generated output must match real-data shape so the two careers feel alike. Any population must stay inside the attribute bounds the simulation was tuned against, per [Career Mode Mechanics](../sources/swos/career-mode-mechanics.md). Generating a full world on first run is a startup cost
+- **Where do saves and reference data live?** One SQLite file per career is the working idea: deleting a save is deleting a file, with no `save_id` on every table. Static data — nations, competition structures, name corpora — is either copied into every save or held in one read-only database the save attaches to. Autosave cadence is still open
 - **International management and tournaments** — 20-player squads for finals, picking from every league
 
 ### Stage 2 — Beyond SWOS
@@ -62,7 +67,7 @@ Tracks, mostly independent of each other.
 - **Modernised attributes** — more than SWOS's seven, informed by [FM](../sources/fm/player-attributes.md)
 - **Attributes that drive AI** — mental attributes such as Positioning and Decisions shape how the 21 uncontrolled players behave, adding depth without touching single-button input
 - **Ability that moves across a career** — progression and decline, which gives attributes a reason to change. Links career and attributes. Championship Soccer did this on top of a SWOS clone
-- **Youth intake and retirement** — follows from progression. How long saves avoid filling up with old players is [Data Architecture §4](data-architecture-open-questions.md#4-statistics-granularity-and-population-lifecycle)
+- **Youth intake and retirement** — follows from progression. How long saves avoid filling up with old players is a storage question as much as a design one — see the stats question under Career
 - **Form** — short-term swings on top of fixed ability. A cheaper way to make selection matter than full progression
 - **Summary ratings over detail** — FM-style star ratings or role suitability, so extra attributes don't slow the buy/don't-buy call
 - **Fix speed dominance** — SWOS's [biggest balance fault](../sources/swos/overview.md#weaknesses). More attributes do nothing if pace still decides everything
@@ -80,7 +85,7 @@ Tracks, mostly independent of each other.
 
 #### World
 
-- **Community packs** — kits, sprites and team data, loadable but not hosted — hosting is ruled out by [Licensing and IP §3](../docs/decisions/licensing-and-ip.md#3-no-licensed-football-content)
+- **Community packs** — kits, sprites and team data, loadable but not hosted — hosting is ruled out by [Licensing and IP](../docs/decisions/licensing-and-ip.md#real-football)
 
 ## Graduating an Idea
 

@@ -18,16 +18,17 @@ You also confirm that the material is yours to give — that you wrote it, or th
 The project contains no licensed football content and no material taken from other games. Contributions are declined if they include:
 
 - **Real-world team, player, league, or competition data** — names, squads, crests, badges, kits, or competition marks. This includes names derived from real squad lists, and a fictional club that matches a real club's name, city, and colours together
-- **Assets extracted from another game** — sprites, tilesets, palettes, audio, or fonts pulled from a game's files or ROM, and pixel-copied menu or HUD layouts — or its name or logo used in this project's name or branding
-- **Assets whose licence is unknown, non-commercial, or personal-use-only** — CC BY-NC in particular is incompatible with this project's licensing
+- **Code or assets taken from another game** — code, sprites, tilesets, palettes, audio, or fonts pulled from a game's files or ROM, decompiled or not, and pixel-copied menu or HUD layouts — or its name or logo used in this project's name or branding
+- **Material whose licence is unknown, non-commercial, personal-use-only, or GPL** — CC BY-NC in particular is incompatible with this project's licensing
+- **AI-generated assets that don't meet the conditions** in [Third-Party Intake](docs/decisions/licensing-and-ip.md#third-party-intake)
 
-This isn't a comment on anyone's intentions; it's that a public repo keeps everything forever, and removing infringing material means rewriting history. [Licensing and IP](docs/decisions/licensing-and-ip.md) has the full reasoning, including where the line falls between taking inspiration from a game and taking its material.
+This isn't a comment on anyone's intentions; it's that a public repo keeps everything forever, and removing infringing material means rewriting history. [Licensing and IP](docs/decisions/licensing-and-ip.md) has where the line falls between taking inspiration from a game and taking its material.
 
 Recreating the *feel* of something from another game is fine and is the point of the project. Recreating its files is not.
 
-## Third-Party Assets
+## Third-Party Material
 
-If a contribution brings in an outside asset, add it to `CREDITS.md` with source, author, licence, and link. Provenance recorded as an asset lands takes a minute; reconstructed a year later it's guesswork.
+If a contribution brings in anything from outside, add it to `CREDITS.md` as [Third-Party Intake](docs/decisions/licensing-and-ip.md#third-party-intake) describes.
 
 ## Changes to Documentation
 

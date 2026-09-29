@@ -26,6 +26,8 @@ Physics tick rate: held at 60 ticks/second. It is a feel-critical constant — c
 
 Determinism: simulation logic runs in `_physics_process`, never `_process` — `_process` runs once per rendered frame at a rate that varies with load and display, so anything affecting a match outcome from there is non-reproducible by construction. Elapsed time and randomness are injected — a tick-derived clock and a seeded RNG instance — never read from a global; unseeded `randf()` calls and wall-clock reads are what quietly make headless simulation non-reproducible. Decided once here and honoured as systems are built rather than retrofitted, because this is what makes the same seed plus the same inputs produce the same match twice — see [Automation Testing](../../ways-of-working/automation-testing.md) for what that buys.
 
+Saves: the format is versioned from the first save, and every later format change ships a forward migration that runs on load. A career spans months of real time and the game will be updated inside that window, so a new attribute can't brick an old save; the version is near-free to add now and near-impossible to retrofit once saves worth keeping exist. Writes never overwrite the only good copy — write to a temporary file, then swap it in, keeping the previous save until the new one is complete. Steam Deck suspend and resume make an interrupted write routine rather than an edge case. If saves are held in a database, queries that feed simulation carry an explicit `ORDER BY`: unordered results break the reproducibility above. The storage technology itself is not yet decided.
+
 Controller testing: 8BitDo Ultimate 2.4G wireless controller, as a stand-in for Steam Deck's native gamepad input.
 
 ## Why Godot over Unity

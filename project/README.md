@@ -2,7 +2,7 @@
 
 Where the work stands — what gets built next, and the files that record it. [`docs/`](../docs/README.md) holds what the game *is*; [`ways-of-working/`](../ways-of-working/README.md) holds how it gets built.
 
-The build order is [Roadmap](roadmap.md). Everything else here supports it, and how a milestone file is written is below.
+The build order is [Roadmap](roadmap.md); [Ideas](ideas.md) holds what isn't on it yet. How a milestone file is written is below.
 
 ## What's Here
 
@@ -11,7 +11,6 @@ The build order is [Roadmap](roadmap.md). Everything else here supports it, and 
 | [Roadmap](roadmap.md) | The build order — phases, milestones, and the notes that span them |
 | [`milestones/`](milestones/) | One file per milestone: what it adds, how it exits, what its playtest is asking. Started from [TEMPLATE.md](milestones/TEMPLATE.md) |
 | [Ideas](ideas.md) | Where the game could go, before any of it has been checked against anything. No commitment |
-| [Data Architecture — Open Questions](data-architecture-open-questions.md) | Parked career-mode data questions — what must be answered before a persistence schema and storage tech are picked |
 
 ## Milestones
 

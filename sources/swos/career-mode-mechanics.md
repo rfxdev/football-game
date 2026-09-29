@@ -14,15 +14,13 @@ Raising a player's skill value (the Q&A's example: 7 up to 15) changes actual in
 
 That "7 to 15" isn't a modded database exceeding some shipped limit — [stats are stored 0–7 and the engine adds +8 for gameplay](player-ratings.md), so 8–15 is the normal effective range, not an overreach. The likely trap: the on-disk field has room for 0–15, and a modding tool that writes straight into it rather than through the intended 0–7 input can push a stat into the upper half *before* the engine's own +8 is applied — overflowing whatever fixed-width field holds the result and wrapping back down (15 + 8 = 23, which wraps to 7 in a 4-bit field). That would land a "maxed out" stat below even the worst normal value, which fits the transcript's opening anecdote — a nominally strong, expensive player performing like total ass — better than assuming it's just noise. This last step is our own inference from the arithmetic, not something either source states directly.
 
-Bears on [Data Architecture — Open Questions](../../project/data-architecture-open-questions.md), §1 Dataset Scope and §6 Valuation Recalculation.
-
 ## Database Modding Stayed Within the Original Bounds
 
 On whether editing the player database (roster updates, stat mods) risks the tuned game feel:
 
 > As long as the minimums and maximums used by the original data are not exceeded database modifications should be fine
 
-The constraint was the *range*, not the specific values: any population respecting the attribute bounds the simulation was tuned against is fair game. Bears on [Dataset Provenance](../../project/data-architecture-open-questions.md).
+The constraint was the *range*, not the specific values: any population respecting the attribute bounds the simulation was tuned against is fair game.
 
 ## The Transfer Market's Actual Mechanics
 
