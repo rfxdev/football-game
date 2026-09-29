@@ -18,8 +18,9 @@ Show the user the outcome of each step and agree it before moving to the next.
 - The milestone file, its entry in [Roadmap](../../../project/roadmap.md), and Roadmap's *Notes on the Order*
 - [Project](../../../project/README.md) → *Milestones*, *Exit Criteria*, *Status*, and [TEMPLATE](../../../project/milestones/TEMPLATE.md)
 - [The Spec Chain](../../../ways-of-working/spec-chain.md), [Automation Testing](../../../ways-of-working/automation-testing.md), [Playtesting](../../../ways-of-working/playtesting.md)
-- Upstream, per AGENTS.md → Conventions: the vision, `docs/decisions/`, the [Player Manual](../../../docs/manual/player-manual.md)
-- Every design doc the milestone's deliverables touch. For `docs/design/match-engine/`, the whole folder
+- Upstream, per AGENTS.md → Conventions: the vision, `docs/decisions/`, and the Player Manual once it exists
+- Every design doc in `docs/` the milestone's deliverables touch. Often there is none yet — step 2 writes it
+- Where the milestone links a doc that no longer exists, its copy in `archive/`, for decisions worth keeping. Never as the spec
 - The reference sections in [`sources/swos/`](../../../sources/swos/) that cover the deliverable — the sections themselves, not just the field naming them
 - Every earlier milestone in build order: what it delivers, its Testing and 360 Testing. Step 4 walks them
 
@@ -32,7 +33,7 @@ Trace both ways. **Forward:** for each thing the milestone delivers — the summ
 
 Route is *told*, *felt* or *neither*, per The Spec Chain's *Three Routes In*.
 
-**Backward:** from each design doc the milestone touches, take the parts the Roadmap's build order puts at this milestone rather than at a neighbour, and check the milestone covers each.
+**Backward:** from each design doc the milestone touches, and each `sources/swos/` section its Reference field names, take the parts the Roadmap's build order puts at this milestone rather than at a neighbour, and check the milestone covers each.
 
 Sort Notes as you go. A hazard, failure mode or judgement call belongs in Notes. A decision that later work is built against — a value, a unit, an anchor, a convention — belongs in a design doc or `docs/decisions/`, with the Note linking to it.
 
@@ -48,9 +49,10 @@ Flag:
 - **Upstream incomplete** — a *told* deliverable with no manual entry; a design doc with no acceptance criteria for it; an Open Question the build would have to answer
 - **Restated, not linked** — design content copied into the milestone, against Project → *Milestones*
 - **Wrong links** — a linked doc that doesn't specify this, or a doc that does and isn't linked
+- **Dead links** — a link to a doc that no longer exists. Point it at the doc that now specifies it
 - **Reference mismatch** — the reference and the design disagree, or the Reference field cites sections that belong to another milestone's deliverable
 
-A gap in a design or manual doc is fixed in that doc, by The Spec Chain — never patched into the milestone. Ask the user whether to fix it now or leave it flagged.
+A gap in a design or manual doc is fixed in that doc, by The Spec Chain — never patched into the milestone. Where the doc doesn't exist yet, write it now, fresh from the milestone and `sources/swos/`, and keep it to what this milestone needs: extend an existing doc before starting a new one, per AGENTS.md → *Split by what gets opened together*. Otherwise ask the user whether to fix it now or leave it flagged.
 
 A fix that changes a design or manual doc changes a constraint, so read downstream per AGENTS.md → Conventions: any other milestone linking that doc and no longer matching it goes back to Outline, per Project → *Status*. List them for the user.
 

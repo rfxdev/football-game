@@ -37,4 +37,4 @@ Documentation is the project's main artefact right now, so doc PRs are real cont
 - **`ways-of-working/`** — how it gets built. If it's a decision you'd make at the keyboard, it goes here
 - **`project/`** — where the work stands: roadmap and live tracking
 
-Keep docs short — bullets over prose. A review pass for duplication and drift is in progress, tracked in [`project/doc-review.md`](project/doc-review.md); `/doc-review` reviews one doc at a time and `/doc-consistency` checks the whole set for duplication and drift.
+Keep docs short — bullets over prose. `/doc-review` reviews one doc at a time and `/doc-consistency` checks the whole set for duplication and drift.

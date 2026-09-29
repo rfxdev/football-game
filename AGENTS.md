@@ -30,7 +30,8 @@ Out of scope: online multiplayer, mobile, management-sim depth.
 
 ## Where Things Live
 
-- **[`docs/`](docs/README.md)** — what the game is. Split by purpose: `design/` (intent and systems), `manual/` (player-facing), `decisions/` (settled, with reasoning — the stack and the IP policy)
+- **[`docs/`](docs/README.md)** — what the game is. The vision, `decisions/` (settled, with reasoning — the stack and the IP policy), and design and manual docs written as milestones need them
+- **`archive/`** — the docs written before the milestones. Not current: read it only when rebuilding a doc from it, or when asked. A link into a doc that has moved there is dead — repoint it at the new doc in `docs/` when you hit it
 - **[`ways-of-working/`](ways-of-working/README.md)** — how it gets built
 - **[`project/`](project/README.md)** — where the work stands
 - **[`sources/`](sources/README.md)** — what the reference games do, in our own words. Where *our* game is heading is `project/ideas.md`, not here
@@ -46,12 +47,13 @@ Its index is imported rather than summarised here — the pipeline and the deliv
 - **Keep docs short.** Bullets over prose; state the rule, don't restate rationale recorded elsewhere. Solo hobby project — review time is the scarce resource
 - **Don't count things that change.** No totals of phases, milestones, files, sections, questions or words — describe or link them instead, so adding one never means updating a number somewhere else
 - Prefer editing existing docs to adding new ones
-- **Read along the constraint order**, not by folder size — the chain is in [`docs/README.md`](docs/README.md). Docs are granular so narrow work stays in narrow context; widen deliberately:
-  - **Upstream, always.** Design work reads the vision, `decisions/` and `manual/` first — short enough together that there's no call to make. To test whether something else belongs, ask what would make the change wrong: a settled choice, or what the player was promised
-  - **Sideways, where systems interlock.** `design/match-engine/` is one system split across files — take the folder, not the file
+- **Split by what gets opened together, not by topic.** Two files always read together are one file; a part earns its own file only once it's read on its own, in a different task
+- **Read along the constraint order**, not by folder size — the chain is in [`docs/README.md`](docs/README.md). Widen deliberately:
+  - **Upstream, always.** Design work reads the vision and `decisions/` first, and the manual once it exists — short enough together that there's no call to make. To test whether something else belongs, ask what would make the change wrong: a settled choice, or what the player was promised
+  - **Sideways, where systems interlock.** Read the design docs for every system a change touches, not only the one it lands in
   - **Downstream, when changing a constraint.** A revised decision may have orphaned design docs written against the old one
   - **Never everything, unasked.** Reading the full set is a task in its own right — `/doc-consistency`, or an explicit request. Being stuck is not a reason to load it
-- Docs carry no status line; status lives in [`project/doc-review.md`](project/doc-review.md) (temporary — delete it and this bullet when the review ends)
+- Docs carry no status line
 - British English
 
 ## When Code Exists
