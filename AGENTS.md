@@ -60,7 +60,7 @@ Its index is imported rather than summarised here — the pipeline and the deliv
 
 ## When Code Exists
 
-- **GdUnit4.** Correctness tests from day one; feel-threshold tests only after a mechanic feels right, always as a range
+- **GdUnit4.** Correctness tests from day one, exact wherever the docs fix a value; feel-threshold tests only after a mechanic feels right, always as a range
 - **Typed GDScript**, `gdlint` for style
 - **No feel value as a literal in a script** — friction, acceleration, shot power, AI reaction time must be tunable without a code edit
 - **Never build to test what the editor can show you**

@@ -24,13 +24,13 @@ A **milestone** is the gated unit of work: one file in [`milestones/`](milestone
 
 ## Exit Criteria
 
-**A milestone exits against [the SWOS reference](../sources/swos/), not against "it feels right".** The reference is disassembly-grade — hardcoded speeds, frame counts, the formula a passive duel resolves on — so it is checkable in a way that taste is not.
+**A milestone exits against the acceptance criteria in the design docs it links — not against "it feels right", and not against SWOS directly.** Until the clone plays, most of those criteria are written from [the SWOS research](../sources/swos/), which is disassembly-grade — hardcoded speeds, frame counts, the formula a passive duel resolves on — so they are checkable in a way that taste is not. How SWOS gets into a design doc is [Writing From SWOS](../ways-of-working/spec-chain.md#writing-from-swos).
 
-Three routes out, and a milestone's **Reference** field says which one applies:
+Three routes out, set by what the criteria say:
 
-- **The reference fixes a number** — matching it is the exit condition, and *Asking* is thin or absent
-- **The reference is silent** — the milestone falls back to a playtest judgement and *Asking* carries the weight. See [Playtesting](../ways-of-working/playtesting.md)
-- **There is no reference** — Phase 0 is invisible scaffolding, the *neither* route in [the spec chain](../ways-of-working/spec-chain.md), and exits on working. The Reference field is omitted rather than left empty
+- **They fix a number** — matching it is the exit condition, and *Asking* is thin or absent
+- **They are a range judged by playing** — the milestone falls back to a playtest judgement and *Asking* carries the weight. See [Playtesting](../ways-of-working/playtesting.md)
+- **There is no design doc** — Phase 0 is invisible scaffolding, the *neither* route in [the spec chain](../ways-of-working/spec-chain.md), and exits on working
 
 A milestone that is correctness- or variety-shaped rather than feel-shaped — most of Phase 5 — skips *Asking* and *Session shape* entirely rather than forcing a playtest protocol where none is warranted.
 
@@ -38,7 +38,7 @@ A milestone that is correctness- or variety-shaped rather than feel-shaped — m
 
 A milestone file carries a **Status**:
 
-- **Outline** — it holds what the roadmap already knew: the summary, the reference, and whatever notes came with the sequencing decision. Every file starts here
+- **Outline** — it holds what the roadmap already knew: the summary and whatever notes came with the sequencing decision. Every file starts here
 - **Ready** — every field this milestone is going to have is written. For most that means the playtest and testing fields; for a scaffolding milestone that legitimately has neither, it means the decision to omit them has been taken and recorded
 - **Done** — built, and the exit decision taken. The file is now a record of what was built and isn't reopened: a later change to the design it delivered goes through [the spec chain](../ways-of-working/spec-chain.md), and later milestones reach its tests through 360 Testing
 

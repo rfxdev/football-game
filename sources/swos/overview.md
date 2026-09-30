@@ -2,6 +2,13 @@
 
 Sensible World of Soccer is the primary reference game for this project's arcade football feel. Kept split by concern so each piece can be read narrowly: [Match Mechanics](match-mechanics.md) (what happens once the ball is kicked), [Player Ratings](player-ratings.md) (attribute definitions and scale), [Tactics and Team Selection](tactics-and-team-selection.md) (the pre-match advisory layer), [Career Mode Mechanics](career-mode-mechanics.md) (valuation, wages, progression across a save).
 
+## Disassemblies
+
+File-and-line citations across these docs point into these community disassemblies, checked out as siblings of this repo rather than inside it — read, never copied in, per [Sources](../README.md):
+
+- [zlatkok/swos-port](https://github.com/zlatkok/swos-port) — the DOS version, at `../swos-port`
+- [starwindz/original-amiga-swos](https://github.com/starwindz/original-amiga-swos) — the Amiga original, at `../original-amiga-swos`
+
 ## Strengths
 
 - **The hybrid loop is the headline strength, not any single system.** SWOS pairs a full player-manager career — scout a player from a worldwide database, negotiate the transfer, manage the finances that follow, then control that signing on the pitch — with fast, frenetic arcade match play. Plenty of games do either half better in isolation; few combine both this tightly. See [Career Mode Mechanics](career-mode-mechanics.md).

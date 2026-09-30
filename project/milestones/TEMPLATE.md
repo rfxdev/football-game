@@ -11,9 +11,7 @@ How to decide what goes in each field — what a milestone is, how it exits, and
 
 *One or two sentences: what this milestone adds, and what it deliberately leaves out. The exclusion matters as much as the addition — it is what keeps the milestone isolating a single variable.*
 
-**Reference:** *the section(s) of [sources/swos/](../../sources/swos/) this clones. Omit for scaffolding, which has none*
-
-**Asking:** *the narrow question the playtest session is judging. Omit where the reference settles the exit*
+**Asking:** *the narrow question the playtest session is judging. Omit where the design doc's acceptance criteria settle the exit*
 
 **Session shape:** *length, solo or with someone, structured or free. Omit alongside Asking*
 

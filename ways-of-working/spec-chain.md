@@ -27,6 +27,16 @@ Checked before anything is written:
 
 If a *told* proposal can't be written as a sentence a player would understand, it isn't ready, and it may not belong.
 
+## Writing From SWOS
+
+Until the clone plays, most of what the manual and design say comes from [the SWOS research](../sources/swos/). It is an input to writing them, never the spec.
+
+- **Restate it in our words and our units.** A speed in SWOS pixels per tick becomes a number in world units; a formula becomes the mechanism the design doc describes. Once written, the doc is what a milestone is judged against, not `sources/`
+- **Convert ticks by real time, from the Amiga's 50 a second** — the [reference pace](../docs/decisions/architecture-and-stack.md). Into our 60: a per-tick speed × 50/60, a frame count × 60/50. Check the value against the Amiga disassembly first; most of the research cites DOS, and some values differ between the two
+- **Record where it came from.** A *Derived from* line under each section that inherits from SWOS, naming the `sources/swos/` section. It is what makes a later departure read as a decision rather than as drift
+- **Where SWOS is silent, it's ordinary design** — mechanism and criteria written as below, judged by playing
+- **Past the clone, `sources/` is research only.** A proposal can cite it; nothing is checked against it
+
 ## Writing the Manual Entry
 
 - Present tense, player voice, as if the game already exists: *"Hold the button longer to hit it harder."*
@@ -52,7 +62,7 @@ Not everything reaching design came from the manual: *felt* proposals start here
 
 Past that, playtesting feeds back up the chain, and the chain has rungs. Take the lowest one that fixes it:
 
-1. **Tuning value** — mechanism right, number wrong. Retune live, per [Playtesting](playtesting.md)
+1. **Tuning value** — mechanism right, number wrong. Retune live, per [Playtesting](playtesting.md). Not for a value the design doc fixes: changing that is rung 2. One *Derived from* SWOS also departs from the clone, which the [Roadmap](../project/roadmap.md) holds until the clone plays
 2. **Design** — the number does what the doc asked for and it still isn't right. Either the criteria asked for the wrong thing or the mechanism can't deliver them; which of the two it is only becomes clear once you're in the doc, so it's one visit and not two
 3. **Manual** — the promise itself was wrong
 

@@ -23,4 +23,4 @@ Settled, with their reasoning recorded. Checked against rather than rewritten.
 
 ## Design and Manual
 
-Written when a milestone needs them, not ahead of it — from the milestone and [the SWOS reference](../sources/swos/). The docs written before the milestones are in [`archive/`](../archive/): not current, and a quarry rather than a template.
+Written when a milestone needs them, not ahead of it. They are the source of truth: until the clone plays, most of what they say is written from [the SWOS research](../sources/swos/), but once it's here it's ours, and nothing is judged against SWOS directly — see [Writing From SWOS](../ways-of-working/spec-chain.md#writing-from-swos). The docs written before the milestones are in [`archive/`](../archive/): not current, and a quarry rather than a template.

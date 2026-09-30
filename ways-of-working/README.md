@@ -12,7 +12,7 @@ Listed in the order they run, and worth reading that way first time.
 | --- | --- |
 | [The Spec Chain](spec-chain.md) | How something becomes work and how it is held to what was written. Manual → design → code, the three routes in, the gate, and the rungs back up when playtesting disagrees |
 | [Playtesting](playtesting.md) | Judging the game by playing it. Tuning runs and milestone sessions, the sandbox scene, live tuning, debug visualisation, what a session asks, session habits |
-| [Automation Testing](automation-testing.md) | Checks that run without a human at the controls. What earns a test, invariants, determinism, threshold-test rules |
+| [Automation Testing](automation-testing.md) | Checks that run without a human at the controls. What earns a test, invariants, determinism, threshold and fixed-value test rules |
 
 **manual entry → design, with its acceptance criteria → build → tune live → playtest against those criteria → encode as tests.** It is a loop, not a line — playtesting feeds back up it, as far as the manual when the promise itself was wrong. What each milestone's session is asking sits with the milestone itself, in [`project/milestones/`](../project/milestones/). The Spec Chain owns both ends: what has to be written before code, and what overturns what afterwards.
 

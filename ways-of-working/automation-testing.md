@@ -16,7 +16,7 @@ A test costs its writing plus every future edit that keeps it passing. It earns 
 Don't write it when:
 
 - Playtesting fails loudly and immediately on it — the player doesn't move, the ball doesn't spawn
-- It asserts an exact value that legitimate tuning will change — see Threshold Tests
+- It asserts an exact value that legitimate tuning will change — see Threshold Tests. A value the design doc fixes isn't one — see Fixed-Value Tests
 - It restates the implementation. If changing the code always means changing the test, the test knows nothing the code doesn't
 - It asserts the engine's behaviour, not the project's — a Godot built-in, Input Map clamping, a deadzone, the physics server. That belongs to Godot's suite
 - What's under test is configuration, not code — a project setting, or a resource with no logic around it. There's nothing to assert
@@ -55,7 +55,18 @@ Feel turned into something testable: not "does this feel good" but "does a 10-me
 - **Ranges, never point values.** A point value is a tuning lock that fails on every legitimate adjustment; a range only fires when something has genuinely left the intended character
 - **Added *after* a mechanic feels right, not before.** Written early they'd pin values that haven't been found yet, making iteration slower rather than safer. Written after, they catch a later change — tick rate, a friction tweak, a new collision shape — dragging feel out of character without anyone noticing
 - **Only feel tests wait.** Ordinary correctness tests for the same systems belong from day one, because they ask whether the thing works, not whether it's any good
-- Which is the resolution to the obvious objection: feel isn't untestable, *exact values* are
+- **A retune that leaves the range goes through the design doc.** The range is the doc's acceptance criterion, so a value that wants to sit outside it is rung 2 in [The Spec Chain](spec-chain.md#when-it-doesnt-feel-right): revise the criterion with its reason, and the test follows. Widening the test on its own is how ranges come to mean nothing
+- Which is the resolution to the obvious objection: feel isn't untestable, *exact values still being tuned* are
+
+## Fixed-Value Tests
+
+A design doc can fix a number rather than a range — a top speed, the frames a tackler spends on the ground, the pitch's dimensions — whether *Derived from* SWOS per [Writing From SWOS](spec-chain.md#writing-from-swos) or decided outright. The threshold rules exist to leave room for tuning, and a fixed value isn't tuned, so they don't apply:
+
+- **Exact, not a range** — the number the design doc states, to the tick; positions to a float tolerance, not a looser band. Determinism is what makes that possible
+- **Written with the mechanic, not after it feels right.** There's no value left to find, so this is a correctness test: does the build do what the doc says
+- **Assert the behaviour, not the Resource.** Reading the tuning value back is testing configuration. Drive the mechanic and measure what it does — ticks to cover a distance, frames spent down
+- **Most earn their place.** A fixed number is the silent kind: a few percent off looks right and plays wrong against everything calibrated alongside it
+- **It changes when the design doc does, and not otherwise.** A failure is a bug, or a departure that hasn't been through rung 2
 
 ## CI
 
@@ -67,4 +78,3 @@ Feel turned into something testable: not "does this feel good" but "does a 10-me
 
 - At which milestone does CI start earning its keep? The trigger above is a heuristic, not an answer
 - Same headless Godot command on macOS locally and Linux in CI, or divergent setup?
-- When a threshold test fails after a deliberate retune, what's the process — widen the range, or treat the change as rejected? Without an answer the ranges will quietly get widened until they mean nothing
