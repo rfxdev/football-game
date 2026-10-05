@@ -14,6 +14,7 @@ Most of what follows is the apparatus that makes both cheap, because the cost of
 - Run Current Scene (F6) rather than Run Project (F5) while mechanics are in flux — it launches whatever scene is open without touching the project's configured main scene, so there's no switching cost between the sandbox and the full match
 - GDScript reloads on save. For logic-only changes, saving and re-running is close to instant
 - No Play Mode configuration step is needed. Each run launches a fresh process, so static state starts clean every time
+- **Play at 1280×800 by default and check 16:9 routinely.** Both are primary [display targets](../docs/decisions/architecture-and-stack.md); the window size override opens every editor run at the Deck's view, so 16:9 is the one that gets forgotten
 
 ## Sandbox Scene
 

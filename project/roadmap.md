@@ -9,7 +9,7 @@ How a milestone file works — what it is, how it exits, its status — is in th
 **The project builds, runs on the Deck, takes input, and has a test harness.**
 
 - [0.1 Input Map](milestones/0.1-input-map.md) — abstract bindings, the 8BitDo verified against what the device actually reports
-- [0.2 Sandbox Scene](milestones/0.2-sandbox-scene.md) — a fixed 1280×800 frame, a ball with height and a shadow, boundary detection with scenario reset
+- [0.2 Sandbox Scene](milestones/0.2-sandbox-scene.md) — a fixed frame the size of the Deck's screen, a ball with height and a shadow, boundary detection with scenario reset
 - [0.3 Ball Physics Test Suite](milestones/0.3-ball-physics-test-suite.md) — GdUnit4 over the fake-Z ball, from day one
 - [0.4 Deck Build](milestones/0.4-deck-build.md) — one Linux build onto the Deck, before any real content exists
 
@@ -35,15 +35,15 @@ How a milestone file works — what it is, how it exits, its status — is in th
 
 - [3.0 Pitch and Camera](milestones/3.0-pitch-and-camera.md) — a real pitch, and a camera that follows the ball across it. The first time the world is bigger than the frame
 - [3.1 Dumb Five a Side](milestones/3.1-dumb-five-a-side.md) — every AI player runs at the ball and kicks it goalward. Deliberately stupid
-- [3.2 Shape and Home Zones](milestones/3.2-shape-and-home-zones.md) — a 2×2 formation grid that follows the ball; the blob resolves into something recognisable
+- [3.2 Shape and Home Zones](milestones/3.2-shape-and-home-zones.md) — the 5×5 formation grid with a four-player layout, following the ball; the blob resolves into something recognisable
 - [3.3 Decision Loop](milestones/3.3-decision-loop.md) — pass, shoot or dribble on the ball, when to slide off it. Crude but legible
 - [3.4 Keeper AI](milestones/3.4-keeper-ai.md) — the keeper becomes a real player
 
 ## Phase 4 — Eleven a Side
 
-**Full pitch, full team, real formations.**
+**Full team, real formations.**
 
-- [4.1 Eleven a Side](milestones/4.1-eleven-a-side.md) — full-size pitch, a 4-4-2 on the 5×5 grid
+- [4.1 Eleven a Side](milestones/4.1-eleven-a-side.md) — eleven players on the same pitch, a 4-4-2 on the 5×5 grid
 - [4.2 Extra Formations](milestones/4.2-extra-formations.md) — the rest of the formation set, as grid layouts
 
 ## Phase 5 — The Match
@@ -75,4 +75,4 @@ Only what spans phases. Everything milestone-specific is in the milestone's own 
 - **Detection lands with the mechanic; ceremony lands with The Match.** Boundary and goal detection in 0.2, foul detection in 2.3, and every restart they trigger in Phase 5. Without this rule, fouls drag the whole restart system forward into Phase 2
 - **The game is playable throughout but is not a match until Phase 5.** Eleven a side that resets on out-of-play is perfectly playable, just arcade-ish. This is deliberate, not an oversight
 - **Attributes get wired in as each mechanic is built, not bolted on later.** The reference bakes them into the formulas — the speed table, the ball-control turn threshold, tackling downtime. Cloning a mechanic means cloning its attribute dependency. What is deferred is squads of *differentiated* players, not attributes themselves — those arrive at [6.1 Squads](milestones/6.1-squads.md). Each milestone's Attributes field lists what it reads
-- **Sprites arrive with the milestone that first needs them, at final dimensions with rough art.** Size, anchor and frame timing are right from the first frame drawn; polish is what waits. A mechanic judged against a rectangle has to be judged again once it has a body, and the reference's own sprites are off-limits under [Licensing and IP](../docs/decisions/licensing-and-ip.md), so deferring saves no drawing. Frames fit inside the timings the design sets rather than setting them, and never change the hitbox — SWOS has no animation to wait out and one hitbox per player, per *Engine Performance* in [Match Mechanics](../sources/swos/match-mechanics.md). Each milestone's Sprites field lists what it draws
+- **Sprites arrive with the milestone that first needs them, at final dimensions.** The reference's own, sideloaded per [Local Data](../docs/decisions/licensing-and-ip.md#local-data), stand in until the project's look is decided, and a fresh clone sees [placeholders](../docs/design/match-engine/sprites.md#placeholders). Size, anchor and frame timing are right from the first frame, so swapping in the project's own art re-judges nothing — a mechanic judged against a rectangle would have to be judged again once it had a body. Frames fit inside the timings the design sets rather than setting them, and never change the hitbox — SWOS has no animation to wait out and one hitbox per player, per *Engine Performance* in [Match Mechanics](../sources/swos/match-mechanics.md). Each milestone's Sprites field lists what it first needs

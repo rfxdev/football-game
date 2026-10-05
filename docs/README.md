@@ -24,3 +24,40 @@ Settled, with their reasoning recorded. Checked against rather than rewritten.
 ## Design and Manual
 
 Written when a milestone needs them, not ahead of it. They are the source of truth: until the clone plays, most of what they say is written from [the SWOS research](../sources/swos/), but once it's here it's ours, and nothing is judged against SWOS directly — see [Writing From SWOS](../ways-of-working/spec-chain.md#writing-from-swos). The docs written before the milestones are in [`archive/`](../archive/): not current, and a quarry rather than a template.
+
+Every system has one owning doc, listed below whether it's written yet or not, so a proposal always has somewhere to land — see [Turning It Into Design](../ways-of-working/spec-chain.md#turning-it-into-design). An unwritten doc is named with the milestone that first needs it. A doc is split when part of it starts being read on its own, in a different task — not before.
+
+- **A system's doc covers how it is shown as well as how it works.** Whoever builds a system is the one reading how it looks, so its animation, markers and on-screen feedback sit with it
+- **Only the rules every match sprite is drawn to sit apart**, in [Sprites](design/match-engine/sprites.md)
+
+### Manual
+
+What the player is told, settled before the design that delivers it, per [The Spec Chain](../ways-of-working/spec-chain.md).
+
+| Document | What it covers |
+| --- | --- |
+| Player Manual — the first milestone on the *told* route | What the player is told, controls first |
+
+### Match Engine — `design/match-engine/`
+
+One doc per system, whether it mostly simulates or mostly shows.
+
+| Document | What it covers |
+| --- | --- |
+| [Sprites](design/match-engine/sprites.md) | Pixel scale and sharpness, and the placeholders a fresh clone draws. Sprite dimensions and the foot anchor once [1.1](../project/milestones/1.1-movement-and-possession.md) fixes them |
+| [Pitch and Environment](design/match-engine/pitch-and-environment.md) | The pitch's lines, and the goal — detection, posts and the net |
+| [Camera](design/match-engine/camera.md) | View size and the aspect band, where the view stops, the ground beyond the lines, how the camera follows play |
+| [Kits](design/match-engine/kits.md) | Kit data, shirt types, keepers, recolouring, clashes |
+| [Ball Physics and Aerial Simulation](design/match-engine/ball-physics-and-aerial-simulation.md) | Fake height, height-gated collision, ball motion, and how height reads on screen |
+| On-the-Ball Mechanics — [1.1](../project/milestones/1.1-movement-and-possession.md) | Input as intent, movement and turning, tap versus hold, reach and possession, passing and shooting, ball and header contention, tackling, player-to-player collision, control switching and its marker, and how each is animated |
+| Team AI and Decision Making — [2.1](../project/milestones/2.1-keeper-drill.md) | Perception and fairness, movement, decisions, the keeper, and its debug view |
+| Formation and Shape System — [3.2](../project/milestones/3.2-shape-and-home-zones.md) | Formations on the grid, the moving block, anchors, and the shadow formation that shows them |
+| Match State Machine — [5.1](../project/milestones/5.1-kick-off.md) | Clock, periods, restarts, cards and injuries, and how each is shown — celebrations, cards, an injured player |
+| Match HUD — [5.5](../project/milestones/5.5-clock-halves-and-full-time.md) | Score, clock and team names on screen |
+
+### Outside the Match
+
+Nothing here is scheduled yet, so docs and their split are to be decided as it is.
+
+- **CPU vs CPU simulation** — results for matches nobody watches, which season mode in [Ideas](../project/ideas.md) needs. Not the headless test harness, which is [Automation Testing](../ways-of-working/automation-testing.md)'s
+- **Front end and menus, options, audio**

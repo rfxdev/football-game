@@ -19,7 +19,7 @@ What SWOS has around the match that the roadmap doesn't build yet.
 
 #### Controls and Players
 
-- **Two-player mode** — couch co-op, a pad per player. The input seam that makes it cheap is in [Player Controller and Input](../docs/design/match-engine/player-controller-and-input.md)
+- **Two-player mode** — couch co-op, a pad per player. The input seam that makes it cheap is in [On-the-Ball Mechanics](../docs/design/match-engine/on-the-ball-mechanics.md)
 - **Keyboard controls** — bound to the same actions as the pad, per [Gamepad Input and Steam Deck Parity](../ways-of-working/gamepad-input-and-steam-deck-parity.md)
 
 #### Tactics Beyond Formations
@@ -79,7 +79,7 @@ Tracks, mostly independent of each other.
 
 #### Presentation
 
-- **Uplift to 3D** — the ball already simulates height, so 3D could be a new renderer over the same simulation rather than a new engine. Only possible if simulation and rendering stay separate, which is what running matches headless needs anyway. The [style guide](../docs/design/visual-style-guide.md) currently says 2D sprites, and the Deck has to run it
+- **Uplift to 3D** — the ball already simulates height, so 3D could be a new renderer over the same simulation rather than a new engine. Only possible if simulation and rendering stay separate, which is what running matches headless needs anyway. [Sprites](../docs/design/match-engine/sprites.md) currently says 2D, and the Deck has to run it
 - **A camera that isn't straight top-down** — a tilted or broadcast-style view. A step towards 3D that doesn't require it
 - **UI overhaul** — squad comparison, transfer browsing, the tactics preview. Most of what makes SWOS's manager side hard to use is the UI
 

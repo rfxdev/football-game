@@ -21,7 +21,7 @@ Copy the feel, not the files.
 
 **Off-limits:**
 
-- Their code, sprites, tilesets, sound effects, music and fonts — extracted, decompiled or traced. Drawing an animation that recreates the feel of one is fine; copying the file isn't
+- Their code, sprites, tilesets, sound effects, music and fonts — extracted, decompiled or traced — in the repo or any export. Drawing an animation that recreates the feel of one is fine; copying the file isn't. Running on art sideloaded from your own copy is [Local Data](#local-data)
 - Pixel-copied menu and HUD layouts
 - Their names and logos ("Sensible World of Soccer", "SWOS"), including in this project's name, tagline or marketing
 
@@ -36,10 +36,13 @@ Everything in the game is fictional: no real teams, players, leagues, competitio
 
 ## Local Data
 
-Anyone may import real-teams data into their own copy of the game. The project never ships it.
+What a player brings from their own machine: real-teams data, and the reference game's art sideloaded from a copy they own, standing in until the project's own look replaces it. The project never ships either.
 
-- **The generator is the default.** A fresh clone has no imported data and must still produce a working game — import is a layer on top, not a replacement
-- **Out of the repo and every export, by construction.** Imported data lives under `user://`, never `res://`, so neither a commit nor an exported build can pick it up. Settled before an importer exists
+- **A fresh clone works without it.** The generator is the default for teams and committed placeholder art for sprites — local data is a layer on top, not a replacement
+- **Out of the repo and every export, by construction.** It lives under `user://`, never `res://`, so neither a commit nor an exported build can pick it up. Settled before an importer exists
+- **Sideloaded art is match art only.** The reference's menus aren't worth standing in for, so nothing outside the match loads it
+- **Sideloaded art is a stand-in, never a source.** Not traced, not given to an AI generator, and replaced at the same dimensions and anchor
+- **Nothing published shows it.** Screenshots, recordings, issues and the README use the project's own art — publishing a capture distributes the art
 - **Test fixtures are synthetic.** GdUnit4 suites and CI can't depend on uncommitted data
 
 ## Third-Party Intake

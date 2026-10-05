@@ -12,15 +12,22 @@ Testing framework: GdUnit4 — embedded unit testing for GDScript (and C# if nee
 
 Linting & type checking: GDScript supports opt-in static typing natively (type hints on variables/functions), checked by the editor/parser as you write — this is adopted as a coding habit rather than an external tool. gdlint (part of godot-gdscript-toolkit) is used for style/best-practice linting, with CLI support for CI. A newer class of GDScript-specific static analyzers (e.g. code-quality-focused tools that flag missing type hints, high complexity, magic numbers) exists and is worth reassessing later, particularly given potential benefits for reducing AI agent token usage on a larger codebase.
 
-Development machine: macOS (MacBook Air M5) — primary dev loop only, not distribution. No code signing/notarisation required.
+Development machines: Windows and macOS (MacBook Air M5) — dev loop only, not distribution. No code signing/notarisation required.
 
 Distribution platforms: Windows, macOS, Steam Deck (Linux) — Godot supports native export to all three. Signed/notarised macOS builds are a future concern only if distributing to others.
 
-Display targets: Steam Deck (1280×800, 16:10) is preferred, with standard laptop and monitor configurations (16:9) equally supported — **the game runs unletterboxed across the 16:10–16:9 band, and gets bars outside it.** Within the band, a display sees the maximum its aspect allows; beyond it, the view is clamped and the excess is filled with bars — pillarboxed on anything wider than 16:9, letterboxed on anything narrower than 16:10. Ultrawide is explicitly not a target: a pitch stretched that wide doesn't read well.
+Display targets: Steam Deck (1280×800, 16:10) is preferred, with standard laptop and monitor configurations (16:9) equally supported. Ultrawide is explicitly not a target: a pitch stretched that wide doesn't read well. What each display shows — how much pitch, the aspect band and the bars beyond it, and why the differences are fine — is [Camera](../design/match-engine/camera.md)'s, and pixel sharpness [Sprites](../design/match-engine/sprites.md)'s; this section is the settings that deliver it.
 
-What the player sees across that band — how much pitch, and why the difference between displays is fine — is the [Visual Style Guide](../design/visual-style-guide.md)'s.
+**One world unit is one pixel of the reference.** SWOS quotes its speeds and distances in its own pixels, so they copy straight across, converted only for tick rate per [Writing From SWOS](../../ways-of-working/spec-chain.md#writing-from-swos).
 
-Configured in Project Settings → Display → Window: base viewport 1280×800, stretch mode `canvas_items`, stretch aspect `expand` — `keep` is the setting that letterboxes unconditionally, `expand` adds no bars and never shows less than the base area. `expand` alone does not clamp, so the 1422-unit width cap and the bars beyond it need implementing rather than configuring. Work at 1280×800 by default and check 16:9 routinely; both are primary.
+The view, in Project Settings → Display → Window:
+
+- **Base viewport 426×266**, in world units — the Deck's 1280×800 at a scale of 3, rounded down. 1280×800 holds 426⅔ × 266⅔, so anything larger drops the Deck to a scale of 2
+- **Fullscreen by default in exported builds**, at the display's own resolution; windowed is the player's option. Running from the editor stays windowed, so the setting is limited to exports — a feature-tag override or a startup check
+- **Window size override 1280×800**, so a windowed build — the editor's included — opens at the Deck's view
+- **Minimum window 1280×720**, so no window drops below a scale of 2 — the smallest display supported, fullscreen on a 720p screen, and what bounds how wide any view gets. Project Settings has no minimum, so it is set in code (`Window.min_size`) at startup
+- **Stretch mode `canvas_items`, aspect `expand`, scale mode `integer`.** Integer mode rounds the scale down, so a display never sees less than the base area. `keep` letterboxes unconditionally; `expand` adds no bars
+- **`expand` alone does not clamp**, so the 16:9 width cap and the bars beyond it need implementing rather than configuring
 
 Physics tick rate: held at 60 ticks/second. It is a feel-critical constant — changing it changes how the ball behaves — so it is set once and treated as fixed rather than tuned, and it is a determinism requirement for headless match simulation — see [Automation Testing](../../ways-of-working/automation-testing.md).
 
@@ -29,8 +36,6 @@ Reference pace: SWOS is cloned at the Amiga's 50 ticks/second, the pace it was d
 Determinism: simulation logic runs in `_physics_process`, never `_process` — `_process` runs once per rendered frame at a rate that varies with load and display, so anything affecting a match outcome from there is non-reproducible by construction. Elapsed time and randomness are injected — a tick-derived clock and a seeded RNG instance — never read from a global; unseeded `randf()` calls and wall-clock reads are what quietly make headless simulation non-reproducible. Decided once here and honoured as systems are built rather than retrofitted, because this is what makes the same seed plus the same inputs produce the same match twice — see [Automation Testing](../../ways-of-working/automation-testing.md) for what that buys.
 
 Saves: the format is versioned from the first save, and every later format change ships a forward migration that runs on load. A career spans months of real time and the game will be updated inside that window, so a new attribute can't brick an old save; the version is near-free to add now and near-impossible to retrofit once saves worth keeping exist. Writes never overwrite the only good copy — write to a temporary file, then swap it in, keeping the previous save until the new one is complete. Steam Deck suspend and resume make an interrupted write routine rather than an edge case. If saves are held in a database, queries that feed simulation carry an explicit `ORDER BY`: unordered results break the reproducibility above. The storage technology itself is not yet decided.
-
-Controller testing: 8BitDo Ultimate 2.4G wireless controller, as a stand-in for Steam Deck's native gamepad input.
 
 ## Why Godot over Unity
 

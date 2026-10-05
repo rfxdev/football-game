@@ -72,9 +72,9 @@ A design doc can fix a number rather than a range — a top speed, the frames a 
 
 - Not set up, and it earns nothing while the suite runs in seconds in the editor. The trigger is running it locally becoming something you skip
 - GdUnit4 emits JUnit XML and has a GitHub Actions integration, so the path is known. Target when it comes: lint plus unit tests on push, longer simulation runs on a slower cadence
-- **Filename case consistency is the one check worth having before any of that** — it catches `res://` paths that work on the case-insensitive Mac filesystem and break on the Deck. Owned by [Build Pipeline](build-pipeline.md); any Linux runner catches it for free simply by loading the project
+- **Filename case consistency is the one check worth having before any of that** — it catches `res://` paths that work on case-insensitive Windows and Mac filesystems and break on the Deck. Owned by [Build Pipeline](build-pipeline.md); any Linux runner catches it for free simply by loading the project
 
 ## Open Questions
 
 - At which milestone does CI start earning its keep? The trigger above is a heuristic, not an answer
-- Same headless Godot command on macOS locally and Linux in CI, or divergent setup?
+- Same headless Godot command on Windows or macOS locally and Linux in CI, or divergent setup?

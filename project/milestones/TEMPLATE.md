@@ -21,7 +21,7 @@ How to decide what goes in each field — what a milestone is, how it exits, and
 
 **Attributes:** *which player attributes this milestone's mechanics read, and what each one changes, per [Roadmap](../roadmap.md)'s rule that attributes are wired in with the mechanic. Omit if none*
 
-**Sprites:** *what this milestone draws for the first time, at final dimensions with rough art, per [Roadmap](../roadmap.md). Omit if it needs nothing new*
+**Sprites:** *what this milestone needs for the first time, at final dimensions, per [Roadmap](../roadmap.md). Omit if it needs nothing new*
 
 **Testing:** *automated coverage for this milestone's own deliverable, and nothing further ahead. Omit if it adds none*
 

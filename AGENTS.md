@@ -12,7 +12,7 @@ Top-down 2D arcade football, inspired by Sensible World of Soccer. Non-profit, o
 
 - Real teams, players, leagues, competitions, crests, kits — in the repo or any export. Real data a player imports lives under `user://`, never `res://`
 - Names derived from real squads; a fictional club matching a real one's name, city and colours together
-- Code or assets taken from another game, including pixel-copied HUD layouts; its name or logo in our name or branding
+- Code or assets taken from another game — in the repo or any export — including pixel-copied HUD layouts; its name or logo in our name or branding. Its art sideloaded from your own copy lives under `user://`, like imported real data
 - Unknown, non-commercial, personal-use-only or GPL licences (CC BY-NC especially)
 - AI-generated assets outside the conditions in [Third-Party Intake](docs/decisions/licensing-and-ip.md#third-party-intake) — never prompted with another game or real football
 

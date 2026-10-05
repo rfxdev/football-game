@@ -23,7 +23,7 @@ Not stages of the loop — reference, returned to with a specific question. Trus
 | Document | What it covers |
 | --- | --- |
 | [Gamepad Input and Steam Deck Parity](gamepad-input-and-steam-deck-parity.md) | The 8BitDo as a Deck stand-in, and what makes it trustworthy |
-| [Build Pipeline](build-pipeline.md) | MacBook to Steam Deck |
+| [Build Pipeline](build-pipeline.md) | Windows or Mac to Steam Deck, sideloaded art included |
 
 ## Process Notes
 

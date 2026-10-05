@@ -13,7 +13,7 @@ The ball needs to go over players and over the bar, and the top-down view has no
 
 ## Reading Height Visually
 
-A number the player cannot see is not a mechanic. Two tricks do the work, and both are pure presentation — see [Visual Style Guide](../visual-style-guide.md) for how they fit the wider look.
+A number the player cannot see is not a mechanic. Two tricks do the work, and both are pure presentation — see [Visual Style Guide](../../../docs/design/visual-style-guide.md) for how they fit the wider look.
 
 - **The shadow.** The ball sprite is drawn at the ball's 2D position and a shadow sprite is drawn at the same position, pinned to the ground layer. As height rises, the shadow shrinks and the *offset* between ball and shadow grows. This is what actually communicates height — the ball alone is ambiguous, ball-plus-shadow is not, and the gap between them reads as altitude instantly and without explanation
 - **Sort order.** Top-down 2D fakes perspective by drawing sprites lower on screen in front of ones higher up, which Godot gives free via `y_sort_enabled` on the parent. Above a height threshold the ball overrides that and draws on top of everything — players, goalframe, net. Sorting is what sells *flying over* rather than *passing through*; without it a ball at height looks like a ball clipping through a defender

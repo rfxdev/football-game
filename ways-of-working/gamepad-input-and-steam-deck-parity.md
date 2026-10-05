@@ -6,6 +6,8 @@ What each button *does* is the [Player Manual](../docs/manual/player-manual.md)'
 
 ## Controller Setup
 
+**The 8BitDo Ultimate 2.4G wireless stands in for the Deck's own controls** on the desk.
+
 **Project standard: run the 8BitDo in X-input (Xbox) mode.** Bindings, prompts and the Deck comparison all assume Xbox layout, so the controller should speak it from the start rather than being translated after the fact.
 
 - Pair via the USB dongle — macOS recognises it as a generic HID gamepad, no driver needed
@@ -21,7 +23,7 @@ What each button *does* is the [Player Manual](../docs/manual/player-manual.md)'
 - **Keyboard and gamepad bind to the same action**, so game code never branches on input device
 - Read movement with `Input.get_vector()`, not four booleans — analog directional control is not optional in a football game
 - **If a trigger is ever bound, bind it as an axis.** `JOY_AXIS_TRIGGER_LEFT` / `RIGHT` as axes keep `Input.get_action_strength()` analog; both the 8BitDo and the Deck are pressure-sensitive, and a digital binding discards that silently. Nothing in the reference scheme needs it — shot power is hold duration, not pressure — so this is insurance, not a plan
-- Deadzones are per-action in the Input Map, tuned against real hardware rather than left at the defaults — a feel value, per [Player Controller and Input](../docs/design/match-engine/player-controller-and-input.md)
+- Deadzones are per-action in the Input Map, tuned against real hardware rather than left at the defaults — a feel value, per [On-the-Ball Mechanics](../docs/design/match-engine/on-the-ball-mechanics.md)
 - **Ship one prompt set: Xbox glyphs** (A/B/X/Y, LB/RB, LT/RT). Correct on the Deck, on the dev controller, and for most PC players — no controller-family detection
 - Godot has no built-in user-facing label (`InputEvent.as_text()` returns developer-facing strings), so the action → glyph lookup is yours to write. Key it off the *action*, not the call site, so remapping stays a change in one place
 
