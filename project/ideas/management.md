@@ -1,0 +1,4 @@
+# Management
+
+- **Career roles** — Championship Soccer's range past SWOS's player-manager controlling the whole side. Manager only, directing from the touchline, is in the [vision](../../docs/design/game-vision-and-design-goals.md#the-game) and only works once a directed match is as interesting as a played one. A player-manager who is one player on the pitch is possible. A lone player with no say over the team is lower interest
+- **Management-sim depth** — transfers, finances and running the club, towards FM's depth. The furthest off of any track. Bounded by the [vision](../../docs/design/game-vision-and-design-goals.md#scope--boundaries): each system still has to shape the matches. Each layer replaces a competent default with a trade-off: player desires, such as refusing to drop a level or take a pay cut; renewals; negotiation, only as trade-offs such as wage for length; financial fair play, with points deductions that reach the match

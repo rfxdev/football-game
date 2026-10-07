@@ -59,6 +59,6 @@ One doc per system, whether it mostly simulates or mostly shows.
 
 Docs and their split are decided as each is scheduled.
 
-- **CPU vs CPU simulation** — results for matches nobody watches, which season mode in [Ideas](../project/ideas.md) needs. Not the headless test harness, which is [Automation Testing](../ways-of-working/automation-testing.md)'s
+- **CPU vs CPU simulation** — results for matches nobody watches, which season mode in [Career](../project/ideas/career.md) needs. Not the headless test harness, which is [Automation Testing](../ways-of-working/automation-testing.md)'s
 - **Front end and menus** — the first of it is [7.1 Team Select](../project/milestones/7.1-team-select.md)
 - **Options, audio**

@@ -10,7 +10,8 @@ The build order is [Roadmap](roadmap.md); [Ideas](ideas.md) holds what isn't on 
 | --- | --- |
 | [Roadmap](roadmap.md) | The build order — phases, milestones, and the notes that span them |
 | [`milestones/`](milestones/) | One file per milestone: what it adds, how it exits, what its playtest is asking. Started from [TEMPLATE.md](milestones/TEMPLATE.md) |
-| [Ideas](ideas.md) | Where the game could go, before any of it has been checked against anything. No commitment |
+| [Ideas](ideas.md) | Where the game could go, before any of it has been checked against anything. No commitment. The outline, a line per area |
+| [`ideas/`](ideas/) | The ideas themselves, a file per area |
 
 ## Milestones
 

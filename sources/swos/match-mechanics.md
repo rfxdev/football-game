@@ -148,7 +148,7 @@ The Amiga shows about 5% more width than DOS, 36% more length and 43% more area.
 Consequences, since they are easy to get wrong from screenshots:
 
 - **The view scrolls on both axes.** Neither version shows anything like the whole pitch, and the window covers far more of the pitch's width than of its length
-- **Neither version zooms.** The Xbox version does, on the right stick, out to the whole width of the pitch — observed in play, not disassembled. swos-port's zoom is the port's own addition (`kMaxZoom`, `swos-port/src/game/pitch/pitch.cpp:20`), not the original's
+- **Neither version zooms.** The [Xbox version](#xbox-version) does. swos-port's zoom is the port's own addition (`kMaxZoom`, `swos-port/src/game/pitch/pitch.cpp:20`), not the original's
 - **The pitch is portrait**, taller than it is wide, matching the vertical attacking orientation the manual describes.
 - **Speeds elsewhere in this document are in these pixels.** A Speed-7 player's 2.44 px/tick crosses the 672-pixel width in about 275 ticks, about 5.5 seconds at the Amiga's 50 Hz (see Engine Performance).
 
@@ -172,8 +172,6 @@ Consequences, since they are easy to get wrong from screenshots:
 | Vertical speed kept per bounce | 66% | 56% | 59% | 59% | 63% | 66% | 69% |
 
 A frozen pitch rolls furthest and skids on at a bounce; mud and water hold the ball up. On the Amiga, wet rolls slowest, not muddy.
-
-**On the Xbox version, sliding tackles leave marks that stay on the pitch for the rest of the match** — observed in play, not disassembled. Neither original draws any.
 
 ### Kits
 

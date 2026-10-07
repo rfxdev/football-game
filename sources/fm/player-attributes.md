@@ -108,6 +108,7 @@ Also 1–20, never shown as numbers. The player infers them from reports.
 - **Current Ability (CA) and Potential Ability (PA)**, hidden, on a 1–200 scale. CA is a budget the visible attributes are spent from, and each attribute costs a different amount depending on position.
 - **Development moves CA toward PA**, and age moves it back down. The visible attributes follow.
 - **Open question:** how strictly the budget binds — whether raising one attribute forces others down.
+- **A redesign sketch** of this model, with a per-attribute alternative, is in [Rethinking CA/PA](ca-pa-redesign.md).
 
 ## Summary Layers
 
