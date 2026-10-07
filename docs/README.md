@@ -18,7 +18,7 @@ Settled, with their reasoning recorded. Checked against rather than rewritten.
 
 | Document | What it covers |
 | --- | --- |
-| [Technical Architecture and Stack](decisions/architecture-and-stack.md) | Godot 4.x, GDScript, tooling, target platforms, and why not Unity |
+| [Technical Architecture and Stack](decisions/architecture-and-stack.md) | Godot 4.x, GDScript, tooling, target platforms, display, input, and why not Unity |
 | [Licensing and IP](decisions/licensing-and-ip.md) | What can go into the repo and the game — licences, other games, real football, local data, third-party intake |
 
 ## Design and Manual
@@ -49,7 +49,7 @@ One doc per system, whether it mostly simulates or mostly shows.
 | [Camera](design/match-engine/camera.md) | View size and the aspect band, where the view stops, the ground beyond the lines, how the camera follows play |
 | [Kits](design/match-engine/kits.md) | Kit data, shirt types, keepers, recolouring, clashes |
 | [Ball Physics and Aerial Simulation](design/match-engine/ball-physics-and-aerial-simulation.md) | Fake height, height-gated collision, ball motion, and how height reads on screen |
-| On-the-Ball Mechanics — [1.1](../project/milestones/1.1-movement-and-possession.md) | Input as intent, movement and turning, tap versus hold, reach and possession, passing and shooting, ball and header contention, tackling, player-to-player collision, control switching and its marker, and how each is animated |
+| [On-the-Ball Mechanics](design/match-engine/on-the-ball-mechanics.md) | Input as intent, movement and turning, tap versus hold, reach and possession, passing and shooting, ball and header contention, tackling, player-to-player collision, control switching and its marker, and how each is animated |
 | Team AI and Decision Making — [2.1](../project/milestones/2.1-keeper-drill.md) | Perception and fairness, movement, decisions, the keeper, and its debug view |
 | Formation and Shape System — [3.2](../project/milestones/3.2-shape-and-home-zones.md) | Formations on the grid, the moving block, anchors, and the shadow formation that shows them |
 | Match State Machine — [5.1](../project/milestones/5.1-kick-off.md) | Clock, periods, restarts, cards and injuries, and how each is shown — celebrations, cards, an injured player |

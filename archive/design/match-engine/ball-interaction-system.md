@@ -8,7 +8,7 @@ passing, shooting, tackling, loose ball contention, reach radius logic
 - **Ground pass** — stays on the deck, faster to arrive, interceptable along its whole length
 - **Lofted pass** — leaves the ground, clears players between passer and target, arrives slower and harder to control on the bounce
 - The lofted case is where this doc meets [Ball Physics and Aerial Simulation](ball-physics-and-aerial-simulation.md): a lofted pass is the fake-Z height system being driven by a player action, and height-gated collision is what makes it pass *over* an opponent. The two systems have to agree on how height is set and read
-- Shooting has the same split — a driven shot along the ground and a lifted one are different actions. All of them share one input: tap/hold decides pass or shot, and aftertouch decides height, per [Player Controller and Input](player-controller-and-input.md)
+- Shooting has the same split — a driven shot along the ground and a lifted one are different actions. All of them share one input: tap/hold decides pass or shot, and aftertouch decides height, per [On-the-Ball Mechanics](../../../docs/design/match-engine/on-the-ball-mechanics.md)
 
 ## Reach Radius and Height
 

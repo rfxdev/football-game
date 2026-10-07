@@ -43,7 +43,7 @@ No Steam listing required — Developer Mode is enough:
 
 - The executable bit is the classic stumble — it doesn't reliably survive transfer, particularly via exFAT USB drives. A binary that appears to do nothing is usually this
 - **SSH remote deploy** in the Linux export preset can replace steps 2–4 for debug builds: one click in the editor copies the build to the Deck and runs it, attached to the debugger. Confirm the option for the Godot version in use
-- To exercise Gaming Mode and Steam Input rather than just the binary, add it as a non-Steam game on the Deck instead of launching from a terminal — see [Gamepad Input and Steam Deck Parity](gamepad-input-and-steam-deck-parity.md)
+- To exercise Gaming Mode and Steam Input rather than just the binary, add it as a non-Steam game on the Deck instead of launching from a terminal — see [Deck Input Parity](deck-input-parity.md)
 
 ## Sideloaded Art
 

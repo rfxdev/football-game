@@ -69,7 +69,7 @@ Steering turns the target into movement every frame, combining:
 
 - **Arrive stops jitter.** Without it a player overshoots and circles the target, and jitter reads as broken AI faster than almost anything
 - **Separation stops blobbing** at the movement level — a cheap repulsion between teammates
-- **AI players move under the same limits as a human-controlled player** — run speed, turning, the cost of carrying the ball — per [Player Controller and Input](player-controller-and-input.md)
+- **AI players move under the same limits as a human-controlled player** — run speed, turning, the cost of carrying the ball — per [On-the-Ball Mechanics](../../../docs/design/match-engine/on-the-ball-mechanics.md)
 - **Written by hand, not adopted from tooling** — it's short, and it's the behaviour most in need of tuning
 - **Steering weights are feel constants** in the tuning Resource, per [Playtesting](../../../ways-of-working/playtesting.md)
 

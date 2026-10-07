@@ -29,6 +29,12 @@ The view, in Project Settings → Display → Window:
 - **Stretch mode `canvas_items`, aspect `expand`, scale mode `integer`.** Integer mode rounds the scale down, so a display never sees less than the base area. `keep` letterboxes unconditionally; `expand` adds no bars
 - **`expand` alone does not clamp**, so the 16:9 width cap and the bars beyond it need implementing rather than configuring
 
+Input: one code path for desk and Deck. Godot normalises every pad onto an Xbox-style layout through SDL's game controller database, the same layer the Deck uses, so parity comes from not undermining that rather than from building anything. Setup and the habits that keep it true are in [Deck Input Parity](../../ways-of-working/deck-input-parity.md).
+
+- **Game code reads named actions, never a device.** Keyboard and gamepad bind to the same actions, and nothing branches on input device or keys off the device name — under Steam Input that name may be a synthetic pad's
+- **One prompt set: Xbox glyphs** (A/B/X/Y, LB/RB, LT/RT). Correct on the Deck, on the dev controller and for most PC players — no controller-family detection
+- **No custom Steam Input profiles for now.** A distribution-time concern; Xbox-layout bindings are what the default profile expects, so it should map straight through
+
 Physics tick rate: held at 60 ticks/second. It is a feel-critical constant — changing it changes how the ball behaves — so it is set once and treated as fixed rather than tuned, and it is a determinism requirement for headless match simulation — see [Automation Testing](../../ways-of-working/automation-testing.md).
 
 Reference pace: SWOS is cloned at the Amiga's 50 ticks/second, the pace it was designed at. The DOS version's 70 is treated as a porting bug — it runs the Amiga's per-tick numbers on a 70 Hz display, so plays about 40% fast. Where the two versions' values differ, the Amiga's are the reference — see *Engine Performance* in [Match Mechanics](../../sources/swos/match-mechanics.md).
