@@ -148,8 +148,32 @@ The Amiga shows about 5% more width than DOS, 36% more length and 43% more area.
 Consequences, since they are easy to get wrong from screenshots:
 
 - **The view scrolls on both axes.** Neither version shows anything like the whole pitch, and the window covers far more of the pitch's width than of its length
+- **Neither version zooms.** The Xbox version does, on the right stick, out to the whole width of the pitch — observed in play, not disassembled. swos-port's zoom is the port's own addition (`kMaxZoom`, `swos-port/src/game/pitch/pitch.cpp:20`), not the original's
 - **The pitch is portrait**, taller than it is wide, matching the vertical attacking orientation the manual describes.
 - **Speeds elsewhere in this document are in these pixels.** A Speed-7 player's 2.44 px/tick crosses the 672-pixel width in about 275 ticks, about 5.5 seconds at the Amiga's 50 Hz (see Engine Performance).
+
+### Pitch Conditions
+
+**Every match is played on one of seven pitch types, frozen to hard. The type changes how the ball rolls and bounces, and the colour of the grass; the players run, turn and tackle the same on all of them.**
+
+- **The type is drawn by month, at random, or fixed** (DOS: `setPitchType`, `swos-port/src/game/pitch/pitch.cpp:222-257`). By month, each month of the game's calendar has its own weights: the coldest months draw only frozen, muddy, wet or soft, the warmest only normal, dry or hard. At random, frozen to hard come up 5/5/10/20/30/20/10% of the time
+- **The ball takes three numbers from the type** (`InitGame`, `original-amiga-swos.asm:23743-23748`; tables at `:30594-30614`. DOS: `initPitchBallFactors`, `swos-port/src/game/game.cpp:850-863`):
+  - **Ground friction** — added to the ball's speed loss each tick while it rolls loose; a ball someone has loses only the base 16 a tick, 13 on DOS (`original-amiga-swos.asm:21679-21694`, `swos-port/src/game/ball/ball.cpp:783-790`)
+  - **Ground speed lost on a bounce** and **vertical speed kept** (`original-amiga-swos.asm:21751-21758`, `ball.cpp:828-835`)
+- **Normal adds no ground friction**, so the reference's base ball numbers are a normal pitch's
+- **Nothing else reads the type** except the replay header. No player value depends on it
+- **The grass colour is a palette swap** — 27 colour entries per type (`swos-port/docs/SWOS/pitch.txt`)
+
+| | Frozen | Muddy | Wet | Soft | Normal | Dry | Hard |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Ground friction, DOS | −3 | +4 | +1 | 0 | 0 | −1 | −1 |
+| Ground friction, Amiga | −2 | +2 | +3 | 0 | 0 | −1 | −1 |
+| Ground speed lost per bounce | 9% | 31% | 31% | 28% | 25% | 16% | 13% |
+| Vertical speed kept per bounce | 66% | 56% | 59% | 59% | 63% | 66% | 69% |
+
+A frozen pitch rolls furthest and skids on at a bounce; mud and water hold the ball up. On the Amiga, wet rolls slowest, not muddy.
+
+**On the Xbox version, sliding tackles leave marks that stay on the pitch for the rest of the match** — observed in play, not disassembled. Neither original draws any.
 
 ### Kits
 

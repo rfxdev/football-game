@@ -14,7 +14,7 @@ What SWOS has around the match that the roadmap doesn't build yet.
 
 #### Getting Into a Match
 
-- **Front end** — menus, team select, friendlies, pause. The match clone has no way in except a debug scene
+- **Front end past a friendly** — pause, options, and the menus into everything below. [7.1 Team Select](milestones/7.1-team-select.md) builds the way into a single match
 - **Replays and highlights**
 
 #### Controls and Players
@@ -81,6 +81,8 @@ Tracks, mostly independent of each other.
 
 - **Uplift to 3D** — the ball already simulates height, so 3D could be a new renderer over the same simulation rather than a new engine. Only possible if simulation and rendering stay separate, which is what running matches headless needs anyway. [Sprites](../docs/design/match-engine/sprites.md) currently says 2D, and the Deck has to run it
 - **A camera that isn't straight top-down** — a tilted or broadcast-style view. A step towards 3D that doesn't require it
+- **Zoom on the right stick** — the Xbox version's, out to the whole width of the pitch. Up against [3.0](milestones/3.0-pitch-and-camera.md)'s rule that the camera never zooms, so feel is judged at one scale. One whole-pixel step out — 3 to 2 on the Deck, 4 to 3 at 1080p — shows 640 across, the whole playing width, without breaking [Sprites](../docs/design/match-engine/sprites.md)' whole-pixel rule
+- **Pitch wear** — the Xbox version's slide marks, which stay on the pitch for the rest of the match. See [Pitch Conditions](../sources/swos/match-mechanics.md#pitch-conditions)
 - **UI overhaul** — squad comparison, transfer browsing, the tactics preview. Most of what makes SWOS's manager side hard to use is the UI
 
 #### World

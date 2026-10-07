@@ -1,6 +1,6 @@
 # Pitch and Environment
 
-The pitch as the simulation reads it: where its lines are, and the goal. How much of it the camera shows, where the camera stops, and the ground beyond the lines are [Camera](camera.md)'s.
+The pitch as the simulation reads it: where its lines are, its surface, and the goal. How much of it the camera shows, where the camera stops, and the ground beyond the lines are [Camera](camera.md)'s.
 
 ## The Pitch
 
@@ -17,6 +17,31 @@ The pitch as the simulation reads it: where its lines are, and the goal. How muc
 - Boundary and goal predicates read the constants, never a sprite's or map's size
 
 *Derived from: Pitch and View, [Match Mechanics](../../../sources/swos/match-mechanics.md).*
+
+## Pitch Conditions
+
+Every match is played on one of seven surfaces, frozen to hard. Everything up to [7.2 Pitch Conditions](../../../project/milestones/7.2-pitch-conditions.md) plays on normal; 7.2 adds the other six.
+
+- **A condition sets three ball values and the grass colour — nothing else.** No player value reads it
+- **Ground friction is a multiple of normal's**, applied only while the ball rolls loose. A ball a player has slows as it would on normal, whatever the surface. A ratio needs no tick conversion and holds whatever normal is tuned to
+- **A bounce takes a fraction of the ball's speed along the ground and keeps a fraction of its vertical speed.** Per bounce, not per tick, so these need no conversion either
+- **Normal's values are the ones every earlier milestone tunes.** Keep the three as their own values in the tuning Resource, so another condition swaps them rather than editing code
+- **A condition is picked before kick-off, or drawn at random** — 5/5/10/20/30/20/10%, frozen to hard. Drawing by month needs a calendar the game doesn't have yet
+- **Each grass colour keeps the ball's shadow legible**, per [Ball Physics and Aerial Simulation](ball-physics-and-aerial-simulation.md#showing-height)
+
+| | Frozen | Muddy | Wet | Soft | Normal | Dry | Hard |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Ground friction, × normal | 0.875 | 1.125 | 1.1875 | 1 | 1 | 0.9375 | 0.9375 |
+| Ground speed lost per bounce | 9.375% | 31.25% | 31.25% | 28.125% | 25% | 15.625% | 12.5% |
+| Vertical speed kept per bounce | 65.625% | 56.25% | 59.375% | 59.375% | 62.5% | 65.625% | 68.75% |
+
+**Acceptance criteria:**
+
+- Each condition's three values match the table — exact tests
+- The same inputs on any two conditions leave every player in the same place, and a ball a player has slows the same
+- Every grass colour keeps the shadow readable at every height — judged by eye
+
+*Derived from: Pitch Conditions, [Match Mechanics](../../../sources/swos/match-mechanics.md) — the Amiga's values, per [Writing From SWOS](../../../ways-of-working/spec-chain.md#writing-from-swos).*
 
 ## The Goal
 

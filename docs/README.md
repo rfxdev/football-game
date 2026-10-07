@@ -45,7 +45,7 @@ One doc per system, whether it mostly simulates or mostly shows.
 | Document | What it covers |
 | --- | --- |
 | [Sprites](design/match-engine/sprites.md) | Pixel scale and sharpness, and the placeholders a fresh clone draws. Sprite dimensions and the foot anchor once [1.1](../project/milestones/1.1-movement-and-possession.md) fixes them |
-| [Pitch and Environment](design/match-engine/pitch-and-environment.md) | The pitch's lines, and the goal — detection, posts and the net |
+| [Pitch and Environment](design/match-engine/pitch-and-environment.md) | The pitch's lines and surface, and the goal — detection, posts and the net |
 | [Camera](design/match-engine/camera.md) | View size and the aspect band, where the view stops, the ground beyond the lines, how the camera follows play |
 | [Kits](design/match-engine/kits.md) | Kit data, shirt types, keepers, recolouring, clashes |
 | [Ball Physics and Aerial Simulation](design/match-engine/ball-physics-and-aerial-simulation.md) | Fake height, height-gated collision, ball motion, and how height reads on screen |
@@ -57,7 +57,8 @@ One doc per system, whether it mostly simulates or mostly shows.
 
 ### Outside the Match
 
-Nothing here is scheduled yet, so docs and their split are to be decided as it is.
+Docs and their split are decided as each is scheduled.
 
 - **CPU vs CPU simulation** — results for matches nobody watches, which season mode in [Ideas](../project/ideas.md) needs. Not the headless test harness, which is [Automation Testing](../ways-of-working/automation-testing.md)'s
-- **Front end and menus, options, audio**
+- **Front end and menus** — the first of it is [7.1 Team Select](../project/milestones/7.1-team-select.md)
+- **Options, audio**

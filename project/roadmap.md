@@ -63,6 +63,13 @@ How a milestone file works — what it is, how it exits, its status — is in th
 - [6.1 Squads](milestones/6.1-squads.md) — players with their own ratings, and teams built from them
 - [6.2 Team Management](milestones/6.2-team-management.md) — pick a formation, place players on its grid, substitutions and formation changes mid-match
 
+## Phase 7 — Game Setup
+
+**You choose the match before you play it — who plays whom, and on what pitch.** The first way into a match that isn't a debug scene.
+
+- [7.1 Team Select](milestones/7.1-team-select.md) — a menu into a friendly: pick both teams and which one you control
+- [7.2 Pitch Conditions](milestones/7.2-pitch-conditions.md) — frozen to hard, each changing how the ball rolls and bounces and the colour of the grass, picked at setup. Everything before plays on a normal pitch
+
 ---
 
 ## Notes on the Order
