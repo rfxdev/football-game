@@ -27,7 +27,7 @@ How a milestone file works — what it is, how it exits, its status — is in th
 
 - [2.1 Keeper Drill](milestones/2.1-keeper-drill.md) — 1v1 against a keeper that holds its line. First opposition of any kind
 - [2.2 Two Attackers](milestones/2.2-two-attackers.md) — 2v1, the first teammate, and control switching
-- [2.3 Tackling](milestones/2.3-tackling.md) — slide tackles, passive duels, and foul detection
+- [2.3 Contests](milestones/2.3-contests.md) — slides and passive duels on a carrier or a loose ball, contested headers, and foul detection
 
 ## Phase 3 — Team
 
@@ -36,7 +36,7 @@ How a milestone file works — what it is, how it exits, its status — is in th
 - [3.0 Pitch and Camera](milestones/3.0-pitch-and-camera.md) — a real pitch, and a camera that follows the ball across it. The first time the world is bigger than the frame
 - [3.1 Dumb Five a Side](milestones/3.1-dumb-five-a-side.md) — every AI player runs at the ball and kicks it goalward. Deliberately stupid
 - [3.2 Shape and Home Zones](milestones/3.2-shape-and-home-zones.md) — the 5×5 formation grid with a four-player layout, following the ball; the blob resolves into something recognisable
-- [3.3 Decision Loop](milestones/3.3-decision-loop.md) — pass, shoot or dribble on the ball, when to slide off it. Crude but legible
+- [3.3 Decision Loop](milestones/3.3-decision-loop.md) — pass, shoot or dribble on the ball, when to slide or head off it. Crude but legible
 - [3.4 Keeper AI](milestones/3.4-keeper-ai.md) — the keeper becomes a real player
 
 ## Phase 4 — Eleven a Side

@@ -33,8 +33,10 @@ Until the clone plays, most of what the manual and design say comes from [the SW
 
 - **Restate it in our words and our units.** A speed in SWOS pixels per tick becomes a number in world units; a formula becomes the mechanism the design doc describes. Once written, the doc is what a milestone is judged against, not `sources/`
 - **Convert ticks by real time, from the Amiga's 50 a second** — the [reference pace](../docs/decisions/architecture-and-stack.md). Into our 60: a per-tick speed × 50/60, a frame count × 60/50, and anything that changes a speed every tick — an acceleration, a deceleration like the tackle lunge's — × (50/60)². Scaling that last one like a speed leaves the lunge too short in both time and distance. Check the value against the Amiga disassembly first; most of the research cites DOS, and some values differ between the two
+- **A count from the per-team update is two ticks.** The reference updates each team every other tick, so a timer counted down there runs at half the tick rate — double it before converting. See *Engine Performance* in [Match Mechanics](../sources/swos/match-mechanics.md)
 - **A tick pattern is kept, not rescaled.** Ball control's two ticks on, two off stays two and two at 60, running a little faster in real time — close enough to play the same, where a rescaled pattern can't land on whole ticks
 - **Record where it came from.** A *Derived from* line under each section that inherits from SWOS, naming the `sources/swos/` section. It is what makes a later departure read as a decision rather than as drift
+- **Mark a departure where it lands.** A *Departs from SWOS* line under the section, beside its *Derived from*: what SWOS does, what we do instead, and why or where it was decided. Checking a section against the disassembly then finds the difference already explained, and doesn't "fix" it back
 - **Where SWOS is silent, it's ordinary design** — mechanism and criteria written as below, judged by playing
 - **Past the clone, `sources/` is research only.** A proposal can cite it; nothing is checked against it
 

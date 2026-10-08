@@ -14,7 +14,7 @@ Outfield players are rated on 7 core skills, stored **0–7** on disk; the engin
 | **C** | Ball Control | Governs how well a carrier keeps the ball under close control. |
 | **P** | Passing | Increases the speed and pinpoint accuracy of grounded passes. |
 | **T** | Tackling | Improves the odds of winning a passive challenge against a carrier and shortens recovery time after any tackle attempt. |
-| **H** | Heading | Increases aerial reach and redirection accuracy during cross-balls. |
+| **H** | Heading | How hard a header is struck. Often described as aerial reach and redirection accuracy, but the code reads it for power alone — see *The Heading Attribute* in [Match Mechanics](match-mechanics.md). |
 
 ## Squad Screen Shows Each Player's Top 3 Skills
 

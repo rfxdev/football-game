@@ -9,6 +9,8 @@ The rules every match sprite is drawn to: 2D, viewed from above. What each syste
 
 *Derived from: Pitch and View, [Match Mechanics](../../../sources/swos/match-mechanics.md).*
 
+*Departs from SWOS: pixels are square, where the Amiga's were about 1.04 wide — within 4%, and the foreshortening is in the art, so nothing reads differently.*
+
 ## Placeholders
 
 What a fresh clone draws wherever sideloaded art is missing, per [Local Data](../../decisions/licensing-and-ip.md#local-data). Original and committed, so they are also what any published capture shows until the project's own look replaces them.

@@ -55,6 +55,7 @@ Its index is imported rather than summarised here — the pipeline and the deliv
   - **Sideways, where systems interlock.** Read the design docs for every system a change touches, not only the one it lands in
   - **Downstream, when changing a constraint.** A revised decision may have orphaned design docs written against the old one
   - **Never everything, unasked.** Reading the full set is a task in its own right — `/doc-consistency`, or an explicit request. Being stuck is not a reason to load it
+- **A finding goes to its owner, then to everything that relies on it.** Wherever it turns up — `sources/`, `docs/` or a milestone — first decide whose fact it is: a reference game's (`sources/`) or ours (`docs/`). Fix it there, then search all three for the old claim and fix every copy. A milestone links rather than restates, so it is never the only fix. A design section marked *Departs from SWOS* differs on purpose — a finding about SWOS updates its *Derived from* side, never the departure, per [Writing From SWOS](ways-of-working/spec-chain.md#writing-from-swos)
 - Docs carry no status line
 - British English
 

@@ -23,7 +23,7 @@ A number the player cannot see is not a mechanic. Two tricks do the work, and bo
 
 Everything that should be ignorable when the ball is airborne is gated on the same height value. This is the gameplay half of the system and the half that has to be got exactly right, because it decides what the ball can and cannot touch.
 
-- **Players.** Above a head-height constant the ball is out of reach: the reach-radius check in [Ball Interaction System](ball-interaction-system.md) returns false regardless of distance. Gating the interaction logic directly is simpler and more legible than routing it through collision layers, and it keeps the rule in one readable place
+- **Players.** Above a head-height constant the ball is out of reach: the reach-radius check in [On-the-Ball Mechanics](../../../docs/design/match-engine/on-the-ball-mechanics.md) returns false regardless of distance. Gating the interaction logic directly is simpler and more legible than routing it through collision layers, and it keeps the rule in one readable place
 - **Goal and posts.** Same gate, applied to scoring and to the post colliders — see [Pitch and Environment](pitch-and-environment.md) for the goal-detection predicate and the disable/re-enable behaviour. Worth keeping here: toggling post colliders mid-frame needs `set_deferred` to stay clear of Godot's physics step
 - The head-height and crossbar-height constants are feel values that will be tuned repeatedly, not fixed facts about the world. They belong in the tuning Resource with everything else, and they should be readable by name at every site that gates on them rather than duplicated as literals — a bar that is 1.5 in one file and 1.6 in another is a bug that presents as bad feel
 

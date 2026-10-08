@@ -23,7 +23,7 @@ Settled, with their reasoning recorded. Checked against rather than rewritten.
 
 ## Design and Manual
 
-Written when a milestone needs them, not ahead of it. They are the source of truth: until the clone plays, most of what they say is written from [the SWOS research](../sources/swos/), but once it's here it's ours, and nothing is judged against SWOS directly — see [Writing From SWOS](../ways-of-working/spec-chain.md#writing-from-swos). The docs written before the milestones are in [`archive/`](../archive/): not current, and a quarry rather than a template.
+**The clone's design is written as far as the research reaches**, ahead of the milestones if need be — it is the reference restated, not a guess about a game nobody has played. What departs from the reference waits until the clone plays, per the [Roadmap](../project/roadmap.md), and the manual is still written per milestone, per [The Spec Chain](../ways-of-working/spec-chain.md#writing-the-manual-entry). They are the source of truth: until the clone plays, most of what they say is written from [the SWOS research](../sources/swos/), but once it's here it's ours, and nothing is judged against SWOS directly — see [Writing From SWOS](../ways-of-working/spec-chain.md#writing-from-swos). The docs written before the milestones are in [`archive/`](../archive/): not current, and a quarry rather than a template.
 
 Every system has one owning doc, listed below whether it's written yet or not, so a proposal always has somewhere to land — see [Turning It Into Design](../ways-of-working/spec-chain.md#turning-it-into-design). An unwritten doc is named with the milestone that first needs it. A doc is split when part of it starts being read on its own, in a different task — not before.
 
@@ -49,7 +49,7 @@ One doc per system, whether it mostly simulates or mostly shows.
 | [Camera](design/match-engine/camera.md) | View size and the aspect band, where the view stops, the ground beyond the lines, how the camera follows play |
 | [Kits](design/match-engine/kits.md) | Kit data, shirt types, keepers, recolouring, clashes |
 | [Ball Physics and Aerial Simulation](design/match-engine/ball-physics-and-aerial-simulation.md) | Fake height, height-gated collision, ball motion, and how height reads on screen |
-| [On-the-Ball Mechanics](design/match-engine/on-the-ball-mechanics.md) | Input as intent, movement and turning, tap versus hold, reach and possession, passing and shooting, ball and header contention, tackling, player-to-player collision, control switching and its marker, and how each is animated |
+| [On-the-Ball Mechanics](design/match-engine/on-the-ball-mechanics.md) | Input as intent, movement and turning, carrying and possession, kicking — tap versus hold and aftertouch — the action button's slide and headers, the passive duel, fouls, same-tick contacts, control switching and its marker, and how each is animated |
 | Team AI and Decision Making — [2.1](../project/milestones/2.1-keeper-drill.md) | Perception and fairness, movement, decisions, the keeper, and its debug view |
 | Formation and Shape System — [3.2](../project/milestones/3.2-shape-and-home-zones.md) | Formations on the grid, the moving block, anchors, and the shadow formation that shows them |
 | Match State Machine — [5.1](../project/milestones/5.1-kick-off.md) | Clock, periods, restarts, cards and injuries, and how each is shown — celebrations, cards, an injured player |

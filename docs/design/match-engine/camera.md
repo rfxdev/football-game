@@ -22,6 +22,8 @@ How much pitch is visible changes whether a pass or a run reads on screen, so it
 
 *Derived from: Pitch and View, [Match Mechanics](../../../sources/swos/match-mechanics.md).*
 
+*Departs from SWOS: every display sees wider than the Amiga's 336 — 426 on the Deck — so sideways scroll is smaller, and at 720p and 768p the view doesn't scroll sideways at all. Accepted over side bars, per [The View](#the-view); the height, and where the view stops, match.*
+
 ## Open Questions
 
 - **What's beyond the lines?** Grass only, or benches, hoardings and stands — and whether any of it is more than art

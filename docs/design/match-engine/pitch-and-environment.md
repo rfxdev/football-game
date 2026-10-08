@@ -43,6 +43,8 @@ Every match is played on one of seven surfaces, frozen to hard. Everything up to
 
 *Derived from: Pitch Conditions, [Match Mechanics](../../../sources/swos/match-mechanics.md) — the Amiga's values, per [Writing From SWOS](../../../ways-of-working/spec-chain.md#writing-from-swos).*
 
+*Departs from SWOS: ground friction is scaled from normal's rather than added to it, which matches the reference while normal keeps its value and stays sensible if normal is retuned; and there is no draw by month until the game has a calendar.*
+
 ## The Goal
 
 The goal is the fiddliest object on the pitch: the only place where fake height, the 2D collision world and sprite sorting all have to agree at once.
