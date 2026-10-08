@@ -45,10 +45,10 @@ One doc per system, whether it mostly simulates or mostly shows.
 | Document | What it covers |
 | --- | --- |
 | [Sprites](design/match-engine/sprites.md) | Pixel scale and sharpness, and the placeholders a fresh clone draws. Sprite dimensions and the foot anchor once [1.1](../project/milestones/1.1-movement-and-possession.md) fixes them |
-| [Pitch and Environment](design/match-engine/pitch-and-environment.md) | The pitch's lines and surface, and the goal — detection, posts and the net |
+| [Pitch and Environment](design/match-engine/pitch-and-environment.md) | The pitch's lines, which surface a match is played on and its grass, and the goal — its shape, detection and drawing |
 | [Camera](design/match-engine/camera.md) | View size and the aspect band, where the view stops, the ground beyond the lines, how the camera follows play |
 | [Kits](design/match-engine/kits.md) | Kit data, shirt types, keepers, recolouring, clashes |
-| [Ball Physics and Aerial Simulation](design/match-engine/ball-physics-and-aerial-simulation.md) | Fake height, height-gated collision, ball motion, and how height reads on screen |
+| [Ball Physics and Aerial Simulation](design/match-engine/ball-physics-and-aerial-simulation.md) | How the ball moves — steering, fake height, each surface, stopped-play walls, the goalframe — and how height reads on screen |
 | [On-the-Ball Mechanics](design/match-engine/on-the-ball-mechanics.md) | Input as intent, movement and turning, carrying and possession, kicking — tap versus hold and aftertouch — the action button's slide and headers, the passive duel, fouls, same-tick contacts, control switching and its marker, and how each is animated |
 | Team AI and Decision Making — [2.1](../project/milestones/2.1-keeper-drill.md) | Perception and fairness, movement, decisions, the keeper, and its debug view |
 | Formation and Shape System — [3.2](../project/milestones/3.2-shape-and-home-zones.md) | Formations on the grid, the moving block, anchors, and the shadow formation that shows them |

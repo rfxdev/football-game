@@ -19,4 +19,4 @@ What a fresh clone draws wherever sideloaded art is missing, per [Local Data](..
 - **Flat shapes, not art.** A silhouette in kit colours, with facing shown — a darker back of the head, or a notch on the leading edge
 - **One frame per facing, no animation.** Timing is the design's, not the frames', so a still frame changes nothing about play
 - **Kit regions are drawn in the reserved colours**, so they recolour like any other sprite's, per [Kits](kits.md#recolouring)
-- **Height reads the same.** Placeholders take the shadow and sort-order conventions in [Ball Physics](ball-physics-and-aerial-simulation.md#showing-height) like any other sprite
+- **Height reads the same.** Placeholders are raised and layered per [Ball Physics](ball-physics-and-aerial-simulation.md#showing-height) like any other sprite

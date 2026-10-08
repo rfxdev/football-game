@@ -36,8 +36,9 @@ Until the clone plays, most of what the manual and design say comes from [the SW
 - **A count from the per-team update is two ticks.** The reference updates each team every other tick, so a timer counted down there runs at half the tick rate — double it before converting. See *Engine Performance* in [Match Mechanics](../sources/swos/match-mechanics.md)
 - **A tick pattern is kept, not rescaled.** Ball control's two ticks on, two off stays two and two at 60, running a little faster in real time — close enough to play the same, where a rescaled pattern can't land on whole ticks
 - **Record where it came from.** A *Derived from* line under each section that inherits from SWOS, naming the `sources/swos/` section. It is what makes a later departure read as a decision rather than as drift
-- **Mark a departure where it lands.** A *Departs from SWOS* line under the section, beside its *Derived from*: what SWOS does, what we do instead, and why or where it was decided. Checking a section against the disassembly then finds the difference already explained, and doesn't "fix" it back
-- **Where SWOS is silent, it's ordinary design** — mechanism and criteria written as below, judged by playing
+- **Mark a departure where it lands.** A *Departs from SWOS* line under the section, beside its *Derived from*: what SWOS does, what we do instead, and why or where it was decided. Checking a section against the disassembly then finds the difference already explained, and doesn't "fix" it back. Until the clone plays, a departure is forced — by our tick rate, display or a settled decision — never chosen, per [Design and Manual](../docs/README.md#design-and-manual)
+- **`sources/` being silent isn't SWOS being silent.** Before writing a mechanism SWOS has as ordinary design, read what the disassembly does and research it into `sources/` first
+- **Where the code is silent too, it's ordinary design** — mechanism and criteria written as below, judged by playing
 - **Past the clone, `sources/` is research only.** A proposal can cite it; nothing is checked against it
 
 ## Writing the Manual Entry

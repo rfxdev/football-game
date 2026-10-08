@@ -33,7 +33,7 @@ Out of scope: online multiplayer, mobile.
 ## Where Things Live
 
 - **[`docs/`](docs/README.md)** — what the game is. The vision, `decisions/` (settled, with reasoning — the stack and the IP policy), and design and manual docs written as milestones need them
-- **`archive/`** — the docs written before the milestones. Not current: read it only when rebuilding a doc from it, or when asked. A link into a doc that has moved there is dead — repoint it at the new doc in `docs/` when you hit it
+- **`archive/`** — the docs written before the milestones. Not current: read it only when rebuilding a doc from it, or when asked. It predates the SWOS research, so nothing it says about how the game plays moves into `docs/` until it's checked against that research, and the disassembly where the research is silent. A link into a doc that has moved there is dead — repoint it at the new doc in `docs/` when you hit it
 - **[`ways-of-working/`](ways-of-working/README.md)** — how it gets built
 - **[`project/`](project/README.md)** — where the work stands
 - **[`sources/`](sources/README.md)** — what the reference games do, in our own words. Where *our* game is heading is `project/ideas.md`, not here

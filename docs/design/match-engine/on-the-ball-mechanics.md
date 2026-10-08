@@ -44,7 +44,7 @@ From [1.1](../../../project/milestones/1.1-movement-and-possession.md); the pres
 From [1.2 Kicking](../../../project/milestones/1.2-kicking.md).
 
 - **On the ball, tap passes and hold shoots or lobs.** One button, no modifier
-- **Aftertouch is relative to the kick's own direction**, never absolute up or down, and it fades — the sooner the stick moves after the kick, the bigger the effect
+- **Aftertouch is relative to the kick's own direction**, never absolute up or down, and it fades — the sooner the stick moves after the kick, the bigger the effect. It works by moving the point the ball heads for, per [Ball Movement](ball-physics-and-aerial-simulation.md#ball-movement)
 - **On a shot:** stick with the kick keeps it low and driven; against it sends it high; centred lobs it; angled to either side curls it — a continuous swerve, unlike a header's fixed 45°
 - **On a pass:** with the pass plays it short, the receiver coming to meet it; centred or against plays the default grounded pass to feet; angled with the pass plays it to the receiver's side; angled against plays it beyond them, a through-ball to run onto
 - **A lofted kick drives the ball's fake height**, the same system the shadow reads, per [Ball Physics and Aerial Simulation](ball-physics-and-aerial-simulation.md)
@@ -87,7 +87,7 @@ From [1.3](../../../project/milestones/1.3-contextual-action.md); contested at [
 - **A dive header leaves at 1.25× the diver's speed** — a flying header at 75% of that and rising faster, a lob at 94% and rising fastest
 - **The jump** — stick centred at the press — barely moves the player. At contact the ball goes wherever the stick points, behind included, or the way the player faces if it's centred; the player turns up to 90° toward it, for show. It leaves at 175, popping up off the head at half the vertical speed it arrived with. Nothing aims its height
 - **Heading sets only how hard a header is struck** — 33 slower at Heading 0, in even steps to no change at 7. Reach and aim read no attribute
-- **A jumping player takes the ball's height conventions** — the shadow and the sort-order override, per [Ball Physics](ball-physics-and-aerial-simulation.md#showing-height)
+- **Whether a jumping player is drawn at a height isn't researched yet**, per [Ball Physics](ball-physics-and-aerial-simulation.md#open-questions)
 
 *Derived from: Heading, [Match Mechanics](../../../sources/swos/match-mechanics.md).*
 

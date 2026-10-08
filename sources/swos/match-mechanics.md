@@ -190,6 +190,70 @@ Consequences, since they are easy to get wrong from screenshots:
 
 A frozen pitch rolls furthest and skids on at a bounce; mud and water hold the ball up. On the Amiga, wet rolls slowest, not muddy.
 
+### Ball Movement
+
+**The ball heads for a destination point, re-aimed every tick. It never stores a heading of its own.** (`UpdateBall`, `original-amiga-swos.asm:21660-21678`; `CalculateDeltaXAndY`, `:20661-20760`. DOS: `updateBallSpeedAndXYCoordinates`, `swos-port/src/game/ball/ball.cpp:767`; `calculateDeltaXAndY`, `swos-port/src/sprites/updateSprite.cpp:92`.)
+
+- **Each tick, the offset from ball to point becomes a step of the ball's speed.** Both parts of the offset are halved until they're under 32, a 32 × 32 table turns them into one of 256 directions, and a sine table turns that into x and y. So the heading resolves to 1/256 of a turn
+- **A fixed point gives a straight line; moving it bends the path.** Aftertouch adds to the point over the 10 ticks after a kick, which is how a shot curls (`addSpinToBall`, `ball.cpp:386-401`; `kSpinDuration`, `ball.cpp:33`). A frame or net hit ends it (`ResetLeftAndRightSpinTimers`; see The Goal)
+- **A kick's point is 1000 out along each axis it travels** (`kDefaultBallDestinations`, `ball.cpp:86-89`). Throw-ins, corners and penalties have their own tables (`ball.cpp:80-105`)
+- **A pass to a teammate aims at them, stretched to just past the pitch edge**, by doubling the offset until it leaves 0–672 × 0–880 (`player.cpp:630-643`). A free pass, with no teammate to aim at, uses the kick table
+- **Rebounds mirror the point and nudge it** — see The Goal
+
+### Ball Height
+
+**The ball has a height and a vertical speed beside its position on the ground. Height is drawn by raising the sprite and offsetting one fixed shadow; it plays no part in what's drawn in front of what.** (`UpdateBall`, `original-amiga-swos.asm:21679-21800`; DOS: `updateBallZCoordinate`, `swos-port/src/game/ball/ball.cpp:797`.)
+
+- **Gravity takes 4608/65536 px/tick off the vertical speed each tick** (`gravityConstant`, `original-amiga-swos.asm:30615`), and the vertical speed is added to the height. Gravity only runs while the vertical speed isn't zero
+- **Below zero, the ball bounces.** Height goes back to 0, the ground speed loses the pitch's fraction, and the vertical speed flips, less the pitch's fraction (see Pitch Conditions). If what's left is 0.625 px/tick or less it's set to zero, and the ball rolls (`:21747-21765`)
+- **In the air the ground speed falls by 10 a tick**, against 16 plus the pitch's friction on the ground (`ballAirConstant`, `ballGroundConstant`, `:30582-30583`). Pitch friction doesn't apply in the air
+- **A keeper holds the ball at height 5.** It rises at about 2 px/tick or falls at 1 until it's there (`:21728-21737`)
+- **DOS rescaled the ball, unlike most per-tick numbers:** gravity 3291, which is the Amiga's × 50/70, air loss 4 and ground loss 13 (`ball.cpp:15-18`)
+- **Walls only while play is stopped.** Once the ball is out or a goal is in, it rebounds off x 53 and 618 and y 100 and 799 — about 28 outside the touchlines and 30 behind the goal lines — so a dead ball doesn't roll away. It's put back where it was before the tick, its direction is reversed on that axis, and its speed is halved. In play there are none (`:21779-21800`; `bounceOffInvisibleWalls`, `ball.cpp:849`)
+
+How it's drawn (DOS: `SortSprites` and `DrawSprites`, `swos.asm:100148-100352`; shadow: `update_ball_shadow`, `original-amiga-swos.asm:22088-22101`):
+
+- **Every sprite is drawn its height higher up the screen** than its ground position
+- **The shadow is one fixed image** (`kBallShadowSprite`, `swos-port/src/sprites/sprites.h:256`) that never shrinks. It sits right of the ball's ground position by half the height and below it by a quarter, as if lit from the upper left
+- **Sprites are sorted by ground position alone.** Height is ignored, so a high ball over a player who stands lower on screen is drawn behind them
+- **The shadow sorts 10 further up the screen than it's drawn**, so it goes under the sprites near it
+
+### The Goal
+
+**The goal is a box of numbers the ball is tested against each tick, not a collision shape.** Positions are the ball's (`UpdateBall`, `original-amiga-swos.asm:21816-22050`; DOS: `handleGoalFrameCollisions` and `handlePostAndCrossbarCollisions`, `swos-port/src/game/ball/ball.cpp:890-1063`; constants in `swos-port/src/game/pitch/pitchConstants.h`).
+
+- **A goal is the ball crossing the line between x 303 and 367, no higher than 15**, tested on the tick it first crosses (`GameSetup`, `original-amiga-swos.asm:41163-41175`). The mouth is 65 wide
+- **The frame spans x 297 to 373 and stands 19 high.** The posts are x 297–302 and 368–373; the crossbar is the band from 16 to 19 above the mouth
+
+**Posts and bar, from the front** — in play only, while the ball is in the four rows just inside the goal line (y 129–132 and 766–769), within the frame and no higher than 19 (`:21950-22050`):
+
+- **Above 15 it hit the bar; otherwise, outside the mouth, a post**
+- **Moving at the goal**, the ball is turned back up or down the pitch, then nudged sideways. A ball already moving away from that goal is left alone
+- **Moving along the line** — up or down the pitch at 0.3125 px/tick or less — the bar flips the vertical speed. A post turns the ball back up or down the pitch, then nudges how steeply
+- **Every hit keeps 75% of the speed** and puts the ball back where it was before the tick
+
+**The rebound is calculated, then nudged** — both by moving the point the ball heads for, per Ball Movement:
+
+- **Turning back mirrors that point** through the ball's position, on the axis it turned on, so the ball leaves at the angle it came in (`sub_109A54`, `sub_109A66`, `:22205-22227`)
+- **The nudge then moves the point by −256 to +240**, sideways off a ball moving at the goal, up or down the pitch off a post along the line. It comes from a counter stepped every vertical blank (`stoppageTimer`, `:6221`), so it's arbitrary but not random; DOS reads its tick count instead (`swos.currentGameTick`, `ball.cpp:1023`)
+- **Its angle depends on how far off the point is.** A kick's point starts 1000 out along each axis it travels (`kDefaultBallDestinations`, `ball.cpp:86-89`), so a straight shot hitting the frame 100–300 after the kick, about 900–700 from its point, turns by up to about 16–20°, and a shade more one way than the other. Aftertouch moves the point too (`ball.cpp:390-401`). A pass to a teammate has its point stretched only to just past the pitch edge (`player.cpp:630-643`), so it's nearer and the turn can be much larger
+
+**Inside the goal** — at any time, from the goal line back to y 113 at the top and 784 at the bottom, within the frame and no higher than 19 (`:21816-21949`):
+
+- **The roof is at 15**, except in the back of the top goal, from 6 behind the line, where it drops to 10. The bottom goal's roof is flat
+- **Into the roof from below**, the ball stops dead and drops. **Onto it from above**, it rolls off the back at 1 px/tick, keeping its height
+- **The side netting** is outside the mouth. It reverses the ball across the pitch and quarters its speed
+- **The back netting** is past y 119 at the top and 778 at the bottom — 10 and 9 behind the line. It reverses the ball up or down the pitch and cuts its speed to an eighth
+- **Either netting puts the ball back** where it was before the tick
+- **The two goals aren't mirrored** — the depth and the roof differ by a unit or a slope, most likely to match the goal sprites as the camera sees them
+
+**Both goals are painted whole into the pitch background, and a sprite over each covers only what must hide a ball inside it.** The background is 16 × 16 tiles laid out by a map (`swos-port/docs/SWOS/pitch.txt`); the top goal's tiles are map rows 6–8, columns 18–24, and the bottom goal's rows 47–48 (swos-port's tiles, `assets/pitches/pitch1`, which follow the original's map). The sprites are sorted by ground position like every other (`swos-port/src/sprites/gameSprites.cpp`; sizes and anchors from swos-port's sprite set, `assets/sprites/game/spr1205` and `spr1206`):
+
+- **The background goal is complete** — posts, bar, netting and the goal's shadow, cast down and to the right like the ball's
+- **The top goal's sprite is only the crossbar** and the edge of the net behind it, 73 × 7, sorted at the goal line, y 129
+- **The bottom goal's sprite is the whole goal again** — bar, posts and the net's mesh — 73 × 28, sorted at y 778, the back netting
+- **So a ball inside either goal is drawn under its sprite**: under the top goal's bar, and under the bottom goal's mesh, showing through the holes. Inside the top goal it's drawn over the background's posts and netting. In front of the line, it's drawn over both sprites
+
 ### Kits
 
 **DOS only.** The Amiga disassembly has no kit code — it covers the match engine — so this section cites `swos.asm` and swos-port's notes alone.
