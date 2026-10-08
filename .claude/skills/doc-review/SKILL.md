@@ -17,6 +17,8 @@ Read the current doc fully, then set it aside as an editing target, not a scaffo
 
 List candidate section headers, each with a one-line description of what it covers and, briefly, what existing content isn't making the cut. Check this list with the user before drafting any prose — restructuring a list of headers is cheap; restructuring finished prose isn't.
 
+Order and shape follow `AGENTS.md` → Conventions. For a design doc, also check against The Spec Chain → *Turning It Into Design* and *Writing From SWOS*, in `ways-of-working/spec-chain.md`.
+
 ## 3. Fill in one section at a time — a gate per section
 
 Draft one section, then stop and show just that section before starting the next. For each existing paragraph that might belong in it, classify it:

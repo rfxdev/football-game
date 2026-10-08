@@ -1,6 +1,6 @@
 # Sprites
 
-The rules every match sprite is drawn to: 2D, viewed from above. What each system's sprites show is that system's doc; the settings that deliver these rules are [Technical Architecture and Stack](../../decisions/architecture-and-stack.md)'s.
+Every match sprite is 2D, viewed from above, at a whole-number scale so it stays sharp; wherever sideloaded art is missing, a fresh clone draws flat placeholders that play exactly like the sprites they stand in for. What each system's sprites show is that system's doc; the settings that deliver these rules are [Technical Architecture and Stack](../../decisions/architecture-and-stack.md)'s.
 
 ## Pixels
 

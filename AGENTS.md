@@ -47,9 +47,10 @@ Its index is imported rather than summarised here — the pipeline and the deliv
 ## Conventions
 
 - **Keep docs short.** Bullets over prose; state the rule, don't restate rationale recorded elsewhere. Solo hobby project — review time is the scarce resource
+- **A bold lead-in states the rule in words; numbers follow it.** Reading only the bold should give the shape of a doc
 - **Don't count things that change.** No totals of phases, milestones, files, sections, questions or words — describe or link them instead, so adding one never means updating a number somewhere else
 - Prefer editing existing docs to adding new ones
-- **Split by what gets opened together, not by topic.** Two files always read together are one file; a part earns its own file only once it's read on its own, in a different task
+- **Split and order by what gets opened together, not by topic.** Two files always read together are one file; a part earns its own file only once it's read on its own, in a different task. Within a doc, sections read together sit together, and a section comes after the ones it builds on
 - **Read along the constraint order**, not by folder size — the chain is in [`docs/README.md`](docs/README.md). Widen deliberately:
   - **Upstream, always.** Design work reads the vision and `decisions/` first, and the manual once it exists — short enough together that there's no call to make. To test whether something else belongs, ask what would make the change wrong: a settled choice, or what the player was promised
   - **Sideways, where systems interlock.** Read the design docs for every system a change touches, not only the one it lands in

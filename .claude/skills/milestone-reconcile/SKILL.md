@@ -53,7 +53,7 @@ Flag:
 - **Unrecorded departure** — a design doc differs from the `sources/swos/` section it is *Derived from* without saying so, or inherits from SWOS with no *Derived from* line
 - **Judged against SWOS** — a milestone field that points at `sources/swos/` as its exit rather than at a design doc's criteria
 
-A gap in a design or manual doc is fixed in that doc, by The Spec Chain — never patched into the milestone. Where the doc doesn't exist yet, write it now, from the milestone and `sources/swos/` per The Spec Chain → *Writing From SWOS*, and keep it to what this milestone needs: extend an existing doc before starting a new one, per AGENTS.md → *Split by what gets opened together*. Otherwise ask the user whether to fix it now or leave it flagged.
+A gap in a design or manual doc is fixed in that doc, by The Spec Chain — never patched into the milestone. Where the doc doesn't exist yet, write it now, from the milestone and `sources/swos/` per The Spec Chain → *Writing From SWOS*, and keep it to what this milestone needs: extend an existing doc before starting a new one, per AGENTS.md → *Split and order by what gets opened together*. Otherwise ask the user whether to fix it now or leave it flagged.
 
 A fix that changes a design or manual doc changes a constraint, so read downstream per AGENTS.md → Conventions: any other milestone linking that doc and no longer matching it goes back to Outline, per Project → *Status*. List them for the user.
 
