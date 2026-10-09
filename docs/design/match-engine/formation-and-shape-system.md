@@ -1,6 +1,6 @@
 # Formation and Shape System
 
-A formation is a layout of filled cells on one grid. The grid is the team's shape, a block that follows the ball partway and squashes against the pitch edges, and players in its wide columns shift with the ball's channel. Each outfield player's **anchor** is their cell's place in that block: where the formation wants them to stand. What a player does about their anchor belongs to Team AI and Decision Making, first written at [2.1](../../../project/milestones/2.1-keeper-drill.md).
+A formation is a layout of filled cells on one grid. The grid is the team's shape, a block that follows the ball partway and squashes against the pitch edges, and players in its wide columns shift with the ball's channel. Each outfield player's **anchor** is their cell's place in that block: where the formation wants them to stand. What a player does about their anchor belongs to [Team AI and Decision Making](team-ai-and-decision-making.md).
 
 ## Formations
 
@@ -17,7 +17,7 @@ A formation is a layout of filled cells on one grid. The grid is the team's shap
 The grid isn't mapped to the pitch one-to-one. It's the team's shape, and it moves around the pitch as a unit.
 
 - **It follows the ball partway.** The block moves a fraction of the ball's movement lengthways, and a smaller fraction sideways, so the team doesn't crowd the ball
-- **It follows where the ball is, the same for every ball.** The block is the ideal shape for the ball's current position, on the ground or in the air, so it shifts as the ball moves. Reading where a ball is going is Team AI's job
+- **It follows where the ball is, the same for every ball.** The block is the ideal shape for the ball's current position, on the ground or in the air, so it shifts as the ball moves. The keeper's position follows the ball the same way, per [The Keeper](team-ai-and-decision-making.md#the-keeper)
 - **It squashes at the pitch edges rather than leaving the pitch.** With the ball in a team's own box, the rows compress against the goal line — which is how a team ends up defending deep and compact, with no rule of its own. The same applies at the other goal line and at the touchlines
 - **It has a resting size** and stretches or compresses from there
 - **Possession nudges it, without changing the formation.** With the ball the block shifts slightly up and opens out, longer and wider; without it the block shifts back and closes up. The nudge is smoothed so a quickly contested ball doesn't turn players back and forth, a loose ball keeps the last value, and zero switches it off
@@ -40,8 +40,8 @@ A player's anchor is their cell's position in the block, plus any wide-column ad
 - **Three inputs decide every anchor:** the layout, the ball's position, and the current possession nudge. Given those, the result is fixed — no timing, and no knowledge of where players actually are
 - **Anchors move with the ball.** A long ball slides every anchor along while it travels; players follow at run speed, which is Team AI's concern
 - **Every outfield player always has an anchor**, including the one the human controls, who ignores it. The keeper has none
-- **Team AI decides when and how far a player leaves their anchor** — pressing, supporting, the leash
-- **The shadow formation is the debug view:** a marker at every anchor, for either team, drawn alongside the players. A gap between marker and player is Team AI at work; a marker in the wrong place is this system's bug. It sits beside Team AI's role and steering-target overlay, per [Playtesting](../../../ways-of-working/playtesting.md)
+- **Team AI decides who leaves their anchor** — the two players going for the ball, per [Who Goes for the Ball](team-ai-and-decision-making.md#who-goes-for-the-ball)
+- **The shadow formation is the debug view:** a marker at every anchor, for either team, drawn alongside the players. A gap between marker and player is Team AI at work; a marker in the wrong place is this system's bug. It sits beside Team AI's target overlay, per [Off the Ball](team-ai-and-decision-making.md#off-the-ball)
 - **The shadow formation also runs in the editor, with no match running.** The whole pitch is in view, with both teams on it; drag the ball and every marker follows. Each team's layout and which team has the ball are set in the Inspector. The switch sets both teams' nudges straight to their values with no smoothing, so one team is always in possession and the other out, as in a match. Running in the editor needs anchors to come from the three inputs alone, which keeps the anchor calculation self-contained
 
 ## Acceptance Criteria

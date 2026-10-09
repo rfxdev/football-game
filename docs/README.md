@@ -49,8 +49,8 @@ One doc per system, whether it mostly simulates or mostly shows.
 | [Camera](design/match-engine/camera.md) | View size and the aspect band, where the view stops, the ground beyond the lines, how the camera follows play |
 | [Kits](design/match-engine/kits.md) | Kit data, shirt types, keepers, recolouring, clashes |
 | [Ball Physics and Aerial Simulation](design/match-engine/ball-physics-and-aerial-simulation.md) | How the ball moves — steering, fake height, each surface, stopped-play walls, the goalframe — and how height reads on screen |
-| [On-the-Ball Mechanics](design/match-engine/on-the-ball-mechanics.md) | Input as intent, movement and turning, carrying and possession, kicking — tap versus hold and aftertouch — the action button's slide and headers, the passive duel, fouls, same-tick contacts, control switching and its marker, and how each is animated |
-| Team AI and Decision Making — [2.1](../project/milestones/2.1-keeper-drill.md) | Perception and fairness, movement, decisions, the keeper, and its debug view |
+| [On-the-Ball Mechanics](design/match-engine/on-the-ball-mechanics.md) | Input as intent, movement and turning, carrying and possession, kicking — tap versus hold and aftertouch — the action button's slide and headers, the passive duel, fouls, same-tick contacts, and how each is animated |
+| [Team AI and Decision Making](design/match-engine/team-ai-and-decision-making.md) | The decision rate, who goes for the ball — control switching and its marker included — off-ball movement, the CPU's stick and button, the keeper, and the debug overlay |
 | [Formation and Shape System](design/match-engine/formation-and-shape-system.md) | Formations on the grid, the moving block, anchors, and the shadow formation that shows them |
 | Match State Machine — [5.1](../project/milestones/5.1-kick-off.md) | Clock, periods, restarts, cards and injuries, and how each is shown — celebrations, cards, an injured player |
 | Match HUD — [5.5](../project/milestones/5.5-clock-halves-and-full-time.md) | Score, clock and team names on screen |

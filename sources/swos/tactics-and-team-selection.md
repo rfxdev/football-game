@@ -21,7 +21,7 @@ Editing tools:
 - **The estimate is deliberately coarse.** It steps 1, 2, 4 or 8 ticks at a time, more the higher the ball — 8 for a ball still rising or above 35, 1 at 20 or below
 - **A ball on the ground predicts one tick ahead**, and a stationary one predicts where it is — so on the ground the shape follows the ball itself
 - **Out of open play the reference point changes.** With the keeper holding the ball or a goal kick awarded, it's the centre spot, and each tactic swaps to its own out-of-play tactic; at every other restart it's the restart's spot (`SetPlayerWithNoBallDestination`, `original-amiga-swos.asm:35973-36058`; DOS: `setPlayerWithNoBallDestination`, `swos-port/src/game/updatePlayers/updatePlayers.cpp:10655-10727`)
-- **The landing point picks one of the 35 ball zones, and the table gives each player's position for it.** Within a zone, players also shift by a third of the landing point's offset from the zone's centre, so the shape slides with the ball between zone changes. The keeper isn't in the table — their position scales the ball's into a small box in front of their goal
+- **The landing point picks one of the 35 ball zones, and the table gives each player's position for it.** Within a zone, players also shift by a third of the landing point's offset from the zone's centre, so the shape slides with the ball between zone changes. The keeper isn't in the table — their position scales the ball's current position, not its landing point, into a small box in front of their goal (the caller passes the ball sprite's own coordinates, `swos.asm:117081-117091`)
 
 ## Assistant Coach Advice Doesn't Cover Bench Changes
 

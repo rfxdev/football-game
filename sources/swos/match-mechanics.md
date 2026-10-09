@@ -303,14 +303,83 @@ Team 1 changes kit only at step 3; from step 5 on, it always wears its primary. 
 - **Tap** the button for a short pass or a slide; **hold** it to power up a shot or long lob.
 - **Aftertouch:** for kicks and passes, pushing the stick in a direction immediately after the button applies a violent swerve, curl, or height change to a ball that's already in flight, relative to the direction of the kick itself rather than absolute up/down. Headers use the same relative-direction mapping but aim it earlier — during the jump/dive, before the head meets the ball, rather than after. See Heading, Passing, and Shooting & Finishing above for how each action interprets it.
 - **Next-player selection follows joystick direction** at the moment of the switch; leaving the stick neutral doesn't speed selection up and effectively continues using the last direction pushed.
-- **No dedicated switch button.** With the single action button already committed to sliding/heading/shooting, control while out of possession isn't manually assigned — the engine automatically hands control to whichever of your players is closest to the ball, reassigning it continuously as the ball (and players) move.
+- **No dedicated switch button.** With the single action button already committed to sliding/heading/shooting, control while out of possession isn't manually assigned — the engine automatically hands control to whichever of your players is closest to the ball, reassigning it continuously as the ball (and players) move. How it picks, and the player it never picks, are in *Who Goes for the Ball* under AI Behavior below.
 
 ### AI Behavior
 
-- **At least one CPU player always actively chases the ball**, running onto it whenever possible, independent of tactical shape.
-- **The CPU heads or volleys at goal on ball height.** A CPU player facing the opponent's goal, within about 25.5 of the ball, presses the button when the ball is rising through 8–14 or falling through 12–20 — early enough on a falling ball that the attempt connects as it drops into the header band (`DecideWhetherCpuPlayerFires`, `swos.asm:119242-119345`). DOS only; not yet checked against the Amiga
-- **The CPU's tackle ignores height.** Within about 14 of the ball, with the opponent on it and facing more than 45° away from the tackler, it presses the button in its own facing (`CpuPlayerAttemptTackle`, `swos.asm:119450-119519`). DOS only
-- **No defensive heading decision found** — nothing that has the CPU head a ball away rather than at goal. Not yet searched beyond these two
+**The CPU plays through a virtual joystick, for its controlled player only.** Each of its team updates, `UpdateCpuPlayerControls` writes a stick direction and button presses to the same fields a pad fills (`swos.asm:117791-119162`; Amiga `DoAI`, `original-amiga-swos.asm:45296-46524`), and the controlled player then moves and acts exactly as a human's would. Every other player's behaviour is the engine's and is the same for human and CPU teams. Distances below are pixels, worked from the code's squared distances; the decision constants below match between DOS and Amiga.
+
+#### Who Goes for the Ball
+
+Both teams, human or CPU. Each team has exactly two players going for the ball.
+
+- **The controlled player is the one nearest the ball**, re-picked every team update (`UpdateControlledPlayer`, `swos.asm:100878-101061`). It's the strict nearest — a tie keeps the earlier in the team's order — with **no hysteresis**. Skipped: the keeper, unless it's playing the ball; the player who just kicked, while the kick timer runs; anyone sliding, heading, down or injured; and the second player below. The player losing control stops dead where they are
+- **The second player is the nearest of the rest.** The code calls them the player being passed to (`UpdatePlayerBeingPassedTo`, `swos.asm:101072-101348`), but they're picked by distance alone, whether or not a pass has been played. They head for the ball, unless they're within about 57 of it and the controlled player is nearer still and also within 57. In that case they stand where they are. Once they've started chasing they keep going, until something resets the team's pass state (`swos.asm:116682-116723`; Amiga `:44623-44650`). So the pair press together, one usually just behind the other
+- **Excluding each other is what keeps the pair stable.** Control goes to the nearest player other than the second player, and the second player is the nearest other than the controlled one. So the two can swap who is nearer without control moving. On a CPU team, the second player takes control if they're nearer the ball by more than a sliver (squared distance 50) and the controlled player isn't on it (`swos.asm:118987-119002`)
+- **When the second player reaches the ball, they take control**, and no new second player is picked for 25 updates, 50 ticks (`playerSwitchTimer`, `swos.asm:116609-116630`)
+
+#### Everyone Else
+
+- **Every other outfield player runs to their tactic position**, per [Players Position Off Where the Ball Will Land](tactics-and-team-selection.md#players-position-off-where-the-ball-will-land)
+- **Only one of them is re-targeted per team update**, working through the eleven in turn (`updatePlayerIndex`, `swos.asm:116826-116833`; Amiga `:42078-42081`). Each player's destination is therefore up to 11 updates old — 22 ticks, 0.44 seconds — and in between they run to the stale one. This is the engine's off-ball reaction delay, and the same for both teams
+- **They run in a straight line at their own speed and stop dead on arrival.** Each axis is clamped at the destination, so there's no overshoot, circling or easing in (`MovePlayer`, `swos.asm:103014`). A standing player faces the ball
+- **There's no separation between teammates.** Bodies pass through each other, and nothing pushes players apart. Only tactic positions keep them apart
+
+#### The CPU's Controlled Player, Off the Ball
+
+- **It runs at the ball itself, not where a ball in the air will land.** The stick points the eighth nearest the ball. It re-aims every update within about 28 of the ball, and otherwise only once every 16 ticks, about 0.32 seconds, holding its last direction in between (`swos.asm:118568-118605`). In CPU-against-CPU matches only, it wanders up to 45° off that line (`swos.asm:119033`)
+- **It heads or volleys towards the opponent's end on ball height.** When facing one of the three directions towards the opponent's goal and within about 25.5 of the ball, it presses the button when the ball is rising through 8–14 or falling through 12–20 — early enough on a falling ball that the attempt connects as it drops into the header band (`DecideWhetherCpuPlayerFires`, `swos.asm:119242-119345`; Amiga `AIHeader`, `:46576`). Nothing checks the ball will come within reach
+- **No defensive heading.** The only header trigger is the one above, so the CPU never heads facing its own goal. A defender facing upfield heads the ball away by the same rule
+
+#### The CPU's Tackle
+
+- **The second player slides, not the controlled one** (`CpuPlayerAttemptTackle`, called from the second player's update, `swos.asm:116433-116446`; Amiga `:46708`). The slide fires if the opponent has the ball, the second player is between about 8.5 and 14 from it, the ball is 8 or lower, and the controlled player isn't nearer the ball (`swos.asm:116526-116589`)
+- **It never slides from behind.** It needs the carrier's facing more than 45° from its own, which is exactly the case the foul rule's *from behind* leaves out (see Sliding above). It presses in its own facing, ignoring height — the height check above is what keeps it a slide. CPU tackles are always strong, per Sliding
+
+#### The CPU on the Ball
+
+When its controlled player is within about 8.5 of the ball (`swos.asm:118305-118614`) — a distance check only, so it also runs with the opponent on the ball. Goal distance is measured from the ball to the centre of the goal line it's attacking. It takes the first of these that applies:
+
+1. **The header/volley trigger above**
+2. **Shoot if close and facing goal.** Within about 113 of goal, facing within 21° of it (within 70° once inside about 57). Between 113 and 170 out, it shoots on only a quarter of updates. Never while facing sideways level with the goal area. Its aftertouch is below (`swos.asm:118332-118380`)
+3. **While a sidestep is running, pass or keep sidestepping** — the cooldown in step 6
+4. **Within about 99 of goal, dribble.** Turn towards goal when the ball is at its feet, otherwise keep running (`swos.asm:118404`)
+5. **Otherwise it reacts to the nearest opponent** — their controlled player if within about 71 of the ball, else their second player:
+   - **None within 71:** dribble, as in step 4
+   - **Within 28:** pass if a teammate is open. Otherwise sidestep. More than about 424 from goal (deep in its own half), it instead hoofs it long if facing goal, or within 45° to one side of it, and sidesteps if not
+   - **Between 28 and 71:** on about 3.5% of updates, more than about 220 from goal, it hoofs it long as above. Otherwise it dribbles on three updates in four, and passes or sidesteps on the fourth
+6. **A sidestep** turns 45° off its line when the ball is at its feet, and then holds for 4 updates. It only starts in a quarter of each 128-tick cycle; otherwise it dribbles (`swos.asm:118503-118528`)
+
+- **"Open" means the nearest player to the ball within 22.5° of the carrier's facing is a teammate** — either team counts, so an opponent in that cone blocks the pass (`FindClosestPlayerToBallFacing`, `swos.asm:119369-119441`; Amiga `:46754`). The pass itself is a tap in the facing direction, and passing then finds the receiver as for a human
+- **After any CPU kick, it can't shoot or pass again for 15 of its updates**, nor before the team's kick timer drops below 13 (`isCpuReadyToResumePlay`)
+- **It dribbles by holding the stick**, so it's subject to Ball Control's direction-change limit like anyone
+
+#### CPU Aftertouch
+
+- **After a shot, it steers the stick towards the goal for 15 updates** — straight at it, or diagonally inward if the ball is wide of a post (`setCpuGoalwardAftertouchDirection`)
+- **Every other kick carries a strength and a curl side.** Strength picks the stick against the kick: with it for low and driven, centred for a loop, pulled back for high. Half the time it curls instead, 45°, 90° or 135° off the kick by strength (`swos.asm:119088-119146`). In open play, a shot from close is strength 0 and curls towards the far side. A long hoof is strength 2 beyond about 340 from goal, 1 inside it (`swos.asm:118664`)
+
+#### The Keeper
+
+Uncontrolled, the keeper follows these rules, in a branching order not yet fully traced (`swos.asm:112960-113560`; Amiga from `:42371`):
+
+- **Outside its box, it shadows the ball inside a small rectangle in front of goal.** The ball's current position on the whole pitch — not its landing point, unlike the outfield's tactic lookup — is scaled into a box about 103 wide, standing 6 to 32 in front of the goal line (`SetPlayerWithNoBallDestination`, `swos.asm:109618`)
+- **A ball dropping into its box, it goes to where it will land** — if no more than half as far from the landing point as the ball is, at a faster speed of its own
+- **Within about 22 of a ball no higher than 17, it goes to the ball**
+- **Otherwise it often comes out to halfway between the ball and the centre of its goal line**, narrowing the angle, at a speed from its skill table. The conditions branch on whether a shot is heading between the posts, and aren't fully traced
+- **A ball at 16 or lower that the keeper is nearer to than any of the four players going for it**, it goes for
+- **In a one-on-one** — keeper within about 11 of the ball with the shooter pressing — the shooter's Finishing against the keeper's skill, through a probability table, decides goal or save outright (`goalScoredChances`)
+- **Diving:** `ShouldGoalkeeperDive` compares when the ball arrives with how long the keeper takes to get there running or diving, against projected ball positions. Not yet read in detail
+
+#### Restarts
+
+**The CPU takes restarts by its own rules** (`swos.asm:117808-118255`):
+
+- It turns until it faces a direction it can play
+- It kicks with a strength set by distance to goal
+- It curls at random from corners, and picks a random direction for penalties
+
+Not researched beyond this. Phase 5's.
 
 ### Manager's Bench
 
@@ -320,4 +389,6 @@ Assistant Coach fit feedback (see [Tactics and Team Selection](tactics-and-team-
 
 ## Open Questions
 
-- **Does the closest-player auto-switch (see Controls above) have any hysteresis or debouncing?** The manual only says control "usually" goes to the player closest to the ball, and the Jon Hare Q&A's only note on player selection covers the in-possession next-teammate case, not off-the-ball switching. Unclear whether the original engine does anything to stop control flapping between two similarly-distant defenders, or whether that never came up because of some other factor (hitbox/positioning spacing, frame-rate smoothing, etc.).
+- **Does the auto-switch flap in play?** The code has no hysteresis (see *Who Goes for the Ball*), but the second player's exclusion may hide it: the two nearest can't swap control between themselves. Watch two defenders converging in swos-port
+- **How long does the second player keep chasing?** Worked from the code, not watched: once started, they chase until the team's pass state resets, and which events reset it isn't fully traced. Watch in swos-port whether the second player ends up beside the carrier, or holds off
+- **The keeper's dive and save rules** — `ShouldGoalkeeperDive`, the keeper's skill tables (`UpdatePlayerShotChanceTable`), and the order of its branches
