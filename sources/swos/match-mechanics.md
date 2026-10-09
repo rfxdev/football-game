@@ -381,6 +381,76 @@ Uncontrolled, the keeper follows these rules, in a branching order not yet fully
 
 Not researched beyond this. Phase 5's.
 
+### Match Flow
+
+What stops play, where it restarts, the break in between, and the clock. Tick counts are the Amiga's, with DOS's in brackets where it differs. The port's C++ (`swos-port/src/game/ball/ball.cpp`, `gameTime.cpp`, `referee.cpp`) is a translation of the same routines.
+
+**Play is always in one of three states:** in progress, stopped, or waiting on the taker (`gameStatePl` 100, 101 and 102; `swos-port/src/swos/swos.h:600-637`). Beside it, `gameState` names the restart or the stage of the match. The match clock runs only in progress.
+
+#### What Stops Play
+
+The restart goes to a team (`lastTeamPlayedBeforeBreak`) and is taken from a spot (`foulXCoordinate`, `foulYCoordinate`) (`CheckIfBallOutOfPlay`, `swos.asm:111035-111549`, `ball.cpp:175-233`; Amiga from `original-amiga-swos.asm:41342`):
+
+- **A goal** — kick-off on the centre spot, to the side that conceded. An own goal is the same: which goal the ball went into decides
+- **Over a goal line otherwise** — a corner if the defending side touched it last, else a goal kick. The side it went out on picks the corner or the half of the goal area
+  - **Corners from 5 inside both lines** — x 86 or 585, y 134 or 764
+  - **Goal kicks from 25 out, 60 either side of centre** — x 276 or 396, y 154 or 744
+- **Over a touchline** — a throw-in to the side that didn't touch it last, from the touchline (x 81 or 590) where it crossed. Which third of the pitch it's in (y below 342, below 556, or beyond) picks one of three states — forward, centre or back for the taking side — which the CPU reads
+- **A foul** — at once, with no advantage (`TestFoulForPenaltyAndFreeKick`, `swos.asm:107604-107843`; Amiga from `:40359`). To the fouled side:
+  - **A penalty if the fouled player is inside the fouling side's box** (x 193–478, beyond y 216 or 682), from the spot at (336, 187) or (336, 711) — 58 out
+  - **Otherwise a free kick where the fouled player stood.** Within about 115 in front of that box (y 216–331 or 567–682), the state records one of seven lanes across the pitch (split at x 153, 261, 309, 362, 410 and 518); elsewhere it's an ordinary foul
+- **The keeper taking the ball** (`GoalkeeperClaimedTheBall`, `swos.asm:104600-104680`; Amiga `:40627`) — play stops where it's caught, and the keeper restarts it
+
+**The taker can only face directions that put the ball into play** (`playerTurnFlags`):
+
+| Restart | Directions allowed |
+| --- | --- |
+| Kick-off | The five not facing back — sideways included (`PrepareForInitialKick`, `swos.asm:104033-104075`) |
+| Throw-in | The five not facing out of the pitch |
+| Corner | The three into the pitch |
+| Goal kick, keeper's ball | The five upfield or sideways; a CPU side loses the two sideways |
+| Penalty | The three towards goal |
+| Free kick | All eight |
+
+#### The Break
+
+Between the stoppage and the restart, in ticks (`UpdateGameTimersAndCameraBreakMode`, `swos.asm:101354-101990`; Amiga `RunStoppageEventsAndSetAnimationTables`, `:37255`):
+
+1. **Every player stops where they are** (`StopAllPlayers`), and the ball runs on until it's still
+2. **A pause** — 50 [55], or 75 after a goal (`swos.asm:101653-101657`, Amiga `:37540-37543`)
+3. **The ball is put on the restart spot**, unless the keeper holds it
+4. **Any card is shown**, then everyone heads for their restart position
+5. **Everyone arrives.** It waits until the referee has gone and every player is in place — all 22 for a kick-off or penalty, otherwise only those on screen (`:101817-101845`). After a goal, every player runs at 62.5% until here (`runSlower`; see Movement)
+6. **The taker is set and the whistle blows**, except for the keeper's ball. Play waits on the taker
+7. **Play resumes when the taker kicks or throws**
+
+Two safety nets: if the restarting side has no controlled player after 500 [550] ticks of step 6, the break starts again (`ballOutOfGameTimer`, `swos.asm:101914`, Amiga `:37726`); and a CPU side still waiting to take a restart after 750 [825] ticks gets a kick-off instead (`swos.asm:101384-101397`, Amiga `:37284`). A human side is waited on forever.
+
+**After a goal, the scoring side cheers where it stopped**, until step 4 clears the goal flag (`goalScored`, `swos.asm:101737`). Its outfield players facing up or down the pitch show a cheering frame on half of each 64-tick cycle, staggered by squad order, and the scorer on 101 ticks of each 128 (`SetNextPlayerFrame`, `swos.asm:102934-102990`). Then everyone walks back at 62.5%.
+
+During a goal kick, an outfield player running to a position stops inside the box widened by 10 — x 183–488, y up to 226 or from 672 — until play has resumed and the ball has left both boxes (`goalOut`, `swos.asm:116790-116804`, `:112636-112642`). Whether that reads the player's position or their next step isn't confirmed. Nothing else in the code stops an outfielder reaching the goal-kick spot.
+
+#### Cards on the Pitch
+
+How a card decided by *Fouls, Cards & Injuries* is shown (`referee.cpp`; `ActivateReferee`, `swos.asm:102768`; the booked player in `UpdatePlayers`, `:116920-116990`):
+
+- **The referee walks on at 2 a tick** from just off the screen edge nearer halfway, to 28 right of the foul and 5 below it
+- **The booked player walks to 21 right of the foul.** With both there, the referee shows the card and the player's shirt number blinks over them
+- **Then the referee walks off** towards the far goal line, and a sent-off player walks to (−20, 449) — off the left touchline at halfway
+- **Whether a foul draws a card at all** is a per-match chance, drawn at kick-off from a 16-entry table for the match length: 4–10 sixteenths at 3 minutes, 2–6 at 5, 1–4 at 7 and 1–3 at 10 (`playerCardChances3min` on, `swos.asm:245786-245797`, drawn at `:96378-96388`). A foul draws one when bits 1–4 of the tick counter are below it (`:107225-107236`). DOS only; the Amiga's tables aren't checked
+- **Each side's budget of injuries and dismissals is 4 in a friendly** (`swos.asm:35044-35047`; Amiga not checked). Career and other matches work it out from the squad (`:34960-35030`), not traced
+
+#### The Clock
+
+(`UpdateTime`, Amiga `original-amiga-swos.asm:26101-26360`; `swos-port/src/game/gameTime.cpp`)
+
+- **Whole game minutes, from 0.** The clock runs only in progress, and not during a shootout
+- **Match length is an option: 3, 5, 7 or 10 MINS**, 3 by default (`swos-port/src/menus/mnu/options.mnu:126-131`). Each tick takes 30, 18, 12 or 9 off an accumulator; each time it goes negative, 49 [70] is added back and a game second passes (Amiga `:26158-26164`, table `:26526-26533`). So at the Amiga's 50 a second, a half takes 88, 147, 221 or 294 seconds of play
+- **A half doesn't end on the minute.** At 45, 90, 105 and 120 the clock stops, and the half ends once play has run for 50 [55] ticks in a row with the ball outside both boxes and last touched by the side defending the half it's in — so no restart and no attack is pending. Anything else starts the count again, and nothing caps it (Amiga `:26321-26350`, `gameTime.cpp:178-196`)
+- **Ends and kick-off are random**, each drawn separately (`swos.asm:96463-96473`; Amiga `:23716-23723`), and **both swap at half-time** (`SetCameraMovingToShowerState`, `swos.asm:103804-103812`). Extra time draws them again
+- **Half-time** runs: whistle, 100 ticks, the players leave over 250 [275], the score shown for 700 [770], the second half's start 100 [110], then the kick-off break. **Full time**: whistle, 150, the players leave over 250 [275], the result for 1500 [1650] (`swos.asm:103776-104075`, `:112128-112170`; Amiga `:40685-40989`). The button skips the half-time score, the result, and the waits before each half's kick-off (`swos.asm:101406-101500`)
+- **After 90**, a level match goes to extra time or penalties where the competition has them; otherwise it ends level (`gameTime.cpp:145-176`)
+
 ### Manager's Bench
 
 Tapping the same stick direction three times in quick succession — at any moment the ball is dead (out of play, or held by a keeper) — brings up both teams' benches without leaving the match. From there you can: swap two outfield players' positions without using a substitution, make an actual substitution (only usable while the ball is out of play), switch to a different pre-defined formation on the fly, or hold the button on a player's name to give them a permanent on-pitch highlight (flashing diamond) for the rest of the match. Push the stick to either side to dismiss the bench and resume play.
@@ -392,3 +462,5 @@ Assistant Coach fit feedback (see [Tactics and Team Selection](tactics-and-team-
 - **Does the auto-switch flap in play?** The code has no hysteresis (see *Who Goes for the Ball*), but the second player's exclusion may hide it: the two nearest can't swap control between themselves. Watch two defenders converging in swos-port
 - **How long does the second player keep chasing?** Worked from the code, not watched: once started, they chase until the team's pass state resets, and which events reset it isn't fully traced. Watch in swos-port whether the second player ends up beside the carrier, or holds off
 - **The keeper's dive and save rules** — `ShouldGoalkeeperDive`, the keeper's skill tables (`UpdatePlayerShotChanceTable`), and the order of its branches
+- **Where players stand at each restart, and who takes it.** A tactic carries the index of a second tactic used while the ball is out of play (`swos-port/docs/SWOS/tactics.txt`), and corners and free kicks place some players specially; the taker is the restarting side's controlled player, but how it's picked during a break isn't traced. The goal-kick spot sits inside the box, which suggests the keeper takes them
+- **How an injured player is shown** — the tackled animation is the same with or without an injury (`PlayerTackled`, `swos.asm:107856-108032`)

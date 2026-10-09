@@ -75,7 +75,7 @@ Everything here is checked against anchors, not against where players actually a
 - **Restarts, for Phase 5 to settle** — research the reference's set pieces into `sources/` first:
   - By default the block follows the dead ball on its restart spot. Is that enough?
   - With the keeper holding the ball or at a goal kick, following the ball crowds the team round its own box. The reference places players as if the ball were on the centre spot, using a separate out-of-play shape
-  - At corners and free kicks the reference lines specific players up relative to the restart spot, and the formation places everyone else. Those placements probably belong to the Match State Machine, not here
+  - At corners and free kicks the reference lines specific players up relative to the restart spot, and the formation places everyone else. Those placements are [Match State Machine](match-state-machine.md#open-questions)'s
 
 **Numbers for the feel targets:**
 
