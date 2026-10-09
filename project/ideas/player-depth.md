@@ -6,6 +6,7 @@ Attribute depth comes before ability over time: how ability moves depends on whi
 
 - **Modernised attributes** — more than SWOS's seven, informed by [FM](../../sources/fm/player-attributes.md)
 - **Attributes that drive AI** — mental attributes such as Positioning and Decisions shape how the 21 uncontrolled players behave, adding depth without touching single-button input
+  - **The battle for space** — off the ball, players leave their anchors to win space. A defender's positioning and marking let them track an attacker more closely; an attacker's off-the-ball movement lets them find space. The formation sets where the contest starts, and attributes decide who wins it
 - **Fix speed dominance** — SWOS's [biggest balance fault](../../sources/swos/overview.md#weaknesses). More attributes do nothing if pace still decides everything
 - **Summary ratings over detail** — FM-style star ratings or role suitability, so extra attributes don't slow the buy/don't-buy call
 - **Generated players built attributes-first** — position and summary rating read off the attribute profile rather than rolled beside it, and hidden traits pull related attributes together, so every generated player has a recognisable shape

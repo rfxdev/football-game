@@ -14,7 +14,7 @@ What SWOS has around the match that the roadmap doesn't build yet.
 
 - [Front End](ideas/front-end.md) — pause, options, replays, and the menus past a friendly
 - [Controls](ideas/controls.md) — two-player couch co-op, and the keyboard
-- [Tactics Beyond Formations](ideas/tactics-beyond-formations.md) — fit advice, a training match, a shape preview, instructions
+- [Tactics Beyond Formations](ideas/tactics-beyond-formations.md) — fit advice, a training match, a shape preview, in- and out-of-possession formations, instructions
 - [Career](ideas/career.md) — SWOS-weight, with static attributes: season, squad upkeep, transfers, finances, and international management
 
 ### Stage 2 — Beyond SWOS

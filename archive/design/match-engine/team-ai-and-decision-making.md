@@ -1,6 +1,6 @@
 # Team AI and Decision Making
 
-This doc owns everything an AI-controlled player does: where they move relative to the anchor from [Formation and Shape System](formation-and-shape-system.md), and what they decide — in attack, what to do with the ball; in defence, when to press and when to tackle. The keeper is covered as a special case.
+This doc owns everything an AI-controlled player does: where they move relative to the anchor from [Formation and Shape System](../../../docs/design/match-engine/formation-and-shape-system.md), and what they decide — in attack, what to do with the ball; in defence, when to press and when to tackle. The keeper is covered as a special case.
 
 ## Perception and Fairness
 

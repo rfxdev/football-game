@@ -13,6 +13,16 @@ Editing tools:
 - **Import** — start a custom tactic from any of the 12 presets, or reload a previously-saved custom tactic to keep tweaking it.
 - **Undo / Abort / Save-Exit** — undo the last change; discard the whole editing session back to defaults (Abort); or exit with a choice to save the changes or keep them for this session only without saving (Save-Exit).
 
+## Players Position Off Where the Ball Will Land
+
+**In a match, a tactic is looked up by where the ball will next touch the ground, not where it is.** A cross or long ball moves every outfield player's destination the moment it's struck, rather than dragging the shape along under the ball's flight (`UpdateBall`, `original-amiga-swos.asm:22103-22197`; DOS: `updateBallQuadrants`, `swos-port/src/game/ball/ball.cpp:1133-1175`).
+
+- **The landing point is recomputed every tick** from the ball's current velocity and gravity, stepped forward until its height goes below zero. It leaves out aftertouch, so a bending ball moves it tick by tick, and the slowing in the air, so it overshoots and closes in as the ball slows (`CalculateNextBallPosition`, `original-amiga-swos.asm:35665`; DOS: `calculateNextBallPosition`, `ball.cpp:1084-1131`)
+- **The estimate is deliberately coarse.** It steps 1, 2, 4 or 8 ticks at a time, more the higher the ball — 8 for a ball still rising or above 35, 1 at 20 or below
+- **A ball on the ground predicts one tick ahead**, and a stationary one predicts where it is — so on the ground the shape follows the ball itself
+- **Out of open play the reference point changes.** With the keeper holding the ball or a goal kick awarded, it's the centre spot, and each tactic swaps to its own out-of-play tactic; at every other restart it's the restart's spot (`SetPlayerWithNoBallDestination`, `original-amiga-swos.asm:35973-36058`; DOS: `setPlayerWithNoBallDestination`, `swos-port/src/game/updatePlayers/updatePlayers.cpp:10655-10727`)
+- **The landing point picks one of the 35 ball zones, and the table gives each player's position for it.** Within a zone, players also shift by a third of the landing point's offset from the zone's centre, so the shape slides with the ball between zone changes. The keeper isn't in the table — their position scales the ball's into a small box in front of their goal
+
 ## Assistant Coach Advice Doesn't Cover Bench Changes
 
 The tick/cross evaluation described above only fires for changes made from the pre-match tactics and squad screens. Swaps made from the in-match Manager's Bench (see [Match Mechanics](match-mechanics.md)) get no Assistant Coach feedback at all — a mid-match reshuffle is a blind bet on fit, not a scored one.
