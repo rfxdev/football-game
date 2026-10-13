@@ -20,7 +20,6 @@ Show the user the outcome of each step and agree it before moving to the next.
 - [The Spec Chain](../../../ways-of-working/spec-chain.md), [Automation Testing](../../../ways-of-working/automation-testing.md), [Playtesting](../../../ways-of-working/playtesting.md)
 - Upstream, per AGENTS.md → Conventions: the vision, `docs/decisions/`, and the Player Manual once it exists
 - Every design doc in `docs/` the milestone's deliverables touch. Often there is none yet — step 2 writes it
-- Where the milestone links a doc that no longer exists, its copy in `archive/`, for decisions worth keeping. Never as the spec, and checked against SWOS before anything is kept, per AGENTS.md → *Where Things Live*
 - The sections of [`sources/swos/`](../../../sources/swos/) that cover the deliverable — input for writing or checking a design doc per The Spec Chain → *Writing From SWOS*, never what the milestone is judged against
 - Every earlier milestone in build order: what it delivers, its Testing and 360 Testing. Step 4 walks them
 

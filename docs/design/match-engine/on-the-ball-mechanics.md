@@ -6,9 +6,11 @@
 - **Players turn instantly and pass through each other**, contesting each other only through the ball — [Movement](#movement)
 - **The ball is taken by running onto it, and runs ahead in touches.** A turn while it's out of reach leaves it behind, and too many turns under pressure lose touch — a good dribbler is better at both — [Carrying the Ball](#carrying-the-ball)
 - **On the ball, the button kicks.** Tap passes, hold shoots, and aftertouch shapes either relative to the kick — [Kicking](#kicking)
+- **A restart is taken with the same kick, a throw-in included**, facing only back into play — [Taking a Restart](#taking-a-restart)
 - **Off the ball, it slides or heads**, picked by the ball's height at the press — [The Action Button](#the-action-button), [Sliding](#sliding), [Heading](#heading)
 - **A defender can also win the ball just by reaching it**, settled by attributes — [The Passive Duel](#the-passive-duel)
 - **A slide that meets the opponent before the ball is a foul** — [Fouls](#fouls)
+- **A tackle that lands may injure**, and an injured player plays on slowed — [Injuries](#injuries)
 - **Contacts on the same tick are resolved together**, never by processing order — [Same-Tick Contacts](#same-tick-contacts)
 
 Each section names the milestone that first builds it. Bindings and the pad itself are [Deck Input Parity](../../../ways-of-working/deck-input-parity.md)'s. Speeds are in world units — the reference's pixels, per [Architecture and Stack](../../decisions/architecture-and-stack.md) — per second, and durations in seconds.
@@ -86,7 +88,6 @@ From [1.2 Kicking](../../../project/milestones/1.2-kicking.md).
 - **On a shot:** stick with the kick keeps it low and driven; against it sends it high; centred lobs it; angled to either side curls it — a continuous swerve, unlike a header's fixed 45°
 - **On a pass:** with the pass plays it short, the receiver coming to meet it; centred or against plays the default grounded pass to feet; angled with the pass plays it to the receiver's side; angled against plays it beyond them, a through-ball to run onto
 - **A lofted kick drives the ball's fake height**, the same system the shadow reads, per [Ball Physics and Aerial Simulation](ball-physics-and-aerial-simulation.md)
-- **Dead balls use the same kick** — throw-ins, corners, goal kicks and penalties have no input of their own
 - **Passing** widens the maximum pass length and the cone a teammate must stand in to count as a target. **Shot Power** sets a shot's raw power and distance. **Finishing** adds power and accuracy inside the box only — never to a header, never from outside it — and feeds the keeper's save chance
 
 **Acceptance criteria:**
@@ -94,6 +95,31 @@ From [1.2 Kicking](../../../project/milestones/1.2-kicking.md).
 - **Judged by playing:** aftertouch always bends the ball relative to the kick — no shot ever goes the way the player didn't push
 
 *Derived from: Passing, Shooting & Finishing and Controls, [Match Mechanics](../../../sources/swos/match-mechanics.md).*
+
+## Taking a Restart
+
+From [5.1 Kick-off](../../../project/milestones/5.1-kick-off.md), each restart from the milestone that adds it.
+
+- **The taker uses [Kicking](#kicking)'s scheme**, tap or hold with aftertouch, at every restart — a throw-in included. Dead balls have no input of their own
+- **They can only face the directions that send the ball into play**, by the pending restart's kind, per [Stoppages](match-state-machine.md#stoppages):
+
+| Restart | Directions allowed |
+| --- | --- |
+| Kick-off | The five not facing back — sideways included |
+| Throw-in | The five not facing out of the pitch |
+| Corner | The three into the pitch |
+| Goal kick, the keeper's ball | The five upfield or sideways; a CPU side loses the two sideways |
+| Penalty | The three towards goal |
+| Free kick | All eight |
+
+- **Shown:** the throw-in has a frame of its own, from [5.2](../../../project/milestones/5.2-out-of-play.md). Every other restart is shown as a kick
+
+**Acceptance criteria:**
+
+- At every restart, the taker faces only the directions listed, from the pad and from the CPU
+- **Judged by playing:** a restart never feels like a fight with the stick to point the right way
+
+*Derived from: What Stops Play under Match Flow, and Shooting & Finishing, [Match Mechanics](../../../sources/swos/match-mechanics.md).*
 
 ## The Action Button
 
@@ -169,7 +195,7 @@ From [2.3 Contests](../../../project/milestones/2.3-contests.md).
 
 ## Fouls
 
-From [2.3 Contests](../../../project/milestones/2.3-contests.md). Detection only — the restart is [5.3](../../../project/milestones/5.3-free-kicks-and-penalties.md)'s, cards and injuries [5.4](../../../project/milestones/5.4-cards-and-injuries.md)'s.
+From [2.3 Contests](../../../project/milestones/2.3-contests.md). Detection only — the restart is [Stoppages](match-state-machine.md#stoppages)' and the card [Cards](match-state-machine.md#cards)', from [5.3](../../../project/milestones/5.3-free-kicks-and-penalties.md) and [5.4](../../../project/milestones/5.4-cards-and-injuries.md); the injury a tackle causes is [Injuries](#injuries)'.
 
 - **When a slide reaches the ball, it's marked clean** if the opponent is neither on the ball (within 3) nor touching the slider (within 5.7); otherwise it's marked as having touched the ball
 - **Running into the opponent** — within 5.7, while the slide still moves at 50 or more and the opponent is within 28 of the ball — is checked against that mark:
@@ -183,6 +209,34 @@ From [2.3 Contests](../../../project/milestones/2.3-contests.md). Detection only
 - Each foul case is a foul exactly as listed, and a keeper never is
 
 *Derived from: Sliding, [Match Mechanics](../../../sources/swos/match-mechanics.md).*
+
+## Injuries
+
+From [5.4 Cards and Injuries](../../../project/milestones/5.4-cards-and-injuries.md).
+
+- **An injury is rolled on every tackle that lands**, foul or not, independently of any card. The chance depends on the match length, from [Clock and Periods](match-state-machine.md#clock-and-periods), and both chance and severity shift for a player already carrying a knock — in the tables below
+- **A side at its limit of injuries and sendings-off can't be injured**, per [Cards](match-state-machine.md#cards). An injury is reported to the match, which records it and counts it towards the limit
+- **An injured player plays on, slowed** — their severity's amount below comes off their running speed, before carrying's 87.5% is taken. Only on a human side; a CPU side's players aren't slowed. Substitutions arrive at [6.2](../../../project/milestones/6.2-team-management.md)
+- **How an injured player is shown** is in [Open Questions](#open-questions)
+
+| | 3 min | 5 min | 7 min | 10 min |
+| --- | --- | --- | --- | --- |
+| Injury per tackle | 18.75% | 10.9% | 7.8% | 5.5% |
+| Already carrying a knock | 37.5% | 22.3% | 16.0% | 10.9% |
+
+| Severity | 1 (a knock) | 2 | 3 | 4 | 5 | 6 | 7 |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Weight, of 64 | 42 | 7 | 5 | 4 | 3 | 2 | 1 |
+| Already carrying a knock | 14 | 15 | 12 | 9 | 7 | 5 | 2 |
+| Running speed lost | 9 | 13 | 16 | 19 | 22 | 25 | 28 |
+
+**Acceptance criteria:**
+
+- The roll matches its tables over many seeded rolls, and never reads the card roll
+- With the side at its limit, no injury happens
+- An injured player on a human side loses exactly their severity's running speed; one on a CPU side loses none
+
+*Derived from: Fouls, Cards & Injuries under Match Flow, [Match Mechanics](../../../sources/swos/match-mechanics.md).*
 
 ## Same-Tick Contacts
 
@@ -205,3 +259,6 @@ From [2.3 Contests](../../../project/milestones/2.3-contests.md), where two play
 - **How much advantage when two strike on the same tick?** Reusing the passive duel's probability table on the attribute difference is the obvious start. Decide before 2.3 is Ready
 - **Mixed pairs** — a slide against a header right at the 8 boundary, or a slide meeting a kick — and which attribute settles them
 - **A keeper's claim against a strike on the same tick** — which wins, and on what
+- **How an injured player is shown.** The reference's tackled animation is the same with or without an injury. Read before [5.4](../../../project/milestones/5.4-cards-and-injuries.md) is Ready
+- **Does a second injury replace the first, or add to it?** The research says only that a knock shifts the next roll. Read before 5.4 is Ready
+- **Do CPU sides stay immune to the injury slowdown?** The reference skips them; 5.4 decides whether to keep that

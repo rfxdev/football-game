@@ -23,7 +23,7 @@ Settled, with their reasoning recorded. Checked against rather than rewritten.
 
 ## Design and Manual
 
-**The clone's design is written as far as the research reaches**, ahead of the milestones if need be — it is the reference restated, not a guess about a game nobody has played. What departs from the reference waits until the clone plays, per the [Roadmap](../project/roadmap.md), and the manual is still written per milestone, per [The Spec Chain](../ways-of-working/spec-chain.md#writing-the-manual-entry). They are the source of truth: until the clone plays, most of what they say is written from [the SWOS research](../sources/swos/), but once it's here it's ours, and nothing is judged against SWOS directly — see [Writing From SWOS](../ways-of-working/spec-chain.md#writing-from-swos). The docs written before the milestones are in [`archive/`](../archive/): not current, and a quarry rather than a template.
+**The clone's design is written as far as the research reaches**, ahead of the milestones if need be — it is the reference restated, not a guess about a game nobody has played. What departs from the reference waits until the clone plays, per the [Roadmap](../project/roadmap.md), and the manual is still written per milestone, per [The Spec Chain](../ways-of-working/spec-chain.md#writing-the-manual-entry). They are the source of truth: until the clone plays, most of what they say is written from [the SWOS research](../sources/swos/), but once it's here it's ours, and nothing is judged against SWOS directly — see [Writing From SWOS](../ways-of-working/spec-chain.md#writing-from-swos).
 
 Every system has one owning doc, listed below whether it's written yet or not, so a proposal always has somewhere to land — see [Turning It Into Design](../ways-of-working/spec-chain.md#turning-it-into-design). An unwritten doc is named with the milestone that first needs it. A doc is split when part of it starts being read on its own, in a different task — not before.
 
@@ -49,10 +49,10 @@ One doc per system, whether it mostly simulates or mostly shows.
 | [Camera](design/match-engine/camera.md) | View size and the aspect band, where the view stops, the ground beyond the lines, how the camera follows play |
 | [Kits](design/match-engine/kits.md) | Kit data, shirt types, keepers, recolouring, clashes |
 | [Ball Physics and Aerial Simulation](design/match-engine/ball-physics-and-aerial-simulation.md) | How the ball moves — steering, fake height, each surface, stopped-play walls, the goalframe — and how height reads on screen |
-| [On-the-Ball Mechanics](design/match-engine/on-the-ball-mechanics.md) | Input as intent, movement and turning, carrying and possession, kicking — tap versus hold and aftertouch — the action button's slide and headers, the passive duel, fouls, same-tick contacts, and how each is animated |
-| [Team AI and Decision Making](design/match-engine/team-ai-and-decision-making.md) | The decision rate, who goes for the ball — control switching and its marker included — off-ball movement, the CPU's stick and button, the keeper, and the debug overlay |
-| [Formation and Shape System](design/match-engine/formation-and-shape-system.md) | Formations on the grid, the moving block, anchors, and the shadow formation that shows them |
-| Match State Machine — [5.1](../project/milestones/5.1-kick-off.md) | Clock, periods, restarts, cards and injuries, and how each is shown — celebrations, cards, an injured player |
+| [On-the-Ball Mechanics](design/match-engine/on-the-ball-mechanics.md) | Input as intent, movement and turning, carrying and possession, kicking — tap versus hold and aftertouch — taking a restart, the action button's slide and headers, the passive duel, fouls and injuries, same-tick contacts, and how each is animated |
+| [Team AI and Decision Making](design/match-engine/team-ai-and-decision-making.md) | The decision rate, who goes for the ball — control switching and its marker included — off-ball movement, the CPU's stick and button, the keeper, movement while play is stopped, and the debug overlay |
+| [Formation and Shape System](design/match-engine/formation-and-shape-system.md) | Anchors and the shadow formation that shows them, formations on the grid, the moving block, and where players stand at restarts |
+| [Match State Machine](design/match-engine/match-state-machine.md) | The match's record: play states, the pending restart and the break before it, score and kick-off, cards, the clock and periods — and how each is shown |
 | Match HUD — [5.5](../project/milestones/5.5-clock-halves-and-full-time.md) | Score, clock and team names on screen |
 
 ### Outside the Match

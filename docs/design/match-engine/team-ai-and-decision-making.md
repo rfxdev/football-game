@@ -9,8 +9,9 @@
 - **The second player makes the CPU's tackles, never from behind** — [The CPU's Tackle](#the-cpus-tackle)
 - **On the ball, the CPU shoots if it can, and otherwise reacts to the nearest opponent** — [The CPU on the Ball](#the-cpu-on-the-ball), with its aftertouch in [CPU Aftertouch](#cpu-aftertouch)
 - **The keeper has rules of its own** — [The Keeper](#the-keeper)
+- **While play is stopped, everyone is walked to where the restart needs them**, and on and off the pitch between halves — [While Play Is Stopped](#while-play-is-stopped)
 
-Each section names the milestone that first builds it. A human's controlled player is theirs alone, and nothing here moves it. [2.1](../../../project/milestones/2.1-keeper-drill.md)'s line-holding keeper and [3.1](../../../project/milestones/3.1-dumb-five-a-side.md)'s deliberately dumb players are scaffolding their milestones describe, not this design. Distances are in world units, per [Architecture and Stack](../../decisions/architecture-and-stack.md), and durations in seconds.
+Each section names the milestone that first builds it. In play, a human's controlled player is theirs alone, and nothing here moves it; while play is stopped, [While Play Is Stopped](#while-play-is-stopped) moves everyone. [2.1](../../../project/milestones/2.1-keeper-drill.md)'s line-holding keeper and [3.1](../../../project/milestones/3.1-dumb-five-a-side.md)'s deliberately dumb players are scaffolding their milestones describe, not this design. Distances are in world units, per [Architecture and Stack](../../decisions/architecture-and-stack.md), and durations in seconds.
 
 ## Decision Rate
 
@@ -198,6 +199,24 @@ From [2.1 Keeper Drill](../../../project/milestones/2.1-keeper-drill.md), which 
 
 *Derived from: The Keeper under AI Behavior, [Match Mechanics](../../../sources/swos/match-mechanics.md).*
 
+## While Play Is Stopped
+
+From [5.1 Kick-off](../../../project/milestones/5.1-kick-off.md). When each of these happens is [Match State Machine](match-state-machine.md)'s; how players move is here. No pad moves anyone until the taker is set, a human's players included.
+
+- **At a stoppage, everyone stops where they are**, per step 1 of [The Break](match-state-machine.md#the-break)
+- **After step 4, everyone goes to their restart position.** Outfielders run straight to their anchors for the pending restart, per [Restarts](formation-and-shape-system.md#restarts), and stop on arrival, as in [Off the Ball](#off-the-ball). Where the keeper goes is in [Open Questions](#open-questions)
+- **At a goal kick, the box rule stops them short**, per [Restarts](formation-and-shape-system.md#restarts)
+- **After a goal, everyone moves at 62.5% of their running speed** until they're in place, with or without the ball
+- **When a card is shown, the booked player walks to 21 right of the foul**, to meet the referee, per [Cards](match-state-machine.md#cards). A sent-off player then walks to (−20, 449), off the left touchline at halfway
+- **The teams come out at the start of each half, and leave at half-time and full time**, over the times in [Clock and Periods](match-state-machine.md#clock-and-periods). How they come out and leave is in [Open Questions](#open-questions)
+
+**Acceptance criteria:**
+
+- Until step 4, every player stands where play stopped; after it, every outfielder runs straight to their restart anchor and stops on it
+- After a goal, every player moves at exactly 62.5% of their running speed until they're in place
+
+*Derived from: The Break under Match Flow, and Movement, [Match Mechanics](../../../sources/swos/match-mechanics.md).*
+
 ## Open Questions
 
 **Research:**
@@ -207,7 +226,10 @@ From [2.1 Keeper Drill](../../../project/milestones/2.1-keeper-drill.md), which 
 - **How is the controlled player marked?** Read the reference before 2.2 draws it
 - **Can the CPU slide from the on-ball rules?** They run on distance alone, so a press there with the opponent on the ball may slide. Read before [3.3](../../../project/milestones/3.3-decision-loop.md) is Ready
 - **The keeper's dive, save and speed rules, and the order its rules branch in** — `ShouldGoalkeeperDive` and its skill tables. Read before [3.4](../../../project/milestones/3.4-keeper-ai.md) is Ready
-- **How the CPU takes restarts** — throw-ins, free kicks, corners, goal kicks and penalties. Research into `sources/` before [5.1](../../../project/milestones/5.1-kick-off.md) is Ready
+- **How the CPU takes restarts** — throw-ins, free kicks, corners, goal kicks and penalties, and what it does with the throw-in's third and the free kick's lane recorded in [Stoppages](match-state-machine.md#stoppages). Research into `sources/` before [5.1](../../../project/milestones/5.1-kick-off.md) is Ready
+- **Who takes each restart.** The restarting side's controlled player, but how it's picked during a break isn't traced. The goal-kick spot is inside the box, which suggests the keeper takes goal kicks. Before 5.1 is Ready
+- **Where the keeper stands while play is stopped.** [The Keeper](#the-keeper) covers open play only, and the keeper has no anchor to follow a restart. Read the reference before 5.1 is Ready
+- **How the teams come out and leave** — where from, where to, and in what order. Read the reference before [5.5](../../../project/milestones/5.5-clock-halves-and-full-time.md) is Ready
 
 **Design:**
 
