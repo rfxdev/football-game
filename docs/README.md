@@ -36,7 +36,7 @@ What the player is told, settled before the design that delivers it, per [The Sp
 
 | Document | What it covers |
 | --- | --- |
-| Player Manual — the first milestone on the *told* route | What the player is told, controls first |
+| [Player Manual](manual/player-manual.md) | What the player is told, controls first |
 
 ### Match Engine — `design/match-engine/`
 

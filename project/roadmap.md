@@ -8,7 +8,7 @@ How a milestone file works — what it is, how it exits, its status — is in th
 
 **The project builds, runs on the Deck, takes input, and has a test harness.**
 
-- [0.1 Input Map](milestones/0.1-input-map.md) — abstract bindings, the 8BitDo verified against what the device actually reports
+- [0.1 Input Map](milestones/0.1-input-map.md) — abstract bindings for keyboard and pad, the 8BitDo verified against what the device actually reports
 - [0.2 Sandbox Scene](milestones/0.2-sandbox-scene.md) — a fixed frame the size of the Deck's screen, a ball with height and a shadow, boundary detection with scenario reset
 - [0.3 Ball Physics Test Suite](milestones/0.3-ball-physics-test-suite.md) — GdUnit4 over the fake-Z ball, from day one
 - [0.4 Deck Build](milestones/0.4-deck-build.md) — one Linux build onto the Deck, before any real content exists

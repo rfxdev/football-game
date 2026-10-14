@@ -19,6 +19,7 @@ Each section names the milestone that first builds it. Bindings and the pad itse
 
 From [1.1 Movement and Possession](../../../project/milestones/1.1-movement-and-possession.md).
 
+- **The intent delivers the [Player Manual](../../manual/player-manual.md#controls)'s Controls.** The stick, d-pad or arrow keys give the direction; A or Space gives the action
 - **Game code reads a per-player intent — a direction and the action — never a device.** One player uses it until two-player mode, which gives each player a pad behind the same seam without touching anything that reads intent
 - **The direction is one of eight, or none**, as on the reference's digital joystick. The stick is snapped to the nearest eighth before anything reads it
 - **The stick deadzone is a feel value owned here.** It sets how far the stick moves before a direction registers: too large and a small adjustment needs a shove that overshoots, too small and a resting stick drifts. Set per action in the Input Map and tuned on the pad

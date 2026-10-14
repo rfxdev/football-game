@@ -14,6 +14,7 @@ Not everything originates in the manual. The route decides what gets written and
 | **Felt** — the player perceives it but is never told | Design → code. No manual entry | Ball bounce, friction, turning radius, shot power curve, AI positioning |
 | **Neither** — invisible scaffolding | Justified against a milestone → code | Input Map, test suites, build pipeline, sandbox scene |
 
+- **Route each deliverable, not the milestone.** The Input Map's wiring is *neither*; which button or key does what is *told*
 - The split is *told* versus *felt*, not visible versus invisible. The player certainly notices whether the ball is lively or dead; they are just never told about it in words, so it gets a design doc and no manual entry
 
 ## The Gate
@@ -21,7 +22,7 @@ Not everything originates in the manual. The route decides what gets written and
 Checked before anything is written:
 
 - Against the design pillars in [Game Vision and Design Goals](../docs/design/game-vision-and-design-goals.md)
-- Against the [Player Manual](../docs/README.md#manual)'s controls section, for anything on the *told* route — until it's written, what the button does in [On-the-Ball Mechanics](../docs/design/match-engine/on-the-ball-mechanics.md). Single-button input means every action competes for the same button in some context, so that table is the scarcest resource in the project — a proposal needing a new input, or a new context-sensitive meaning for an existing one, declares that cost here rather than at implementation
+- Against the [Player Manual](../docs/manual/player-manual.md#controls)'s controls section, for anything on the *told* route — and for what the button does in a context it doesn't cover yet, [On-the-Ball Mechanics](../docs/design/match-engine/on-the-ball-mechanics.md). Single-button input means every action competes for the same button in some context, so that table is the scarcest resource in the project — a proposal needing a new input, or a new context-sensitive meaning for an existing one, declares that cost here rather than at implementation
 - Against [Licensing and IP](../docs/decisions/licensing-and-ip.md) where content is involved
 - Against the systems it interlocks with, per the vision's [Scope & Boundaries](../docs/design/game-vision-and-design-goals.md#scope--boundaries): what's automatic, what the player controls, and whether it gets ahead of the systems it touches
 
@@ -37,7 +38,7 @@ Until the clone plays, most of what the manual and design say comes from [the SW
 - **Round a converted duration to the nearest whole tick.** 0.32 becomes 19 ticks and 0.44 becomes 26. A stagger spreads its remainder across the cycle, so eleven re-targets in 26 ticks fall 2 or 3 apart, never bunched
 - **A chance rolled per team update keeps its rate per second.** Rolled every tick at 60, a per-update chance p becomes 1 − (1 − p)^(25/60): one in four becomes about 11%. A choice gated on the reference's tick counter is a cycle instead, kept at its real-time period
 - **A tick pattern is kept, not rescaled.** Ball control's two ticks on, two off stays two and two at 60, running a little faster in real time — close enough to play the same, where a rescaled pattern can't land on whole ticks
-- **Record where it came from.** A *Derived from* line under each section that inherits from SWOS, naming the `sources/swos/` section. It is what makes a later departure read as a decision rather than as drift
+- **Record where it came from.** A *Derived from* line under each design section that inherits from SWOS, naming the `sources/swos/` section. It is what makes a later departure read as a decision rather than as drift
 - **Mark a departure where it lands.** A *Departs from SWOS* line under the section, beside its *Derived from*: what SWOS does, what we do instead, and why or where it was decided. Checking a section against the disassembly then finds the difference already explained, and doesn't "fix" it back. Until the clone plays, a departure is forced — by our tick rate, display or a settled decision — never chosen, per the [Roadmap](../project/roadmap.md)
 - **`sources/` being silent isn't SWOS being silent.** Before writing a mechanism SWOS has as ordinary design, read what the disassembly does and research it into `sources/` first
 - **Where the code is silent too, it's ordinary design** — mechanism and criteria written as below, judged by playing
@@ -46,8 +47,10 @@ Until the clone plays, most of what the manual and design say comes from [the SW
 ## Writing the Manual Entry
 
 - Present tense, player voice, as if the game already exists: *"Hold the button longer to hit it harder."*
+- **Player-facing, nothing else.** No mechanism, no milestone links, no notes about the docs — a line a player wouldn't read belongs in the design doc or the milestone, which links the manual
 - No hedging and no rationale. Being unable to hedge is what makes it a spec rather than a wish; the reasoning belongs in the design doc
 - **Per milestone, not up front.** A milestone's section is written before that milestone is built, not before the first one. A complete manual written today would be fiction about a game nobody has played, and its most confident passages would cover the milestones furthest away
+- **Until the clone plays, the promise is the reference's.** The design is written ahead from it, per [Writing From SWOS](#writing-from-swos), and a milestone's manual entry puts that design into the player's words — still before the build, and still through [the gate](#the-gate)
 
 ## Turning It Into Design
 
