@@ -73,7 +73,7 @@ At each phase boundary, per [Roadmap](../project/roadmap.md) — not every itera
 - Windows and macOS filesystems are case-insensitive by default; Linux is case-sensitive. `sprites/Ball.png` and `sprites/ball.png` are one file on the dev machine and two different files on the Deck
 - In Godot this surfaces as `res://` paths that work perfectly in the editor and fail on the Deck: `load()` returns null, scenes open with missing textures, and nothing looked wrong locally. It is a genuinely miserable debugging session if it arrives alongside other changes
 - **Enforce consistent casing from day one.** Lowercase with underscores for every file and directory, matching Godot's own file naming convention
-- Worth an automated check rather than vigilance — see [Automation Testing](automation-testing.md). It's the cheapest possible CI job and it catches the exact class of bug that's hardest to find by hand
+- Worth an automated check rather than vigilance — the first CI job, per [Automation Testing](automation-testing.md#ci). It's the cheapest possible: any Linux runner catches it simply by loading the project, and it catches the exact class of bug that's hardest to find by hand
 - Fixing casing later is awkward on a case-insensitive filesystem — git often won't register the rename. A two-step rename through a temporary name works
 
 ## Proton

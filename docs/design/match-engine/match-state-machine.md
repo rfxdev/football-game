@@ -55,7 +55,7 @@ Whatever stops play fixes the pending restart there and then: its kind, its spot
 - **A foul stops play at once.** No advantage is played. Whether it also draws a card is [Cards](#cards)'
 - **What counts as a goal and what counts as out are [The Goal](pitch-and-environment.md#the-goal)'s**: one predicate on the goal line, read by both. What counts as a foul is [Fouls](on-the-ball-mechanics.md#fouls)'
 - **A throw-in's third and a free kick's lane are recorded with it.** The third is which third of the pitch a throw-in is in, split at y 342 and 556. The lane applies to a free kick within 115 in front of the box: which of seven lanes across the pitch it's in, split at x 153, 261, 309, 362, 410 and 518. How the CPU uses them is still research, per [Team AI](team-ai-and-decision-making.md#open-questions)
-- **The pending restart is what other systems read while play is stopped:** where players stand ([Restarts](formation-and-shape-system.md#restarts)) and which way the taker can face ([Kicking](on-the-ball-mechanics.md#kicking))
+- **The pending restart is what other systems read while play is stopped:** where players stand ([Restarts](formation-and-shape-system.md#restarts)) and which way the taker can face ([Taking a Restart](on-the-ball-mechanics.md#taking-a-restart))
 
 **Acceptance criteria:**
 
@@ -78,7 +78,7 @@ Every stoppage runs the same sequence of waits, in order:
 6. **The taker is set, and the whistle blows**, except for the keeper's ball. Play then waits on the taker, a human's for as long as it takes
 7. **The taker's kick or throw restarts play**, and the clock with it
 
-- **How players move throughout is [While Play Is Stopped](team-ai-and-decision-making.md#while-play-is-stopped)'s.** Where outfielders stand is [Restarts](formation-and-shape-system.md#restarts)'; the keeper's is [The Keeper](team-ai-and-decision-making.md#the-keeper)'s
+- **How players move throughout is [While Play Is Stopped](team-ai-and-decision-making.md#while-play-is-stopped)'s.** Where outfielders stand is [Restarts](formation-and-shape-system.md#restarts)'; the keeper's is still research, in Team AI's [Open Questions](team-ai-and-decision-making.md#open-questions)
 - **The taker is the restarting side's controlled player**, per [Who Goes for the Ball](team-ai-and-decision-making.md#who-goes-for-the-ball). How it's picked during a break is research there
 - **Two safety nets.** If the restarting side still has no taker 10 seconds after the players arrive, the break starts again. A CPU side that hasn't taken a restart 15 seconds after the whistle gets a kick-off instead. A test that sees either fire has found a soft-lock
 
@@ -140,7 +140,7 @@ A foul's card is decided on its own: independently of the restart, and of any in
 From [5.5 Clock, Halves and Full Time](../../../project/milestones/5.5-clock-halves-and-full-time.md).
 
 - **The clock counts game minutes, from 0 to 90**, advancing only as [Play States](#play-states) allows
-- **Match length is 3, 5, 7 or 10 minutes, 3 by default.** It sets how fast the clock runs: 45 game minutes take 88, 147, 221 or 294 seconds of play. It also sets the odds in [Cards](#cards) and [Injuries](on-the-ball-mechanics.md#injuries). Picking it is the front end's, once there is one
+- **Match length is 3, 5, 7 or 10 minutes, 3 by default.** It sets how fast the clock runs: 45 game minutes take 88, 147, 221 or 294 seconds of play. It also sets the odds in [Cards](#cards) and [Injuries](on-the-ball-mechanics.md#injuries). It's picked on [7.1 Team Select](../../../project/milestones/7.1-team-select.md)'s setup screen
 - **A half doesn't end on the minute.** At 45 and 90 the clock stops. The half ends once play has run for 1.0 second in a row with the ball outside both boxes and last touched by the side defending the half it's in: no restart pending and no attack on. Anything else restarts the count, and nothing caps it, so a corner won at 45 is always taken
 - **Each half starts with the teams coming out**, and the kick-off break begins 2.0 seconds later. How players come out and leave is [While Play Is Stopped](team-ai-and-decision-making.md#while-play-is-stopped)'s
 - **Half-time:** the whistle, 2.0 seconds, the players leave over 5.0 seconds, and the score is shown for 14 seconds. Ends and kick-off swap

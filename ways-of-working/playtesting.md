@@ -18,7 +18,7 @@ Most of what follows is the apparatus that makes both cheap, because the cost of
 
 ## Sandbox Scene
 
-- Keep a dedicated stripped-down scene — flat pitch, two players, one ball — separate from the full match scene. Suggested: `scenes/sandbox/sandbox.tscn`
+- Keep a dedicated stripped-down scene, holding only what the system under tune needs, separate from the full match scene. Suggested: `scenes/sandbox/sandbox.tscn`
 - The point is isolation: when the ball feels wrong, a sandbox tells you it's the ball. A full match scene with AI, formations and a state machine running does not
 - Worth keeping the sandbox alive after [0.2 Sandbox Scene](../project/milestones/0.2-sandbox-scene.md) rather than deleting it. Every later system gets tuned in it too
 

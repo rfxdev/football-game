@@ -1,3 +1,3 @@
 # World
 
-- **Community packs** — kits, sprites and team data, loadable but not hosted — hosting is ruled out by [Licensing and IP](../../docs/decisions/licensing-and-ip.md#real-football)
+- **Community packs** — kits and sprites, shared under the asset licence per [Licences](../../docs/decisions/licensing-and-ip.md#licences), and team data, loadable but never hosted, per [Real Football](../../docs/decisions/licensing-and-ip.md#real-football)

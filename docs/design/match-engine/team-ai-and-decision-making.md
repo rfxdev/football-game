@@ -31,7 +31,7 @@ From [2.1 Keeper Drill](../../../project/milestones/2.1-keeper-drill.md), the fi
 
 *Derived from: Engine Performance and AI Behavior, [Match Mechanics](../../../sources/swos/match-mechanics.md).*
 
-*Departs from SWOS: the reference decides for each team on alternate ticks, 25 times a second. Here both teams decide every tick, with the reference's per-decision chances and cycles converted to keep their real-time pace, per [Writing From SWOS](../../../ways-of-working/spec-chain.md#writing-from-swos). Deciding every tick on the current match would let the CPU react up to 0.04 sooner than the reference, so decisions read the match a tick old to bring the timing back. Per *Team updates* in [Architecture and Stack](../../decisions/architecture-and-stack.md).*
+*Departs from SWOS: the reference decides for each team on alternate ticks, 25 times a second. Here both teams decide every tick, reading the match a tick old, with the reference's chances and cycles converted per [Writing From SWOS](../../../ways-of-working/spec-chain.md#writing-from-swos). Decided in *Team updates* in [Architecture and Stack](../../decisions/architecture-and-stack.md).*
 
 ## Who Goes for the Ball
 

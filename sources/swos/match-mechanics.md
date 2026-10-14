@@ -58,6 +58,7 @@ A foul always results in a stoppage — a penalty or free kick either way, decid
 
 - The chance of any injury is scaled by the match-length setting (`kTackleInjuryProbability`: 18.75%, 10.9%, 7.8%, 5.5% per tackle across four settings — decreasing as matches get longer, keeping total expected injuries per match roughly stable) and **roughly doubles for a player already carrying a knock** (`kTackleInjuryProbabilityAlreadyInjured`: 37.5%, 22.3%, 16.0%, 10.9%). The check matches the mildest injury degree only; a player carrying anything worse rolls on the normal tables (`swos.asm:107899-107906`, `original-amiga-swos.asm:36124-36131`).
 - Severity, when an injury occurs, is a weighted roll across 7 levels (`kInjuryLevels`: weights 42/7/5/4/3/2/1 out of 64 — the mildest "knock" alone accounts for ~66%). **A player already carrying a knock rolls hard toward the severe end** (`kInjuryLevelAlreadyInjured`: weights 14/15/12/9/7/5/2 out of 64 — the mildest outcome drops to ~22%) — quantifying what the Jon Hare Q&A only implied (see [Career Mode Mechanics](career-mode-mechanics.md)).
+- **Nothing on the pitch shows the injury.** The tackled animation is the same with or without one (`PlayerTackled`, `swos.asm:107856-108032`).
 
 ### Heading
 
@@ -165,7 +166,7 @@ The Amiga shows about 5% more width than DOS, 36% more length and 43% more area.
 Consequences, since they are easy to get wrong from screenshots:
 
 - **The view scrolls on both axes.** Neither version shows anything like the whole pitch, and the window covers far more of the pitch's width than of its length
-- **Neither version zooms.** The [Xbox version](#xbox-version) does. swos-port's zoom is the port's own addition (`kMaxZoom`, `swos-port/src/game/pitch/pitch.cpp:20`), not the original's
+- **Neither version zooms.** The Xbox version does. swos-port's zoom is the port's own addition (`kMaxZoom`, `swos-port/src/game/pitch/pitch.cpp:20`), not the original's
 - **The pitch is portrait**, taller than it is wide, matching the vertical attacking orientation the manual describes.
 - **Speeds elsewhere in this document are in these pixels.** A Speed-7 player's 2.44 px/tick crosses the 672-pixel width in about 275 ticks, about 5.5 seconds at the Amiga's 50 Hz (see Engine Performance).
 
@@ -301,8 +302,8 @@ Team 1 changes kit only at step 3; from step 5 on, it always wears its primary. 
 
 - **One button, fully contextual.** The entire on-pitch engine runs off just a directional stick and a single action button — context and timing determine the outcome, not a complex layout.
 - **Tap** the button for a short pass or a slide; **hold** it to power up a shot or long lob.
-- **Aftertouch:** for kicks and passes, pushing the stick in a direction immediately after the button applies a violent swerve, curl, or height change to a ball that's already in flight, relative to the direction of the kick itself rather than absolute up/down. Headers use the same relative-direction mapping but aim it earlier — during the jump/dive, before the head meets the ball, rather than after. See Heading, Passing, and Shooting & Finishing above for how each action interprets it.
-- **Next-player selection follows joystick direction** at the moment of the switch; leaving the stick neutral doesn't speed selection up and effectively continues using the last direction pushed.
+- **Aftertouch:** for kicks and passes, pushing the stick in a direction immediately after the button applies a violent swerve, curl, or height change to a ball that's already in flight, relative to the direction of the kick itself rather than absolute up/down. Headers read the stick too, but at contact rather than after it — see Heading, Passing, and Shooting & Finishing above for how each action interprets it. An earlier reading had headers aimed during the jump or dive, before the head meets the ball; the code reads the aim at contact (`PlayerHittingJumpHeader`, `PlayerHittingStaticHeader`).
+- **Next-player selection ignores the stick.** Control goes to the strictly nearest player, per *Who Goes for the Ball* below. An earlier reading had it follow the joystick direction at the moment of the switch; `UpdateControlledPlayer` reads distance only.
 - **No dedicated switch button.** With the single action button already committed to sliding/heading/shooting, control while out of possession isn't manually assigned — the engine automatically hands control to whichever of your players is closest to the ball, reassigning it continuously as the ball (and players) move. How it picks, and the player it never picks, are in *Who Goes for the Ball* under AI Behavior below.
 
 ### AI Behavior
@@ -347,7 +348,7 @@ When its controlled player is within about 8.5 of the ball (`swos.asm:118305-118
 5. **Otherwise it reacts to the nearest opponent** — their controlled player if within about 71 of the ball, else their second player:
    - **None within 71:** dribble, as in step 4
    - **Within 28:** pass if a teammate is open. Otherwise sidestep. More than about 424 from goal (deep in its own half), it instead hoofs it long if facing goal, or within 45° to one side of it, and sidesteps if not
-   - **Between 28 and 71:** on about 3.5% of updates, more than about 220 from goal, it hoofs it long as above. Otherwise it dribbles on three updates in four, and passes or sidesteps on the fourth
+   - **Between 28 and 71:** on about 3.5% of updates, more than about 220 from goal, it hoofs it long as above. Otherwise it passes or sidesteps in the first quarter of each 16-tick cycle, and dribbles the rest of the time (`currentGameTick & 0Ch`, `swos.asm:118475-118478`)
 6. **A sidestep** turns 45° off its line when the ball is at its feet, and then holds for 4 updates. It only starts in a quarter of each 128-tick cycle; otherwise it dribbles (`swos.asm:118503-118528`)
 
 - **"Open" means the nearest player to the ball within 22.5° of the carrier's facing is a teammate** — either team counts, so an opponent in that cone blocks the pass (`FindClosestPlayerToBallFacing`, `swos.asm:119369-119441`; Amiga `:46754`). The pass itself is a tap in the facing direction, and passing then finds the receiver as for a human
@@ -369,7 +370,7 @@ Uncontrolled, the keeper follows these rules, in a branching order not yet fully
 - **Otherwise it often comes out to halfway between the ball and the centre of its goal line**, narrowing the angle, at a speed from its skill table. The conditions branch on whether a shot is heading between the posts, and aren't fully traced
 - **A ball at 16 or lower that the keeper is nearer to than any of the four players going for it**, it goes for
 - **In a one-on-one** — keeper within about 11 of the ball with the shooter pressing — the shooter's Finishing against the keeper's skill, through a probability table, decides goal or save outright (`goalScoredChances`)
-- **Diving:** `ShouldGoalkeeperDive` compares when the ball arrives with how long the keeper takes to get there running or diving, against projected ball positions. Not yet read in detail
+- **Diving:** `ShouldGoalkeeperDive` compares when the ball arrives with how long the keeper takes to get there running or diving, against projected ball positions, with the keeper's skill tables in `UpdatePlayerShotChanceTable`. Not yet read in detail
 
 #### Restarts
 
@@ -379,7 +380,7 @@ Uncontrolled, the keeper follows these rules, in a branching order not yet fully
 - It kicks with a strength set by distance to goal
 - It curls at random from corners, and picks a random direction for penalties
 
-Not researched beyond this. Phase 5's.
+Not researched beyond this. Phase 5's. Where everyone else stands is the tactic's own out-of-play tactic, per [Players Position Off Where the Ball Will Land](tactics-and-team-selection.md#players-position-off-where-the-ball-will-land) (`swos-port/docs/SWOS/tactics.txt`), with some players placed specially at corners and free kicks; who takes the restart isn't traced beyond being the restarting side's controlled player.
 
 ### Match Flow
 
@@ -456,11 +457,3 @@ How a card decided by *Fouls, Cards & Injuries* is shown (`referee.cpp`; `Activa
 Tapping the same stick direction three times in quick succession — at any moment the ball is dead (out of play, or held by a keeper) — brings up both teams' benches without leaving the match. From there you can: swap two outfield players' positions without using a substitution, make an actual substitution (only usable while the ball is out of play), switch to a different pre-defined formation on the fly, or hold the button on a player's name to give them a permanent on-pitch highlight (flashing diamond) for the rest of the match. Push the stick to either side to dismiss the bench and resume play.
 
 Assistant Coach fit feedback (see [Tactics and Team Selection](tactics-and-team-selection.md)) doesn't apply here — bench changes get no tick/cross evaluation at all, unlike the same swaps made pre-match.
-
-## Open Questions
-
-- **Does the auto-switch flap in play?** The code has no hysteresis (see *Who Goes for the Ball*), but the second player's exclusion may hide it: the two nearest can't swap control between themselves. Watch two defenders converging in swos-port
-- **How long does the second player keep chasing?** Worked from the code, not watched: once started, they chase until the team's pass state resets, and which events reset it isn't fully traced. Watch in swos-port whether the second player ends up beside the carrier, or holds off
-- **The keeper's dive and save rules** — `ShouldGoalkeeperDive`, the keeper's skill tables (`UpdatePlayerShotChanceTable`), and the order of its branches
-- **Where players stand at each restart, and who takes it.** A tactic carries the index of a second tactic used while the ball is out of play (`swos-port/docs/SWOS/tactics.txt`), and corners and free kicks place some players specially; the taker is the restarting side's controlled player, but how it's picked during a break isn't traced. The goal-kick spot sits inside the box, which suggests the keeper takes them
-- **How an injured player is shown** — the tackled animation is the same with or without an injury (`PlayerTackled`, `swos.asm:107856-108032`)

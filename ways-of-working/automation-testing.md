@@ -72,7 +72,7 @@ A design doc can fix a number rather than a range — a top speed, the frames a 
 
 - Not set up, and it earns nothing while the suite runs in seconds in the editor. The trigger is running it locally becoming something you skip
 - GdUnit4 emits JUnit XML and has a GitHub Actions integration, so the path is known. Target when it comes: lint plus unit tests on push, longer simulation runs on a slower cadence
-- **Filename case consistency is the one check worth having before any of that** — it catches `res://` paths that work on case-insensitive Windows and Mac filesystems and break on the Deck. Owned by [Build Pipeline](build-pipeline.md); any Linux runner catches it for free simply by loading the project
+- **Filename case consistency is the one check worth having before any of that.** The hazard, and why the check is so cheap, are [Build Pipeline](build-pipeline.md#case-sensitivity--the-one-that-will-bite)'s
 
 ## Open Questions
 

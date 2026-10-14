@@ -19,7 +19,7 @@ The project contains no licensed football content and no material taken from oth
 
 - **Real-world team, player, league, or competition data** — names, squads, crests, badges, kits, or competition marks. This includes names derived from real squad lists, and a fictional club that matches a real club's name, city, and colours together
 - **Code or assets taken from another game** — code, sprites, tilesets, palettes, audio, or fonts pulled from a game's files or ROM, decompiled or not, and pixel-copied menu or HUD layouts — or its name or logo used in this project's name or branding
-- **Material whose licence is unknown, non-commercial, personal-use-only, or GPL** — CC BY-NC in particular is incompatible with this project's licensing
+- **Material whose licence is unknown, non-commercial or personal-use-only, and GPL code** — CC BY-NC in particular is incompatible with this project's licensing
 - **AI-generated assets that don't meet the conditions** in [Third-Party Intake](docs/decisions/licensing-and-ip.md#third-party-intake)
 
 This isn't a comment on anyone's intentions; it's that a public repo keeps everything forever, and removing infringing material means rewriting history. [Licensing and IP](docs/decisions/licensing-and-ip.md) has where the line falls between taking inspiration from a game and taking its material.

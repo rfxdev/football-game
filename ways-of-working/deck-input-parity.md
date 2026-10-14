@@ -1,6 +1,6 @@
 # Deck Input Parity
 
-The habits that keep desk and Deck input identical. The decision is *Input* in [Technical Architecture and Stack](../docs/decisions/architecture-and-stack.md); what each button does is the [Player Manual](../docs/manual/player-manual.md)'s controls section.
+The habits that keep desk and Deck input identical. The decision is *Input* in [Technical Architecture and Stack](../docs/decisions/architecture-and-stack.md); what each button does is the [Player Manual](../docs/README.md#manual)'s controls section once it's written, and [On-the-Ball Mechanics](../docs/design/match-engine/on-the-ball-mechanics.md) until then.
 
 ## The Dev Controller
 

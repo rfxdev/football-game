@@ -48,4 +48,4 @@ Managing a national team means picking from every eligible player across every l
 
 ## Open Questions
 
-- **What actually triggers or calculates an injury?** This is fundamentally a match-engine question — see [Open Questions in Match Mechanics](match-mechanics.md#open-questions) — but it overflows into career mode since the outcome (knock, numbered injury, season-ending injury) determines a player's selection eligibility across the following matches, per [Suspensions and Injuries](#suspensions-and-injuries-remove-a-player-from-selection-entirely) above.
+- **How does a match injury become matches missed?** The roll and its severity are traced, in *Fouls, Cards & Injuries* in [Match Mechanics](match-mechanics.md#fouls-cards--injuries). How a severity turns into a knock, a number of matches out or a season-ending injury, per [Suspensions and Injuries](#suspensions-and-injuries-remove-a-player-from-selection-entirely) above, isn't.

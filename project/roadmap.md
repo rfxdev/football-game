@@ -67,7 +67,7 @@ How a milestone file works — what it is, how it exits, its status — is in th
 
 **You choose the match before you play it — who plays whom, and on what pitch.** The first way into a match that isn't a debug scene.
 
-- [7.1 Team Select](milestones/7.1-team-select.md) — a menu into a friendly: pick both teams and which one you control
+- [7.1 Team Select](milestones/7.1-team-select.md) — a menu into a friendly: pick both teams, which one you control, and how long the match runs
 - [7.2 Pitch Conditions](milestones/7.2-pitch-conditions.md) — frozen to hard, each changing how the ball rolls and bounces and the colour of the grass, picked at setup. Everything before plays on a normal pitch
 
 ---
