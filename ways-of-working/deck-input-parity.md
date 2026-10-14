@@ -6,7 +6,8 @@ The habits that keep desk and Deck input identical. The decision is *Input* in [
 
 The 8BitDo Ultimate 2.4G stands in for the Deck's controls.
 
-- **Run it in X-input (Xbox) mode, never Switch mode ("S").** Switch mode transposes A/B and X/Y, and passes for a mapping bug. **TODO: record the start-up combination**
+- **Run it with the switch on the back on X (XInput), never D (DInput).** X is the Xbox layout the bindings expect; D presents a generic DirectInput pad
+- **A USB cable does as well as the 2.4G receiver.** Both present the same pad on X, so the bindings verify the same either way
 - **Verify before trusting a mapping bug.** In the Input Map's listen-for-input dialog, the bottom face button should report as Xbox "A". Re-check after a re-pair, a different machine or a flat battery — and on both pads when testing co-op
 
 ## Binding
