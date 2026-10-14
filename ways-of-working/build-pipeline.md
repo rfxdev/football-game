@@ -74,6 +74,7 @@ At each phase boundary, per [Roadmap](../project/roadmap.md) — not every itera
 - In Godot this surfaces as `res://` paths that work perfectly in the editor and fail on the Deck: `load()` returns null, scenes open with missing textures, and nothing looked wrong locally. It is a genuinely miserable debugging session if it arrives alongside other changes
 - **Enforce consistent casing from day one.** Lowercase with underscores for every file and directory, matching Godot's own file naming convention
 - Worth an automated check rather than vigilance — the first CI job, per [Automation Testing](automation-testing.md#ci). It's the cheapest possible: any Linux runner catches it simply by loading the project, and it catches the exact class of bug that's hardest to find by hand
+- A pre-commit hook already rejects capitals and spaces in non-doc paths, per [Automation Testing](automation-testing.md#tooling). It keeps filenames right, not the `res://` paths that reference them, so the CI job still earns its place
 - Fixing casing later is awkward on a case-insensitive filesystem — git often won't register the rename. A two-step rename through a temporary name works
 
 ## Proton
