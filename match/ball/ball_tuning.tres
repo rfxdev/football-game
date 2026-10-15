@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="BallTuning" format=3]
+
+[ext_resource type="Script" path="res://match/ball/ball_tuning.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+gravity = 176.0
+bounce_cutoff = 31.0
+air_slowdown = 49.0
+ground_slowdown = 78.0
+pitch_ground_friction = 0.0
+pitch_bounce_speed_lost = 0.25
+pitch_bounce_vertical_kept = 0.625
+roll_speed_limits = PackedFloat64Array(50, 100, 250)
+roll_frame_seconds = PackedFloat64Array(0.12, 0.06, 0.04, 0.02)

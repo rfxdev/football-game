@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="PaletteDescription" format=3]
+
+[ext_resource type="Script" path="res://match/sprites/palette_description.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://art/palettes/match.png" id="2_fallback"]
+
+[resource]
+script = ExtResource("1_script")
+file_name = "match.png"
+entry_count = 128
+fallback = ExtResource("2_fallback")

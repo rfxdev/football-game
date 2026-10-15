@@ -1,0 +1,22 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://match/ball/ball_view.gd" id="1_view"]
+[ext_resource type="Script" path="res://match/sprites/sheet_sprite.gd" id="2_sprite"]
+[ext_resource type="Resource" path="res://art/sprites/ball_shadow.tres" id="3_shadow"]
+[ext_resource type="Resource" path="res://art/sprites/ball.tres" id="4_ball"]
+
+[node name="Ball" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_view")
+
+[node name="ShadowLayer" type="Node2D" parent="."]
+
+[node name="Shadow" type="Sprite2D" parent="ShadowLayer"]
+script = ExtResource("2_sprite")
+description = ExtResource("3_shadow")
+
+[node name="BallLayer" type="Node2D" parent="."]
+
+[node name="Ball" type="Sprite2D" parent="BallLayer"]
+script = ExtResource("2_sprite")
+description = ExtResource("4_ball")

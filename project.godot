@@ -14,6 +14,16 @@ config/name="football-game"
 run/main_scene="res://scenes/debug/input_check.tscn"
 config/features=PackedStringArray("4.7")
 
+[display]
+
+window/size/viewport_width=426
+window/size/viewport_height=266
+window/size/window_width_override=1280
+window/size/window_height_override=800
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
+window/stretch/scale_mode="integer"
+
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/gdUnit4/plugin.cfg")
