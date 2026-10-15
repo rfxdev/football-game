@@ -27,3 +27,6 @@ builds/
 
 # Raw third-party research material — not our own words, kept local only (see sources/README.md)
 sources/**/raw/
+
+# GdUnit4 test reports, written on every run
+reports/

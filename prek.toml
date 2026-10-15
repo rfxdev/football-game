@@ -7,14 +7,16 @@ repo = "builtin"
 hooks = [
   # Linux is case-sensitive, so a path that works on the dev machine can fail on the Deck.
   # Fails any path with a capital or a space; docs keep their conventional names
-  { id = "deny-filename-pattern", name = "lowercase paths", args = ["."], files = '[A-Z ]', exclude = '\.md$|^LICENSE$' },
+  # Addons keep their upstream paths, which their own code hard-codes
+  { id = "deny-filename-pattern", name = "lowercase paths", args = ["."], files = '[A-Z ]', exclude = '\.md$|^LICENSE$|^addons/' },
   { id = "check-case-conflict" },
   # Public repo: removing a committed file means rewriting history
   { id = "check-added-large-files" },
   { id = "detect-private-key" },
   { id = "check-merge-conflict" },
-  { id = "trailing-whitespace", args = ["--markdown-linebreak-ext=md"] },
-  { id = "end-of-file-fixer" },
+  # Third-party code stays as upstream ships it
+  { id = "trailing-whitespace", args = ["--markdown-linebreak-ext=md"], exclude = '^addons/' },
+  { id = "end-of-file-fixer", exclude = '^addons/' },
 ]
 
 [[repos]]
@@ -22,8 +24,8 @@ repo = "https://github.com/Scony/godot-gdscript-toolkit"
 rev = "4.5.0"
 hooks = [
   # Newest Python has no prebuilt pyyaml wheel on Windows yet
-  { id = "gdformat", language_version = "python3.13" },
-  { id = "gdlint", language_version = "python3.13" },
+  { id = "gdformat", language_version = "python3.13", exclude = '^addons/' },
+  { id = "gdlint", language_version = "python3.13", exclude = '^addons/' },
 ]
 
 [[repos]]

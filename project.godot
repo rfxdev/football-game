@@ -14,6 +14,10 @@ config/name="football-game"
 run/main_scene="res://scenes/debug/input_check.tscn"
 config/features=PackedStringArray("4.7")
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/gdUnit4/plugin.cfg")
+
 [input]
 
 move_left={
@@ -50,3 +54,8 @@ action={
 , Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":0,"pressure":0.0,"pressed":true,"script":null)
 ]
 }
+
+[rendering]
+
+textures/canvas_textures/default_texture_filter=0
+environment/defaults/default_clear_color=Color(0.1, 0.1, 0.1, 1)

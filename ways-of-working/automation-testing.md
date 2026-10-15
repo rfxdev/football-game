@@ -25,7 +25,7 @@ Don't write it when:
 ## Tooling
 
 - **GdUnit4** — embedded unit/integration testing for GDScript, chosen with the engine in [Technical Architecture and Stack](../docs/decisions/architecture-and-stack.md)
-- **gdformat and gdlint** (godot-gdscript-toolkit) — formatting, then style linting, CLI-driven so they can run in CI. Pinned in `prek.toml`; gdtoolkit's major version tracks Godot's. Defaults apply, except `gdlintrc` at the root skips `addons/`, which is third-party code
+- **gdformat and gdlint** (godot-gdscript-toolkit) — formatting, then style linting, CLI-driven so they can run in CI. Pinned in `prek.toml`; gdtoolkit's major version tracks Godot's. Defaults apply, except that `gdlintrc` and the hooks skip `addons/` — third-party code, kept as upstream ships it
 - **[prek](https://prek.j178.dev/)** — git hooks, configured in `prek.toml`: gdformat and gdlint, lowercase paths, no large files or private keys, and [Conventional Commits](https://www.conventionalcommits.org/) messages. Run `prek install` once per clone. A commit a hook fixes is blocked; re-stage and commit again
 - **Typed GDScript** — first line of defence and free. A coding habit rather than a tool, but it counts as part of the net
 
