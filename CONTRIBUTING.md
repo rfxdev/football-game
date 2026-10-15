@@ -18,7 +18,7 @@ You also confirm that the material is yours to give — that you wrote it, or th
 The project contains no licensed football content and no material taken from other games. Contributions are declined if they include:
 
 - **Real-world team, player, league, or competition data** — names, squads, crests, badges, kits, or competition marks. This includes names derived from real squad lists, and a fictional club that matches a real club's name, city, and colours together
-- **Code or assets taken from another game** — code, sprites, tilesets, palettes, audio, or fonts pulled from a game's files or ROM, decompiled or not, and pixel-copied menu or HUD layouts — or its name or logo used in this project's name or branding
+- **Code or assets taken from another game** — code, sprites, tilesets, palettes, audio, or fonts pulled from a game's files or ROM, decompiled or not, or traced, and pixel-copied menu or HUD layouts — or its name or logo used in this project's name or branding
 - **Material whose licence is unknown, non-commercial or personal-use-only, and GPL code** — CC BY-NC in particular is incompatible with this project's licensing
 - **AI-generated assets that don't meet the conditions** in [Third-Party Intake](docs/decisions/licensing-and-ip.md#third-party-intake)
 
@@ -32,10 +32,11 @@ If a contribution brings in anything from outside, add it to `CREDITS.md` as [Th
 
 ## Changes to Documentation
 
-Documentation is the project's main artefact right now, so doc PRs are real contributions. It lives in three places:
+Documentation is the project's main artefact right now, so doc PRs are real contributions. Where it lives:
 
 - **`docs/`** — what the game is
 - **`ways-of-working/`** — how it gets built. If it's a decision you'd make at the keyboard, it goes here
 - **`project/`** — where the work stands: roadmap and live tracking
+- **`sources/`** — what the reference games do, in our own words — never their files
 
 Keep docs short — bullets over prose. `/doc-review` reviews one doc at a time and `/doc-consistency` checks the whole set for duplication and drift.

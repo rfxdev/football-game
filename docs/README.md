@@ -18,7 +18,7 @@ Settled, with their reasoning recorded. Checked against rather than rewritten.
 
 | Document | What it covers |
 | --- | --- |
-| [Technical Architecture and Stack](decisions/architecture-and-stack.md) | Godot 4.x, GDScript, tooling, target platforms, display, input, and why not Unity |
+| [Technical Architecture and Stack](decisions/architecture-and-stack.md) | Godot 4.x, GDScript, tooling, target platforms, display, input, the tick, simulation state, determinism, saves, and why not Unity |
 | [Licensing and IP](decisions/licensing-and-ip.md) | What can go into the repo and the game — licences, other games, real football, local data, third-party intake |
 
 ## Design and Manual
@@ -44,11 +44,11 @@ One doc per system, whether it mostly simulates or mostly shows.
 
 | Document | What it covers |
 | --- | --- |
-| [Sprites](design/match-engine/sprites.md) | Pixel scale and sharpness, and the placeholders a fresh clone draws. Sprite dimensions and the foot anchor once [1.1](../project/milestones/1.1-movement-and-possession.md) fixes them |
-| [Pitch and Environment](design/match-engine/pitch-and-environment.md) | The pitch's lines, which surface a match is played on and its grass, and the goal — its shape, detection and drawing |
+| [Sprites](design/match-engine/sprites.md) | Pixel scale and sharpness, sheets of palette entries and the shader that colours them, how sideloaded art is read, and the placeholders a fresh clone draws |
+| [Pitch and Environment](design/match-engine/pitch-and-environment.md) | The pitch's lines and what counts as out, which surface a match is played on and its grass, and the goal — its shape, detection and drawing |
 | [Camera](design/match-engine/camera.md) | View size and the aspect band, where the view stops, the ground beyond the lines, how the camera follows play |
 | [Kits](design/match-engine/kits.md) | Kit data, shirt types, keepers, recolouring, clashes |
-| [Ball Physics and Aerial Simulation](design/match-engine/ball-physics-and-aerial-simulation.md) | How the ball moves — steering, fake height, each surface, stopped-play walls, the goalframe — and how height reads on screen |
+| [Ball Physics and Aerial Simulation](design/match-engine/ball-physics-and-aerial-simulation.md) | How the ball moves — steering, fake height, each surface, stopped-play walls, the goalframe — and how the ball is shown: height, shadow and roll |
 | [On-the-Ball Mechanics](design/match-engine/on-the-ball-mechanics.md) | Input as intent, movement and turning, carrying and possession, kicking — tap versus hold and aftertouch — taking a restart, the action button's slide and headers, the passive duel, fouls and injuries, same-tick contacts, and how each is animated |
 | [Team AI and Decision Making](design/match-engine/team-ai-and-decision-making.md) | The decision rate, who goes for the ball — control switching and its marker included — off-ball movement, the CPU's stick and button, the keeper, movement while play is stopped, and the debug overlay |
 | [Formation and Shape System](design/match-engine/formation-and-shape-system.md) | Anchors and the shadow formation that shows them, formations on the grid, the moving block, and where players stand at restarts |

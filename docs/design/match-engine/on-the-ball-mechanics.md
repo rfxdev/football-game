@@ -34,7 +34,13 @@ From [1.1 Movement and Possession](../../../project/milestones/1.1-movement-and-
 From [1.1](../../../project/milestones/1.1-movement-and-possession.md).
 
 - **Speed sets top running speed**, by the table below — about a 35% swing. Carrying is [Carrying the Ball](#carrying-the-ball)'s
-- **Turning is instant, on the ball and off it.** A player faces and runs the stick's direction on the tick it changes. No turning circle and no animation to wait out — the reference leans on reflexes, not momentum. No attribute reads it; what turning on the ball costs is [Carrying the Ball](#carrying-the-ball)'s
+- **A step is the speed times the direction's sine and cosine in 128ths, rounding down**, as the ball's, per [Ball Movement](ball-physics-and-aerial-simulation.md#ball-movement) — so straight along an axis a player covers 127/128 of the table's speed
+- **Every player faces one of eight directions, part of their state** per *Simulation state* in [Architecture and Stack](../../decisions/architecture-and-stack.md). Rules read it, and a sprite only shows it, per [Sheets](sprites.md#sheets). What sets it:
+  - **On the stick, the stick's direction**, on the tick it changes, kept while the stick is centred. That's each side's controlled player, a CPU side's through its intent per [Decision Rate](team-ai-and-decision-making.md#decision-rate). At a restart, the taker gets only the directions [Taking a Restart](#taking-a-restart) allows
+  - **Off the stick, the way they run, and the ball when standing** — the restart spot instead while play is stopped, per [Stoppages](match-state-machine.md#stoppages). A keeper faces the ball, running or not, while it's in either penalty area, unless they have it. First met at [2.1](../../../project/milestones/2.1-keeper-drill.md), whose keeper is the first player off the stick
+  - **Off the stick, a direction is rounded to the nearest eighth** from the 256 of [Ball Movement](ball-physics-and-aerial-simulation.md#ball-movement), a tie going clockwise. Those are linear within each eighth, so an eighth's edge sits about 26.6° off an axis, not 22.5°
+- **Player state also records what each player is doing** — running or standing, sliding, heading, or **down**: on the ground once a slide or a foul is over, until back on their feet. A player who's down is out of the game, passed over by [Carrying the Ball](#carrying-the-ball)'s pressure rule, [The Passive Duel](#the-passive-duel) and [Who Goes for the Ball](team-ai-and-decision-making.md#who-goes-for-the-ball)
+- **Turning is instant, on the ball and off it** — on the stick, a player runs the way they face from the tick it moves. No turning circle and no animation to wait out — the reference leans on reflexes, not momentum. No attribute reads it; what turning on the ball costs is [Carrying the Ball](#carrying-the-ball)'s
 - **Players aren't solid to each other.** Bodies pass through one another, teammates and opponents alike; players only contest each other through the ball
 
 | Speed | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
@@ -44,7 +50,8 @@ From [1.1](../../../project/milestones/1.1-movement-and-possession.md).
 
 **Acceptance criteria:**
 
-- The player faces and moves in the stick's new direction on the tick it changes, with the ball and without
+- The player faces and moves in the stick's new direction on the tick it changes, with the ball and without, and keeps that facing while the stick is centred
+- Off the stick, a player faces the eighth they run in, or standing, the eighth towards the ball or the restart spot — exact at every edge and tie
 - Running speed matches the table at every Speed
 
 *Derived from: Movement and Engine Performance, [Match Mechanics](../../../sources/swos/match-mechanics.md).*
@@ -60,7 +67,7 @@ From [1.1](../../../project/milestones/1.1-movement-and-possession.md); the pres
 - **The ball runs ahead in touches.** Carried, it creeps ahead of the carrier until it's out of reach, runs loose for a moment, and is caught again, at the rate in the table below — a poor dribbler is out of reach about every second, a good one every several. The reference gets there by setting the ball to the carrier's speed plus a Ball Control offset on two ticks in four, less a little friction each tick; resetting it every tick, per *Team updates* in [Architecture and Stack](../../decisions/architecture-and-stack.md), changes that sum, so the creep is the target and the mechanism is tuned to it
 - **A turn while the ball is out of reach leaves it behind.** Only a ball in reach turns with the carrier; a loose one keeps going the old way. This is how a poor dribbler loses the ball with nobody near, and why turning on the ball is a matter of timing. Whether a lost ball reads as the player's mistake or the game's is what [1.1](../../../project/milestones/1.1-movement-and-possession.md) is judging
 - **After a turn, the ball swings round to catch up.** While it sits 90° or more off the carrier's facing, it runs a further 25 faster until it's back in front
-- **Under pressure, changing direction too often loses touch too.** Each change of direction on the ball counts once the new direction has held for 2 ticks, and centring the stick on the ball resets the count. The hold stands in for the reference reading the stick only every other tick, which let a quick roll past a diagonal go uncounted — whether 2 is enough is judged at 1.1. At the table's count, the carrier loses touch for 19 ticks and the ball runs on loose — if an opponent's player is within 8.5 of the ball. Unopposed the count climbs without cost, so a player who has weaved freely can meet a challenge already over the limit
+- **Under pressure, changing direction too often loses touch too.** Each change of direction on the ball counts once the new direction has held for 2 ticks, and centring the stick on the ball resets the count. The hold stands in for the reference reading the stick only every other tick, which let a quick roll past a diagonal go uncounted — whether 2 is enough is judged at 1.1. At the table's count, the carrier loses touch for 0.32 seconds and the ball runs on loose — if any opponent who isn't down is within 8.5 of the ball, sliding and heading included. Unopposed the count climbs without cost, so a player who has weaved freely can meet a challenge already over the limit
 
 | Ball Control | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -74,11 +81,11 @@ From [1.1](../../../project/milestones/1.1-movement-and-possession.md); the pres
 - Running straight, the ball creeps ahead at the table's rate for each Ball Control, within 10%
 - A turn made while the ball is out of reach leaves it travelling the old way
 - The catch-up boost applies exactly while the ball is at its angle off the carrier's facing
-- With an opponent in range, touch is lost on exactly the held change of direction the table gives at every Ball Control, and not before; without one, never. Centring the stick on the ball resets the count
+- With an opponent in range, touch is lost on exactly the held change of direction the table gives at every Ball Control, and not before; without one, or with only opponents who are down, never. Centring the stick on the ball resets the count
 
 *Derived from: Movement and Ball Control, [Match Mechanics](../../../sources/swos/match-mechanics.md).*
 
-*Departs from SWOS: the creep is held to the reference's rate but reached by a different sum, since the ball is reset every tick rather than every other; and a change of direction counts only once held for 2 ticks, standing in for the reference reading the stick at half the rate. Both follow *Team updates* in [Architecture and Stack](../../decisions/architecture-and-stack.md).*
+*Departs from SWOS: the creep is held to the reference's rate but reached by a different sum, since the ball is reset every tick rather than every other; and a change of direction counts only once held for 2 ticks, standing in for the reference reading the stick at half the rate. Both follow *Team updates* in [Architecture and Stack](../../decisions/architecture-and-stack.md). Any opponent on their feet counts as pressure, where the reference reads only their controlled player — decided here, so the rule doesn't depend on who is controlled.*
 
 ## Kicking
 
@@ -88,6 +95,7 @@ From [1.2 Kicking](../../../project/milestones/1.2-kicking.md).
 - **Aftertouch is relative to the kick's own direction**, never absolute up or down, and it fades — the sooner the stick moves after the kick, the bigger the effect. It works by moving the point the ball heads for, per [Ball Movement](ball-physics-and-aerial-simulation.md#ball-movement)
 - **On a shot:** stick with the kick keeps it low and driven; against it sends it high; centred lobs it; angled to either side curls it — a continuous swerve, unlike a header's fixed 45°
 - **On a pass:** with the pass plays it short, the receiver coming to meet it; centred or against plays the default grounded pass to feet; angled with the pass plays it to the receiver's side; angled against plays it beyond them, a through-ball to run onto
+- **Shown: a kick has no frame of its own.** The kicker keeps running or standing as the ball leaves, per [Sheets](sprites.md#sheets)
 - **A lofted kick drives the ball's fake height**, the same system the shadow reads, per [Ball Physics and Aerial Simulation](ball-physics-and-aerial-simulation.md)
 - **Passing** widens the maximum pass length and the cone a teammate must stand in to count as a target. **Shot Power** sets a shot's raw power and distance. **Finishing** adds power and accuracy inside the box only — never to a header, never from outside it — and feeds the keeper's save chance
 
@@ -113,7 +121,7 @@ From [5.1 Kick-off](../../../project/milestones/5.1-kick-off.md), each restart f
 | Penalty | The three towards goal |
 | Free kick | All eight |
 
-- **Shown:** the throw-in has a frame of its own, from [5.2](../../../project/milestones/5.2-out-of-play.md). Every other restart is shown as a kick
+- **Shown:** the throw-in has a frame of its own, from [5.2](../../../project/milestones/5.2-out-of-play.md). Every other restart is shown as a kick, with no frame of its own, per [Kicking](#kicking)
 
 **Acceptance criteria:**
 
@@ -184,15 +192,20 @@ From [1.3](../../../project/milestones/1.3-contextual-action.md); contested at [
 
 From [2.3 Contests](../../../project/milestones/2.3-contests.md).
 
-- **A defender can win the ball just by reaching it**, no button: coming within 5.7 of the ball, stick held, while the opponent's controlled player is within 8.5 of it and moving. The same on a loose ball the opponent is near
-- **Each player brings the average of their Tackling and Ball Control.** The difference between the two averages is looked up in a probability table, so a player strong in one and weak in the other plays like a balanced player with the same average
-- **The winner is briefly safe from another duel** — for 0.48 — and the ball stops dead
+- **A defender can win the ball just by reaching it**, no button: coming within 5.7 of the ball, stick held, while an opponent who isn't down is within 8.5 of it and moving. The same on a loose ball the opponent is near
+- **Every player in contact takes part** — on the challenging side, within 5.7 of the ball; on the side with the ball, within 8.5. Nobody who's down
+- **Each side brings its strongest player in contact**, by the average of their Tackling and Ball Control. The difference between the two sides' averages is looked up in a probability table, so a player strong in one and weak in the other plays like a balanced player with the same average
+- **Each extra player in contact boosts their side.** The boost is a feel value in the tuning Resource; how it applies is in [Open Questions](#open-questions)
+- **The duel settles which side wins, not which player.** The winning side is briefly safe from another duel — for 0.48 — and the ball stops dead for whoever reaches it, per [Carrying the Ball](#carrying-the-ball). So a stronger teammate shields the carrier by winning the duel, and takes the ball only by reaching it first
 
 **Acceptance criteria:**
 
-- The duel's outcome depends only on the two averages and the seed, never on which player closed in
+- The duel's outcome depends only on each side's strongest average, how many each side has in contact, and the seed — never on which player closed in or who is controlled
+- A player who's down never takes part
 
 *Derived from: Ball Control, [Match Mechanics](../../../sources/swos/match-mechanics.md).*
+
+*Departs from SWOS: the reference duels only the two controlled players. Here every player in contact counts — each side's strongest duels, and extra players boost their side — decided here, so the duel doesn't depend on who is controlled. Players aren't solid, so several from a side can be in contact at once; the reference never meets that.*
 
 ## Fouls
 
@@ -243,7 +256,7 @@ From [5.4 Cards and Injuries](../../../project/milestones/5.4-cards-and-injuries
 
 From [2.3 Contests](../../../project/milestones/2.3-contests.md), where two players first reach the same ball.
 
-- **Contacts are resolved together, after everyone has acted.** Each player's contact with the ball — a pick-up, a strike, a keeper's claim — is judged against the state at the start of the tick, per *Team updates* in [Architecture and Stack](../../decisions/architecture-and-stack.md). Processing order never decides one
+- **Contacts are resolved together, after everyone has acted.** Each player's contact with the ball — a pick-up, a strike, a keeper's claim — is judged against the simulation state at the start of the tick, per *Team updates* in [Architecture and Stack](../../decisions/architecture-and-stack.md). Processing order never decides one
 - **Possession goes to the passive duel.** When opposing players both meet the pick-up condition on the same tick, the duel settles it, as it does when one closes on the other's ball
 - **The ball is struck at most once per tick.** When two slides or two headers reach it together, attributes decide — Tackling between slides, Heading between headers. The stronger player has the advantage, not a certainty, as in the duel
 
@@ -257,9 +270,10 @@ From [2.3 Contests](../../../project/milestones/2.3-contests.md), where two play
 
 - **Confirm the creep rates against the reference.** They are worked from the code, not measured; run swos-port before 1.1 is Ready
 - **Not yet in the research:** the duration that splits tap from hold, aftertouch's strength and fade, the kick and pass speeds, the pass cone and length by Passing, and the duel's probability table. Read before 1.2 and 2.3 are Ready
+- **How does the duel's boost for extra players apply, and how big is it?** A shift in the difference between averages per extra player, or a change to the odds the table gives — original design, with no reference numbers. Decide before [2.3](../../../project/milestones/2.3-contests.md) is Ready; 2.3 is one against one, so it's first judged at [3.1](../../../project/milestones/3.1-dumb-five-a-side.md)
 - **How much advantage when two strike on the same tick?** Reusing the passive duel's probability table on the attribute difference is the obvious start. Decide before 2.3 is Ready
 - **Mixed pairs** — a slide against a header right at the 8 boundary, or a slide meeting a kick — and which attribute settles them
 - **A keeper's claim against a strike on the same tick** — which wins, and on what
-- **How an injured player is shown.** The reference's tackled animation is the same with or without an injury. Read before [5.4](../../../project/milestones/5.4-cards-and-injuries.md) is Ready
+- **How an injured player is shown.** The reference's tackled animation is the same with or without an injury, but it has injured-player frames, facing up-right and up-left only, per Sprite Data in [Match Mechanics](../../../sources/swos/match-mechanics.md). When it shows them isn't traced. Read before [5.4](../../../project/milestones/5.4-cards-and-injuries.md) is Ready
 - **Does a second injury replace the first, or add to it?** The research says only that a knock shifts the next roll. Read before 5.4 is Ready
 - **Do CPU sides stay immune to the injury slowdown?** The reference skips them; 5.4 decides whether to keep that

@@ -14,6 +14,12 @@ Speed sets a player's base movement value, looked up from a table by their Speed
 - **After a goal is scored**, every player's speed drops to 62.5% until play resets (`runSlower` flag, `swos.asm:105242-105255`, `original-amiga-swos.asm:35414-35421`).
 - **An in-match injury** subtracts a fixed amount scaled to its severity (`kInjuriesSpeedHandicap`: 0 at no injury down to -288 at the worst degree; `swos.asm:105257-105283`, `original-amiga-swos.asm:35422-35436`) — but only for a human- or player-coach-controlled team; the check is skipped entirely for a fully CPU-controlled side.
 
+**Facing is one of eight directions, `Sprite.direction`, set each tick after movement** (`swos.asm:117461-117488`):
+
+- **Moving, a player faces the way they step.** The step's direction, one of 256 from `CalculateDeltaXAndY`, is rounded to the nearest eighth — add 16, divide by 32 — so a tie goes clockwise
+- **Standing, a player faces the ball,** by the same rounding of the player-to-ball direction worked out at the end of the previous tick (`swos.asm:117503-117530`). While play is stopped for a restart or kick-off, the restart spot (`foulXCoordinate`) stands in for the ball
+- **The exceptions keep their facing when standing:** each team's controlled player, which takes its facing from the stick — the CPU's virtual stick included — and the player taking a kick. A keeper faces the ball even while moving, whenever the ball is in either penalty area unless the keeper has the ball and is playing it like an outfielder (`goalkeeperPlaying`)
+
 ### Ball Control
 
 Ball Control governs how well a carrier keeps the ball at their feet while running and turning — the manual: "as you run faster and attempt to turn with the ball you'll find it harder to keep control." The disassembled engine (`CalculateIfPlayerWinsBall`, `swos-port/swos/swos.asm:108107-108351`, `original-amiga-swos.asm:35144-35277`) pins down the specifics behind that line:
@@ -22,7 +28,7 @@ Ball Control governs how well a carrier keeps the ball at their feet while runni
 - **Running straight:** two ticks on, two off, the ball's speed is set to the carrier's own speed plus an offset drawn from a table indexed by their Ball Control (`kBallSpeedDeltaWhenControlled`, 130 at Ball Control 0 down to 32 at 7; `swos.asm:108274-108276`, `original-amiga-swos.asm:35234-35236`). Low Ball Control widens that offset, so the ball runs a little further ahead of the player's feet in those ticks.
 - **The ball creeps out of reach between touches.** The ball's speed is reset at each of the carrier's team updates — every other tick — and loses the base 16 on every tick in between, deltas taken before the loss (`swos-port/src/game/ball/ball.cpp:783-795`). Over four ticks it travels 2 × (offset − 16) further than the carrier, so it always creeps ahead: about 5.6 pixels a second at Ball Control 0 down to 0.8 at 7, by that sum. Past 32 squared it isn't dribbled, runs loose, and the carrier catches it up. A turn made while it's out of reach doesn't take it along — it keeps going the old way, which is how a poor dribbler loses the ball with nobody near. **Worked from the code, not measured**
 - **Catching up after a turn:** every tick, if the direction from carrier to ball is 90° or more off the carrier's facing — the ball behind or beside them, as just after a turn — the ball gets a further 256 (0.5 pixels per tick) until it's back in front (`swos.asm:108294-108313`, `original-amiga-swos.asm:35242-35256`). The player-to-ball direction is the one computed at the end of the previous tick (`swos.asm:117503-117530`).
-- **Turning:** the turn itself is instant — the controlled player faces and moves in the stick's direction on the tick it changes, ball or no ball (facing is set from movement, `swos.asm:117461-117488`). What costs is changing direction too often. Each tick the stick's direction differs from the carrier's facing — one tick per change — increments a counter, compared against a Ball-Control-scaled limit (4, 5, 6, 8, 11, 14, 17, 21 changes from Ball Control 0 to 7; `kDirectionChangeLimits` in `swos-port/src/game/player.cpp`). Reaching it sets the carrier's own team's `wonTheBallTimer` to 8, which skips dribbling for 8 of the team's updates — 16 ticks, per *Each team thinks every other tick* in Engine Performance: the carrier loses touch and the ball runs on, loose (`swos.asm:108316-108346`, `:114862-114864`, `original-amiga-swos.asm:35263-35271`). **But only with an opponent close:** each tick the stick is held, the timer is cleared unless the opponent's controlled player is within 72 of the ball (`swos.asm:114849-114858`). Unopposed, the counter climbs and costs nothing — in effect the original research's reading, that overrunning hands the ball to the opponent. The counter resets only when the stick is centred while on the ball (`swos.asm:114750-114758`). Low Ball Control shortens the limit, so this is the mechanic where poor control costs a dribbler the ball.
+- **Turning:** the turn itself is instant — the controlled player faces and moves in the stick's direction on the tick it changes, ball or no ball (facing is under Movement above). What costs is changing direction too often. Each tick the stick's direction differs from the carrier's facing — one tick per change — increments a counter, compared against a Ball-Control-scaled limit (4, 5, 6, 8, 11, 14, 17, 21 changes from Ball Control 0 to 7; `kDirectionChangeLimits` in `swos-port/src/game/player.cpp`). Reaching it sets the carrier's own team's `wonTheBallTimer` to 8, which skips dribbling for 8 of the team's updates — 16 ticks, per *Each team thinks every other tick* in Engine Performance: the carrier loses touch and the ball runs on, loose (`swos.asm:108316-108346`, `:114862-114864`, `original-amiga-swos.asm:35263-35271`). **But only with an opponent close:** each tick the stick is held, the timer is cleared unless the opponent's controlled player is within 72 of the ball (`swos.asm:114849-114858`). Unopposed, the counter climbs and costs nothing — in effect the original research's reading, that overrunning hands the ball to the opponent. The counter resets only when the stick is centred while on the ball (`swos.asm:114750-114758`). Low Ball Control shortens the limit, so this is the mechanic where poor control costs a dribbler the ball.
 - **Standing/running challenge:** the same function also resolves a defender contesting a carrier just by running into them (or closing on a loose ball), no action button required — a passive duel. Both players run the identical formula — their own **(Tackling + Ball Control) ÷ 2** — and the *difference* between the two averages is looked up in a probability table to decide who wins the ball (`swos.asm:108141-108176`, `original-amiga-swos.asm:35158-35180`), so a player strong in one of the pair and weak in the other performs the same as a balanced player with an equal average. It fires when the challenger's controlled player is within 32 squared of the ball with the stick held, and the opponent has the ball — their controlled player within 72 — is moving, and isn't already protected. The winner's team gets `wonTheBallTimer` 12, which blocks another duel for 12 of its updates — 24 ticks — and the ball stops dead (`swos.asm:108107-108200`). Which player triggered it doesn't change the odds.
 
 ### Sliding
@@ -58,7 +64,7 @@ A foul always results in a stoppage — a penalty or free kick either way, decid
 
 - The chance of any injury is scaled by the match-length setting (`kTackleInjuryProbability`: 18.75%, 10.9%, 7.8%, 5.5% per tackle across four settings — decreasing as matches get longer, keeping total expected injuries per match roughly stable) and **roughly doubles for a player already carrying a knock** (`kTackleInjuryProbabilityAlreadyInjured`: 37.5%, 22.3%, 16.0%, 10.9%). The check matches the mildest injury degree only; a player carrying anything worse rolls on the normal tables (`swos.asm:107899-107906`, `original-amiga-swos.asm:36124-36131`).
 - Severity, when an injury occurs, is a weighted roll across 7 levels (`kInjuryLevels`: weights 42/7/5/4/3/2/1 out of 64 — the mildest "knock" alone accounts for ~66%). **A player already carrying a knock rolls hard toward the severe end** (`kInjuryLevelAlreadyInjured`: weights 14/15/12/9/7/5/2 out of 64 — the mildest outcome drops to ~22%) — quantifying what the Jon Hare Q&A only implied (see [Career Mode Mechanics](career-mode-mechanics.md)).
-- **Nothing on the pitch shows the injury.** The tackled animation is the same with or without one (`PlayerTackled`, `swos.asm:107856-108032`).
+- **Nothing on the pitch shows the injury.** The tackled animation is the same with or without one (`PlayerTackled`, `swos.asm:107856-108032`). Injured-player frames exist, per Sprite Data; when they're shown isn't traced.
 
 ### Heading
 
@@ -127,7 +133,7 @@ Throw-ins, corners, goal-kicks, and penalties all use this identical kick contro
 
 - **The tile map is 42 × 55 tiles of 16 pixels**, 672 × 880 (`kVirtualPitchPatternsX`/`Y`, `swos-port/tools/swpe/src/h/pitch.h:13-14`). That is the bound the pass code checks against — 672 on x, 880 on y (`swos.asm:108484`, `original-amiga-swos.asm:34931-34936`)
 - **The camera never shows the top or bottom tile row.** Its top edge stops at y 16 and its bottom edge at 864 in both versions (clamps below), so the viewable area is 848 tall. That area is the pitch editor's `PITCH_W`/`PITCH_H` (`pitch.h:7-8`) and the "42 × 53 patterns" of the port's pitch notes (`swos-port/docs/SWOS/pitch.txt`). **So 880 is the whole map and 848 is the part ever on screen**
-- **The playing area is 510 × 641.** Touchlines are at x 81 and 590, goal lines at y 129 and 769, and the centre spot at (336, 449). Penalty areas run from x 193 to 478, and from the goal line to y 216 at the top and 682 at the bottom (`swos.asm:107112-107134`, `original-amiga-swos.asm:39174-39194`; touch and goal lines also at `original-amiga-swos.asm:36032-36047`). The goal lines are these constants and are not tied to either edge of the map, so neither 848 nor 880 moves them
+- **The playing area is 510 × 641.** Touchlines are at x 81 and 590, goal lines at y 129 and 769, and the centre spot at (336, 449). Penalty areas run from x 193 to 478, and from the goal line to y 216 at the top and 682 at the bottom (`swos.asm:107112-107134`, `original-amiga-swos.asm:39174-39194`; touch and goal lines also at `original-amiga-swos.asm:36032-36047`). The goal lines are these constants and are not tied to either edge of the map, so neither 848 nor 880 moves them. The ground art's lines sit exactly on them (read from the DOS 96/97 data files)
 
 **The Amiga screen is 336 × 272, low-res, not interlaced, with a little overscan.** It is set by the game's copper list (`original-amiga-swos.asm:6620-6936`), which is loaded into COP1LC at `:6484`, the only write to that register:
 
@@ -180,7 +186,7 @@ Consequences, since they are easy to get wrong from screenshots:
   - **Ground speed lost on a bounce** and **vertical speed kept** (`original-amiga-swos.asm:21751-21758`, `ball.cpp:828-835`)
 - **Normal adds no ground friction**, so the reference's base ball numbers are a normal pitch's
 - **Nothing else reads the type** except the replay header. No player value depends on it
-- **The grass colour is a palette swap** — 27 colour entries per type (`swos-port/docs/SWOS/pitch.txt`)
+- **The grass colour is a palette swap of nine entries** — 0, 7, 9, 78, 79, 80, 81, 106 and 107. The per-type table is in `ENGLISH.EXE`, not the `PITCHnm.256` files. The lines are entry 59, the same on every type (read from the DOS 96/97 data files)
 
 | | Frozen | Muddy | Wet | Soft | Normal | Dry | Hard |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -196,6 +202,10 @@ A frozen pitch rolls furthest and skids on at a bounce; mud and water hold the b
 **The ball heads for a destination point, re-aimed every tick. It never stores a heading of its own.** (`UpdateBall`, `original-amiga-swos.asm:21660-21678`; `CalculateDeltaXAndY`, `:20661-20760`. DOS: `updateBallSpeedAndXYCoordinates`, `swos-port/src/game/ball/ball.cpp:767`; `calculateDeltaXAndY`, `swos-port/src/sprites/updateSprite.cpp:92`.)
 
 - **Each tick, the offset from ball to point becomes a step of the ball's speed.** Both parts of the offset are halved until they're under 32, a 32 × 32 table turns them into one of 256 directions, and a sine table turns that into x and y. So the heading resolves to 1/256 of a turn
+- **The offset is taken between whole pixels, and halving rounds down.** Each part's sign is set aside first, so the halving works on its size
+- **The table is linear in each eighth of a turn, not an arctangent.** Every entry is the direction's angle from the nearer axis as 32 × the smaller part ÷ the larger, rounded, in 256ths of a turn (`kAngleCoeficients`, `original-amiga-swos.asm:20774`; all 1023 non-zero entries fit). Halfway between an axis and a diagonal, the ball heads about 4° nearer the axis than the offset points
+- **The sine table is 32767 × the sine at each 256th of a turn, cut to 128ths before use** (`kSineCosineTable`, `:20761`; `asr.w #8`), rounding down. So straight along an axis a step is 127/128 of the speed, and a negative part rounds away from zero. Everything moved through `CalculateDeltaXAndY` steps this way, players included
+- **A ball at its point doesn't move.** An offset of zero on both axes reads the table's first entry, −1, and the step is zero; the speed is kept (`no_movement`, `:20752`)
 - **A fixed point gives a straight line; moving it bends the path.** Aftertouch adds to the point over the 10 ticks after a kick, which is how a shot curls (`addSpinToBall`, `ball.cpp:386-401`; `kSpinDuration`, `ball.cpp:33`). A frame or net hit ends it (`ResetLeftAndRightSpinTimers`; see The Goal)
 - **A kick's point is 1000 out along each axis it travels** (`kDefaultBallDestinations`, `ball.cpp:86-89`). Throw-ins, corners and penalties have their own tables (`ball.cpp:80-105`)
 - **A pass to a teammate aims at them, stretched to just past the pitch edge**, by doubling the offset until it leaves 0–672 × 0–880 (`player.cpp:630-643`). A free pass, with no teammate to aim at, uses the kick table
@@ -215,9 +225,11 @@ A frozen pitch rolls furthest and skids on at a bounce; mud and water hold the b
 How it's drawn (DOS: `SortSprites` and `DrawSprites`, `swos.asm:100148-100352`; shadow: `update_ball_shadow`, `original-amiga-swos.asm:22088-22101`):
 
 - **Every sprite is drawn its height higher up the screen** than its ground position
-- **The shadow is one fixed image** (`kBallShadowSprite`, `swos-port/src/sprites/sprites.h:256`) that never shrinks. It sits right of the ball's ground position by half the height and below it by a quarter, as if lit from the upper left
+- **The shadow is one fixed image** (`kBallShadowSprite`, `swos-port/src/sprites/sprites.h:256`) that never shrinks. It sits right of the ball's ground position by half the height and below it by a quarter, each rounded down, plus one more pixel each way — so at rest it's one right and one below — as if lit from the upper left
 - **Sprites are sorted by ground position alone.** Height is ignored, so a high ball over a player who stands lower on screen is drawn behind them
 - **The shadow sorts 10 further up the screen than it's drawn**, so it goes under the sprites near it
+- **The ball and its shadow are each 4 × 4 pixels, positioned by the pixel one in from the left on the bottom row** — each sprite's centre point, per Sprite Data (swos-port's metadata for `spr1179`–`spr1183`, `swos-port/assets/sprites/game/`). Amiga picture numbers `$429`–`$42D`
+- **A moving ball rolls through four frames; a still one shows one** (`UpdateBall`, `original-amiga-swos.asm:21593-21653`; `ballMovingFrameIndices`, `ballStaticFrameIndices`, `:66294-66302`. DOS: `updateBallAnimation`, `ball.cpp:736-760`). Moving means a non-zero step on either axis. Each tick a timer loses the speed's whole pixels per tick plus one; below zero, the next frame shows and the timer goes back to 5 (`field_18` of `ballSprite`, `:71737`). So a frame lasts 6 ticks below 1 px/tick, 3 ticks below 2 px/tick, 2 ticks below 5 px/tick, and 1 tick from 5 px/tick up
 
 ### The Goal
 
@@ -253,6 +265,7 @@ How it's drawn (DOS: `SortSprites` and `DrawSprites`, `swos.asm:100148-100352`; 
 - **The background goal is complete** — posts, bar, netting and the goal's shadow, cast down and to the right like the ball's
 - **The top goal's sprite is only the crossbar** and the edge of the net behind it, 73 × 7, sorted at the goal line, y 129
 - **The bottom goal's sprite is the whole goal again** — bar, posts and the net's mesh — 73 × 28, sorted at y 778, the back netting
+- **Both sprites sit at x 300** — the top at (300, 129), the bottom at (300, 778) — so their art spans x 300–372, inside the frame's 297–373 (read from the DOS 96/97 data files)
 - **So a ball inside either goal is drawn under its sprite**: under the top goal's bar, and under the bottom goal's mesh, showing through the holes. Inside the top goal it's drawn over the background's posts and netting. In front of the line, it's drawn over both sprites
 
 ### Kits
@@ -271,7 +284,7 @@ How it's drawn (DOS: `SortSprites` and `DrawSprites`, `swos.asm:100148-100352`; 
 - **Plain shirts reuse the vertical-stripe art** with both shirt colours set the same
 - **Skin and hair aren't recoloured per player.** Each team's outfield sprites are copied three times, one per complexion, and each player draws from his copy
 - **Keepers have their own sprites**, a main and a reserve per team, recoloured with the same per-team table as the outfield sprites (`ConvertColorsAndTextSprites`, `swos.asm:97032-97131`). Their shorts and socks are drawn in the kit's shorts and socks entries, so they follow whichever kit the team is wearing
-- **Every keeper wears the same shirt.** The keeper art draws its shirt in palette entry 7, not the kit's shirt entries — swos-port's sprite split finds no kit-shirt pixels in it (`swos-port/assets/convertGameSprites.py:131-135`) — and both teams' tables convert entry 7 to entry 0 (`team1PlayersColorTable`, `swos.asm:245380`). The pre-match menu does the same: the keeper keeps his drawn shirt and takes only the team's shorts and socks (`StadiumPlayerSpritesBeforeDraw`, `:85685-85758`). What entry 0 looks like in a match isn't established from the code; swos-port draws it near-black (`swos-port/src/game/color.cpp:3-7`)
+- **Every keeper wears the same near-black shirt.** The keeper art (`GOAL1.DAT`, sprites 947–1004) draws its shirt in palette entry 8 — the near-black entry every shadow uses, per Sprite Data — not the kit's shirt entries, and has no entry 7 at all (read from the DOS 96/97 data files). Entry 8 is neither a kit entry nor a surface entry, so nothing recolours it. The tables' conversion of entry 7 to entry 0 (`team1PlayersColorTable`, `swos.asm:245380`) has nothing to act on. The pre-match menu does the same: the keeper keeps his drawn shirt and takes only the team's shorts and socks (`StadiumPlayerSpritesBeforeDraw`, `:85685-85758`)
 
 **A clash is a score, not a lookup.** `GetTeamKitsSimilarityFactor` (`swos.asm:36855-37265`) compares two kits' shirt types, shirt colours and shorts — never socks — against two tables of colour pairs that read alike: one for shirt against shirt, one for second colour against shorts (`teams.txt:105-129`). Each pair that reads alike adds points, weighted by which parts are compared; 11 or more is a clash.
 
@@ -286,6 +299,30 @@ How it's drawn (DOS: `SortSprites` and `DrawSprites`, `swos.asm:100148-100352`; 
 7. Nothing works: team 1 all red, team 2 all blue, both in white shorts
 
 Team 1 changes kit only at step 3; from step 5 on, it always wears its primary. The comments in `SetInGameTeamsPrimaryColors` label steps 2 and 3 the other way round, but the flags `SetInGameTeamColors` reads put team 2 first.
+
+### Sprite Data
+
+**DOS only, from swos-port's notes on the original data files** (`swos-port/docs/SWOS/sprites.txt`, `gamePalette.txt`) **and a read of the DOS 96/97 files themselves**, marked where used. How the Amiga stores its art isn't researched.
+
+**Every sprite is found through one index file, `SPRITE.DAT`: a list of offsets into the other `.dat` files, ended by a zero.**
+
+- **The first 227 point into `CHARSET.DAT`**, the menu's sprites. The rest point into one block loaded from `SCORE.DAT`, a team file, a second team file, `GOAL1.DAT` twice, and `BENCH.DAT` — `BENC2.DAT` in 16-colour mode
+- **Each `.dat` file is each sprite's header followed by its pixels**, in order
+- **The team files are one per shirt type** — `TEAM1.DAT` vertical stripes, `TEAM2.DAT` coloured sleeves, `TEAM3.DAT` horizontal stripes. A plain shirt is drawn from `TEAM1.DAT`, per Kits
+- **Match sprites are numbered from 341.** Each team's players come three times over, one per complexion: team 1 341–643, team 2 644–946. Keepers are 947–1178, a main and a reserve per team. The ball is 1179–1182 and its shadow 1183; the goals' are 1205 and 1206; the benches 1310–1333
+
+**A sprite is 16 colours, 4 bits a pixel, stored as four bitplanes per line.** Its header gives:
+
+- **Its width in pixels and its number of lines**
+- **A centre point**, x and y — the point the sprite's position refers to, and for a player the point the ball bounces off. Used by match sprites only; menu sprites leave it at zero
+
+**Pixels are palette entries, not colours.** The match palette is in `PAL.256`, at byte offset `0xFA00`: 256 entries of red, green and blue at 0–63 each, of which the match uses the lower 128. Kit colours sit in fixed entries, swapped at kick-off per Kits, and the pitch type swaps the grass's, per Pitch Conditions.
+
+**What the player frames hold**, read from the DOS 96/97 data files:
+
+- **A player's shadow is part of each frame**, drawn in entry 8, the near-black entry the keeper's shirt also uses. Only the ball has a separate shadow sprite, per Ball Height
+- **No kick frames.** The animation tables keep the running or standing frame through a kick, and in play the ball just leaves the player, the frames not always lining up with it
+- **Some frames exist for only some facings:** celebrations facing up and down only (365–370), the injured player up-right and up-left only (411–414), and the booked player down only (415–416). Numbers are team 1's first complexion
 
 ### Engine Performance
 
@@ -392,6 +429,7 @@ What stops play, where it restarts, the break in between, and the clock. Tick co
 
 The restart goes to a team (`lastTeamPlayedBeforeBreak`) and is taken from a spot (`foulXCoordinate`, `foulYCoordinate`) (`CheckIfBallOutOfPlay`, `swos.asm:111035-111549`, `ball.cpp:175-233`; Amiga from `original-amiga-swos.asm:41342`):
 
+- **Out is the ball's ground position past a line, in whole pixels** — x below 81 or above 590, y below 129 or above 769 — at any height, checked only while play is in progress (`original-amiga-swos.asm:22052-22085`; `checkUpdatedBallOutOfPlay`, `ball.cpp:1062-1070`). Each line's own pixel is in play
 - **A goal** — kick-off on the centre spot, to the side that conceded. An own goal is the same: which goal the ball went into decides
 - **Over a goal line otherwise** — a corner if the defending side touched it last, else a goal kick. The side it went out on picks the corner or the half of the goal area
   - **Corners from 5 inside both lines** — x 86 or 585, y 134 or 764
@@ -427,7 +465,7 @@ Between the stoppage and the restart, in ticks (`UpdateGameTimersAndCameraBreakM
 
 Two safety nets: if the restarting side has no controlled player after 500 [550] ticks of step 6, the break starts again (`ballOutOfGameTimer`, `swos.asm:101914`, Amiga `:37726`); and a CPU side still waiting to take a restart after 750 [825] ticks gets a kick-off instead (`swos.asm:101384-101397`, Amiga `:37284`). A human side is waited on forever.
 
-**After a goal, the scoring side cheers where it stopped**, until step 4 clears the goal flag (`goalScored`, `swos.asm:101737`). Its outfield players facing up or down the pitch show a cheering frame on half of each 64-tick cycle, staggered by squad order, and the scorer on 101 ticks of each 128 (`SetNextPlayerFrame`, `swos.asm:102934-102990`). Then everyone walks back at 62.5%.
+**After a goal, the scoring side cheers where it stopped**, until step 4 clears the goal flag (`goalScored`, `swos.asm:101737`). Its outfield players facing up or down the pitch — the only facings with celebration frames, per Sprite Data — show a cheering frame on half of each 64-tick cycle, staggered by squad order, and the scorer on 101 ticks of each 128 (`SetNextPlayerFrame`, `swos.asm:102934-102990`). Then everyone walks back at 62.5%.
 
 During a goal kick, an outfield player running to a position stops inside the box widened by 10 — x 183–488, y up to 226 or from 672 — until play has resumed and the ball has left both boxes (`goalOut`, `swos.asm:116790-116804`, `:112636-112642`). Whether that reads the player's position or their next step isn't confirmed. Nothing else in the code stops an outfielder reaching the goal-kick spot.
 

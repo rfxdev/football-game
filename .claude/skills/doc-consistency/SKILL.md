@@ -20,7 +20,14 @@ An optional argument narrows the pass to one folder (`ways-of-working`, `docs`, 
 
 ## 1. Read everything
 
-Start from a clean tree — `git status --short` should be empty of doc changes. The pass edits many files at once, so the diff is the review surface and `git checkout .` is the undo. If the tree is dirty, say so and stop. Mid-change, [doc-review](../doc-review/SKILL.md) covers placement for the doc being changed.
+Check `git status --short` first. The pass edits many files at once, so the diff is the review surface — and on a clean tree, `git checkout .` is the undo.
+
+**If doc changes are already in the tree, ask the user which of two ways to go, and never stash or snapshot them:**
+
+- **Commit them first**, so the pass starts clean
+- **Carry on over them.** Note which files were already changed, and keep the pass's edits apart from those in the report. `git checkout .` would now throw away both, so it's no longer the undo
+
+Mid-change, [doc-review](../doc-review/SKILL.md) covers placement for the doc being changed.
 
 ```bash
 find AGENTS.md CONTRIBUTING.md README.md docs ways-of-working project sources -name '*.md' | sort \

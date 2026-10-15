@@ -2,7 +2,7 @@
 
 Top-down 2D arcade football, inspired by Sensible World of Soccer. Non-profit, open source.
 
-**Documentation-first — no source code yet.** Most work here is writing or restructuring docs.
+**Documentation-first.** Most work here is writing or restructuring docs.
 
 ## Non-Negotiables
 
@@ -59,7 +59,7 @@ Its index is imported rather than summarised here — the pipeline and the deliv
 - Docs carry no status line
 - British English
 
-## When Code Exists
+## Code
 
 - **GdUnit4.** Correctness tests from day one, exact wherever the docs fix a value; feel-threshold tests only after a mechanic feels right, always as a range
 - **Typed GDScript**, `gdformat` and `gdlint` for style

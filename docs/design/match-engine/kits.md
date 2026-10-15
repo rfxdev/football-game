@@ -13,15 +13,19 @@ A team has two kits, drawn by recolouring shared art; when two teams' kits read 
 
 ## Recolouring
 
-- **Recoloured by palette swap, never drawn per kit.** Kit regions — shirt, second shirt colour, shorts, socks — are drawn in reserved colours and swapped for the kit's at match start. Sideloaded sprites already use the reference's reserved colours; placeholders and the project's own art use the same ones
+- **Recoloured by palette swap, never drawn per kit.** Kit regions — shirt, second shirt colour, shorts, socks — are drawn in reserved palette entries, and the sprite shader colours them from the kit at match start, per [Sheets](sprites.md#sheets). Every art source uses the reference's entries
 - **A plain shirt reuses the vertical-stripe art** with both shirt colours the same, so three sets of shirt art serve four shirt types
-- **The keeper's shirt is drawn in a fixed colour**, not the reserved ones, since it is never recoloured
+- **The keeper's shirt is drawn in a fixed entry**, not the reserved ones, since it is never recoloured — the reference's shadow entry, which no kit or surface swaps
+- **Skin and hair are palette entries too, set per player.** Each player has a complexion — shades of skin and hair — from the reference's three, so a player is drawn once whatever they look like
 
 **Acceptance criteria:**
 
 - Changing a team's kit data changes every sprite of that team, with no art touched
+- Changing a player's complexion changes their sprite, with no art touched
 
 *Derived from: Kits, [Match Mechanics](../../../sources/swos/match-mechanics.md#kits).*
+
+*Departs from SWOS: complexion is per-player palette entries, where the reference copies each team's outfield art once per complexion — the same three looks, from one drawing.*
 
 ## Clashes
 

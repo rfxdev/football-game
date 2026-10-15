@@ -14,6 +14,9 @@ Speeds are in world units per second, and their changes per second each second.
 ## Ball Movement
 
 - **The ball heads for a point, re-aimed every tick.** It never stores a heading of its own: each tick, the offset from ball to point picks one of 256 directions, and the ball steps that way at its speed
+- **A direction is linear within each eighth of a turn, not a true angle.** The offset is taken between whole units, and both parts are halved, rounding down, until each is under 32 world units. The direction's angle from the nearer axis is then 32 × the smaller part ÷ the larger, rounded, in 256ths of a turn — so halfway between an axis and a diagonal the ball heads about 4° nearer the axis
+- **A step is the speed times the direction's sine and cosine, each cut to 128ths, rounding down.** Straight along an axis the ball covers 127/128 of its speed
+- **A ball at its point doesn't move**, and keeps its speed
 - **A fixed point gives a straight line; moving the point bends the path.** Aftertouch moves it, per [Kicking](on-the-ball-mechanics.md#kicking), and so does a rebound off the frame, per [The Goalframe](#the-goalframe)
 - **A kick sets the point far past the pitch** — 1000 out along each axis it travels. A pass to a teammate aims at them, stretched to just past the pitch edge. Set pieces have their own points
 - **The ball moves itself, not a `RigidBody2D`.** Position, heading and height are integrated by its own code each physics tick, so steering, friction and bounce are exactly what this doc says
@@ -21,8 +24,9 @@ Speeds are in world units per second, and their changes per second each second.
 **Acceptance criteria:**
 
 - A ball with a fixed point travels in a straight line
-- The direction picked for an offset matches the reference's 256-way table — exact tests
+- The direction picked for every offset follows the rule above, and a step's size the rounding — exact tests
 - Moving the point mid-flight bends the path toward it, and nothing else does
+- A ball at its point stays there
 
 *Derived from: Ball Movement, [Match Mechanics](../../../sources/swos/match-mechanics.md).*
 
@@ -44,16 +48,23 @@ Speeds are in world units per second, and their changes per second each second.
 
 ## Showing Height
 
-A top-down view can't show height directly, and aerial play runs through the whole game. The raised sprite and the shadow carry it; this section covers what they ask of the look.
+A top-down view can't show height directly, and aerial play runs through the whole game. The raised sprite and the shadow carry it, and the ball's roll shows it moving; this section covers what they ask of the look.
 
+- **The ball and its shadow are each 4 × 4 world units, placed by the unit one in from the left on the bottom row**, per [Sprites](sprites.md#placeholders)
 - **The ball is drawn its height higher up the screen** than its ground position
-- **The shadow is one fixed image, never scaled.** It sits right of the ball's ground position by half the height and below it by a quarter, as if lit from the upper left
+- **The shadow is one fixed image, never scaled.** It sits right of the ball's ground position by half the height and below it by a quarter, each in whole units rounded down, plus one more unit each way — one right and one below at rest — as if lit from the upper left
 - **Sprites layer by ground position alone, ignoring height.** A high ball passing a player who stands lower on screen is drawn behind them. The shadow layers 10 further up the screen than it's drawn, so it goes under the sprites near it
 - **The shadow stays legible against every pitch colour the palette uses.** The player reads height from the gap between ball and shadow, not from the ball, so shadow-against-ground contrast constrains the palette rather than following it
+- **A moving ball rolls through four frames, faster the faster it goes; a still ball shows one.** Moving means a step on either axis. A frame lasts:
+
+| Ground speed, world units a second | Under 50 | Under 100 | Under 250 | 250 and over |
+| --- | --- | --- | --- | --- |
+| Frame lasts, seconds | 0.12 | 0.06 | 0.04 | 0.02 |
 
 **Acceptance criteria:**
 
 - The ball's and shadow's drawn positions are exact functions of height — exact tests
+- A rolling ball holds each frame for its speed's time, to the tick — exact tests
 
 *Derived from: Ball Height, [Match Mechanics](../../../sources/swos/match-mechanics.md).*
 
@@ -124,4 +135,4 @@ From [5.2 Out of Play](../../../project/milestones/5.2-out-of-play.md); until th
 ## Open Questions
 
 - **Does the ball bounce off players in SWOS**, beyond being controlled, tackled or headed? Not researched
-- **Does a jumping player get a height, and a shadow?** Not researched — the header's frames may show the jump on their own
+- **Does a jumping player get a height, and a shadow?** Not researched — the header's frames may show the jump on their own. A reference player's shadow is part of each frame, not a sprite of its own, per Sprite Data in [Match Mechanics](../../../sources/swos/match-mechanics.md)

@@ -28,11 +28,11 @@ Most of what follows is the apparatus that makes both cheap, because the cost of
 
 - Mark tuning values (`friction`, `bounce`, `max_speed`, `shot_power`) as `@export`, then edit them from the Debugger → **Remote** tab while the game runs. It shows the live scene tree; changes to a selected node's exported properties take effect immediately, so tuning happens against a moving ball rather than by stop-edit-restart
 - **Remote edits are not persisted back to the scene file.** Once a value feels right, write it in deliberately or it's gone on next run
-- Longer term, a tuning Resource (`.tres`) beats scattered exports — one place to version, diff and swap presets, and plain text, so a session's change reads as a git diff
+- **One tuning Resource (`.tres`) per system**, holding the values its design doc names — the ball's from [0.2 Sandbox Scene](../project/milestones/0.2-sandbox-scene.md). It beats scattered exports: one place per system to version, diff and swap presets, and plain text, so a session's change reads as a git diff. Per system rather than central keeps ownership as clear as the design set's
 
 ## Debug Visualisation
 
-- Debug → **Visible Collision Shapes** should be on by default during match engine work. Ball/player interaction bugs are usually shape or offset bugs, and they're near-impossible to reason about invisibly
+- **Draw the reach and contact radii during match engine work.** Ball/player interaction bugs are usually a radius or an anchor offset, and they're near-impossible to reason about invisibly. There are no collision shapes to show — every reach is a distance, per [On-the-Ball Mechanics](../docs/design/match-engine/on-the-ball-mechanics.md) — so Godot's Visible Collision Shapes shows nothing, and the radii go in the debug overlay
 - The editor's Monitors tab (FPS, physics frame time, draw calls) is the cheap early-warning signal — worth glancing at rather than waiting for the Steam Deck to tell you
 - Custom debug overlays (drawing AI target positions, decision states, pass lanes) will earn their keep once [Team AI and Decision Making](../docs/design/match-engine/team-ai-and-decision-making.md) starts. Cheap to add, and AI behaviour is otherwise judged by vibes alone
 
@@ -49,7 +49,7 @@ A milestone's *Asking* and *Session shape* fields.
 These govern the milestone session, whatever it is asking. The logging and the A/B rule carry back to tuning runs too — without them a run tells you the game feels different, not which change did it.
 
 - **Keep a playtest log** — plain text in the repo, one entry per session, newest first. Date, what was tested, what felt wrong, what felt good. This is the subjective counterpart to CI output: the record of how the game has felt over time, which memory reconstructs badly and optimistically. The file gets created when the first milestone that needs one makes it real; its shape and location are a decision for that point, not now
-- **Log the tuning values before and after.** The tuning Resource is plain text, so a session's change is a readable git diff — paste it into the log rather than transcribing it by hand and mistyping it
+- **Log the tuning values before and after.** Tuning Resources are plain text, so a session's change is a readable git diff — paste it into the log rather than transcribing it by hand and mistyping it
 - **Judge feel on the controller, not the keyboard.** Keyboard input is digital and will flatter movement tuning that feels wrong on an analog stick. Setup and Deck parity are in [Deck Input Parity](deck-input-parity.md)
 - **A/B: never change more than one feel variable per session.** Play a session and log the numbers, change one value, play another session, compare the two entries. With two variables changed you learn that the combination feels different, not which one did it — and they may well be pulling against each other, so the pair can read as "no change" while both are wrong. This is slower than it feels like it should be, and it is the only thing that reliably works
 - **Separate "fun" feedback from "bugs".** Fun is design; bugs are engineering. They want different responses and different urgency, and mixing them means design feedback gets triaged like defects — quietly deprioritised because nothing is visibly broken
@@ -59,6 +59,5 @@ These govern the milestone session, whatever it is asking. The logging and the A
 ## Open Questions
 
 - Does the sandbox scene stay one scene, or split per-system (ball sandbox, AI sandbox, set-piece sandbox) as the engine grows?
-- One central tuning Resource, or one per system? Central is easier to diff and swap as presets; per-system keeps ownership clear as the engine grows
 - Cadence: is a playtest every working session, or only at milestone boundaries? The per-milestone protocols in [`project/milestones/`](../project/milestones/) say what to test, not how often
 - How long are recordings kept, and is there any point reviewing old ones once a milestone has passed?

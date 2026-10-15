@@ -2,7 +2,7 @@
 
 Engine: Godot 4.x (latest stable)
 
-Primary language: GDScript — Godot's native scripting language, chosen for simpler syntax, faster iteration (no compile step), and best-supported tooling/documentation. C# remains an option for performance-critical code later if needed, not the starting point. GDScript drives all game logic and behaviour (AI, movement, state machines), not just visuals — rendering/animation is handled separately via the engine's own systems.
+Primary language: GDScript — Godot's native scripting language, chosen for simpler syntax, faster iteration (no compile step), and best-supported tooling/documentation. C# remains an option for performance-critical code later if needed, not the starting point. GDScript drives all game logic and behaviour (AI, movement, state machines), not just visuals — rendering is the engine's own, showing the frame the match picks, per [Sheets](../design/match-engine/sprites.md#sheets).
 
 IDE: Godot's built-in editor, used editor-first for both scenes and scripting. Rider (available via existing JetBrains licence) is a known fallback if the built-in editor's limitations become blocking — not set up pre-emptively.
 
@@ -10,7 +10,7 @@ AI-assisted development: Claude Code, used directly against .gd/.tscn files with
 
 Testing framework: GdUnit4 — embedded unit testing for GDScript (and C# if needed later), with CI/CD support (JUnit XML, GitHub Actions integration) for when a build pipeline is set up.
 
-Linting & type checking: GDScript supports opt-in static typing natively (type hints on variables/functions), checked by the editor/parser as you write — this is adopted as a coding habit rather than an external tool. gdlint (part of godot-gdscript-toolkit) is used for style/best-practice linting, with CLI support for CI. A newer class of GDScript-specific static analyzers (e.g. code-quality-focused tools that flag missing type hints, high complexity, magic numbers) exists and is worth reassessing later, particularly given potential benefits for reducing AI agent token usage on a larger codebase.
+Linting & type checking: GDScript supports opt-in static typing natively (type hints on variables/functions), checked by the editor/parser as you write — this is adopted as a coding habit rather than an external tool. gdformat and gdlint (both part of godot-gdscript-toolkit) are used for formatting and style/best-practice linting, with CLI support for CI. A newer class of GDScript-specific static analyzers (e.g. code-quality-focused tools that flag missing type hints, high complexity, magic numbers) exists and is worth reassessing later, particularly given potential benefits for reducing AI agent token usage on a larger codebase.
 
 Development machines: Windows and macOS (MacBook Air M5) — dev loop only, not distribution. No code signing/notarisation required.
 
@@ -29,6 +29,11 @@ The view, in Project Settings → Display → Window:
 - **Stretch mode `canvas_items`, aspect `expand`, scale mode `integer`.** Integer mode rounds the scale down, so a display never sees less than the base area. `keep` letterboxes unconditionally; `expand` adds no bars
 - **`expand` alone does not clamp**, so the 16:9 width cap and the bars beyond it need implementing rather than configuring
 
+Textures, which carry palette entries rather than colours per [Sheets](../design/match-engine/sprites.md#sheets) — a blended or compressed entry is the wrong colour, not just blurry:
+
+- **Default canvas texture filter `Nearest`**, in Project Settings → Rendering → Textures, so sideloaded sheets loaded at runtime are covered too
+- **Sheets import lossless, with no mipmaps**
+
 Input: one code path for desk and Deck. Godot normalises every pad onto an Xbox-style layout through SDL's game controller database, the same layer the Deck uses, so parity comes from not undermining that rather than from building anything. Setup and the habits that keep it true are in [Deck Input Parity](../../ways-of-working/deck-input-parity.md).
 
 - **Game code reads named actions, never a device.** Keyboard and gamepad bind to the same actions, and nothing branches on input device or keys off the device name — under Steam Input that name may be a synthetic pad's
@@ -39,9 +44,11 @@ Physics tick rate: held at 60 ticks/second. It is a feel-critical constant — c
 
 Team updates: both teams every tick, in two phases. The reference updates one team's controls, decisions and player state per tick, turn about — most likely to save the Amiga's time, and no longer needed. Decided once here because it changes how every reference timer converts, per [Writing From SWOS](../../ways-of-working/spec-chain.md#writing-from-swos), and because order-dependence is near-impossible to retrofit out.
 
-- **Read, then resolve.** Every player on both teams reads the state as it stood at the start of the tick and settles what they're attempting; contacts with the ball are then resolved together, per [Same-Tick Contacts](../design/match-engine/on-the-ball-mechanics.md#same-tick-contacts). Nothing reads another player's update from the same tick, so no team ever gains by being processed first
+- **Read, then resolve.** Every player on both teams reads the simulation state as it stood at the start of the tick and settles what they're attempting; contacts with the ball are then resolved together, per [Same-Tick Contacts](../design/match-engine/on-the-ball-mechanics.md#same-tick-contacts). Nothing reads another player's update from the same tick, so no team ever gains by being processed first
 - **AI decisions run every tick too.** The reference decided 25 times a second, so its per-decision chances and cycles are converted to keep their real-time pace, per [Writing From SWOS](../../ways-of-working/spec-chain.md#writing-from-swos). Decisions read the match one tick old, so the CPU still reacts at the reference's pace: 0.025 after something happens on average, against its 0.02. Deciding on the current match would make it react up to 0.04 sooner. A slower decision clock was turned down: it would mean a second clock, and every chance converted again
 - **Durations are stated in real time** in the design docs, whichever update the reference counted them in
+
+Simulation state: everything that decides play is data, kept apart from the nodes that draw it — the match record, per [Match State Machine](../design/match-engine/match-state-machine.md); each player's state; and the ball's. The start-of-tick snapshot that *Read, then resolve* and the CPU read is a copy of it. Each design doc owns the fields its rules set, and no doc lists them all.
 
 Reference pace: SWOS is cloned at the Amiga's 50 ticks/second, the pace it was designed at. The DOS version's 70 is treated as a porting bug — it runs the Amiga's per-tick numbers on a 70 Hz display, so plays about 40% fast. Where the two versions' values differ, the Amiga's are the reference — see *Engine Performance* in [Match Mechanics](../../sources/swos/match-mechanics.md).
 

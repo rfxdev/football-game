@@ -20,7 +20,7 @@ Don't write it when:
 - It restates the implementation. If changing the code always means changing the test, the test knows nothing the code doesn't
 - It asserts the engine's behaviour, not the project's — a Godot built-in, Input Map clamping, a deadzone, the physics server. That belongs to Godot's suite
 - What's under test is configuration, not code — a project setting, or a resource with no logic around it. There's nothing to assert
-- It's visual or audio. Judged by eye and ear; tooling to do otherwise costs more than it returns
+- It's visual or audio. Judged by eye and ear; tooling to do otherwise costs more than it returns. A number the design fixes behind it — a frame's timing — isn't the picture, and is a Fixed-Value Test
 
 ## Tooling
 
@@ -45,7 +45,7 @@ A milestone can only test what already exists. It tests its own deliverable and 
 
 Fixed seed plus fixed inputs must produce the same result twice, or nothing above is trustworthy. The engine-level constraints that make this possible — simulation logic confined to `_physics_process`, clock and RNG injected rather than read from a global — are decisions, not testing habits, and live in [Technical Architecture and Stack](../docs/decisions/architecture-and-stack.md).
 
-- A test that runs the same seed twice and compares world state is cheap, and the day it fails it has found something poisoning every other test
+- A test that runs the same seed twice and compares the simulation state is cheap, and the day it fails it has found something poisoning every other test
 
 The payoff — building a whole match headless and stepping it a fixed number of ticks — isn't needed until there's a whole match to step. The constraint above is needed from the first line of simulation code.
 
@@ -54,7 +54,7 @@ The payoff — building a whole match headless and stepping it a fixed number of
 Feel turned into something testable: not "does this feel good" but "does a 10-metre pass arrive in 0.3–0.7 seconds". The design doc's acceptance criteria give the range; the test guards it — see [The Spec Chain](spec-chain.md).
 
 - **Ranges, never point values.** A point value is a tuning lock that fails on every legitimate adjustment; a range only fires when something has genuinely left the intended character
-- **Added *after* a mechanic feels right, not before.** Written early they'd pin values that haven't been found yet, making iteration slower rather than safer. Written after, they catch a later change — tick rate, a friction tweak, a new collision shape — dragging feel out of character without anyone noticing
+- **Added *after* a mechanic feels right, not before.** Written early they'd pin values that haven't been found yet, making iteration slower rather than safer. Written after, they catch a later change — tick rate, a friction tweak, a changed reach radius — dragging feel out of character without anyone noticing
 - **Only feel tests wait.** Ordinary correctness tests for the same systems belong from day one, because they ask whether the thing works, not whether it's any good
 - **A retune that leaves the range goes through the design doc.** The range is the doc's acceptance criterion, so a value that wants to sit outside it is rung 2 in [The Spec Chain](spec-chain.md#when-it-doesnt-feel-right): revise the criterion with its reason, and the test follows. Widening the test on its own is how ranges come to mean nothing
 - Which is the resolution to the obvious objection: feel isn't untestable, *exact values still being tuned* are

@@ -10,13 +10,15 @@ The pitch is fixed constants in the reference's coordinates — its lines and th
   - Penalty areas from x 193 to 478, reaching from the goal line to y 216 at the top and 682 at the bottom
 - **One pitch for every match.** Five-a-side plays on it from [3.0](../../../project/milestones/3.0-pitch-and-camera.md); eleven a side adds players, not pitch
 - **Lines are constants, not derived from anything drawn.** The goal lines in particular sit where they sit regardless of how far the world extends past them, and [5.2 Out of Play](../../../project/milestones/5.2-out-of-play.md) inherits them
+- **The ball is out once its ground position is past a line, at any height** — below 81 or from 591 on x, below 129 or from 770 on y, in world units. Each line's own unit is in play. Checked only in play; a crossing of a goal line is a goal or out per [The Goal](#the-goal)
 
 **Acceptance criteria:**
 
 - Every line, spot and box edge sits at its constant, to the unit — exact tests
 - Boundary and goal predicates read the constants, never a sprite's or map's size
+- The out predicate holds exactly at each edge of each line, at every height — exact tests
 
-*Derived from: Pitch and View, [Match Mechanics](../../../sources/swos/match-mechanics.md).*
+*Derived from: Pitch and View, and What Stops Play under Match Flow, [Match Mechanics](../../../sources/swos/match-mechanics.md).*
 
 ## The Goal
 
@@ -47,8 +49,8 @@ Every match is played on one of seven surfaces, frozen to hard. Everything up to
 
 - **A condition sets the grass colour and three ball values — nothing else.** The ball values and what they do are [Ball Physics](ball-physics-and-aerial-simulation.md#pitch-conditions)'s. No player value reads it
 - **A condition is picked before kick-off, or drawn at random** — 5/5/10/20/30/20/10%, frozen to hard. Drawing by month needs a calendar the game doesn't have yet
-- **The grass colour is a palette swap**, one per condition
-- **Each grass colour keeps the ball's shadow legible**, per [Ball Physics](ball-physics-and-aerial-simulation.md#showing-height)
+- **The grass colour is a palette swap**, one per condition — the reference's where sideloaded, per [Sideloaded Art](sprites.md#sideloaded-art)
+- **Each of the project's grass colours keeps the ball's shadow legible**, per [Ball Physics](ball-physics-and-aerial-simulation.md#showing-height)
 
 **Acceptance criteria:**
 

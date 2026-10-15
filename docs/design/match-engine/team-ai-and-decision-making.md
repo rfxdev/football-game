@@ -18,7 +18,7 @@ Each section names the milestone that first builds it. In play, a human's contro
 From [2.1 Keeper Drill](../../../project/milestones/2.1-keeper-drill.md), the first time the CPU plays against the player.
 
 - **The CPU decides every tick**, like everything else, per *Team updates* in [Architecture and Stack](../../decisions/architecture-and-stack.md). Who goes for the ball, and the CPU's stick and button, are all decided then
-- **A decision reads the match one tick old.** It sees a snapshot of the match as it stood at the start of the previous tick, plus the seeded RNG, and nothing else. So the CPU reacts 0.017–0.033 after something happens — 0.025 on average, close to the reference's 0 to 0.04 at 0.02. The human's stick isn't delayed
+- **A decision reads the match one tick old.** It sees the simulation state, per [Architecture and Stack](../../decisions/architecture-and-stack.md), as it stood at the start of the previous tick, plus the seeded RNG, and nothing else. So the CPU reacts 0.017–0.033 after something happens — 0.025 on average, close to the reference's 0 to 0.04 at 0.02. The human's stick isn't delayed
 - **The same snapshot and seed always give the same decision**, so every rule here can be table-tested without running a match
 - **Reaction time is built from that delay and two cycles**: the re-target cycle in [Off the Ball](#off-the-ball), and the chaser's re-aim in [The CPU's Controlled Player](#the-cpus-controlled-player). Too fast reads as psychic, too slow as asleep — the axis [2.1](../../../project/milestones/2.1-keeper-drill.md) first names
 - **The CPU plays through the same intent a pad gives** — a direction of eight and the action, per [Input as Intent](on-the-ball-mechanics.md#input-as-intent). So it runs, turns, carries and kicks by exactly the human's rules, and nothing here can make it faster
@@ -41,7 +41,7 @@ From [2.2 Two Attackers](../../../project/milestones/2.2-two-attackers.md), the 
 
 - **The controlled player is the one nearest the ball**, re-picked every tick:
   - **Strictly the nearest.** A tie keeps whoever is earlier in team order, and there's no hysteresis
-  - **Never picked:** the keeper, unless it's playing the ball; the player who kicked, for 1.0 after the kick; anyone sliding, heading, down or injured; and the second player
+  - **Never picked:** the keeper, unless it's playing the ball; the player who kicked, for 1.0 after the kick; anyone sliding, heading, [down](on-the-ball-mechanics.md#movement) or injured; and the second player
   - **A player losing control stops where they stand**
 - **The second player is the nearest of the rest**, picked the same way, leaving out the controlled player. They run at the ball:
   - **They stand still** when within 57 of the ball, if the controlled player is nearer still and also within 57
@@ -66,7 +66,7 @@ From [3.2 Shape and Home Zones](../../../project/milestones/3.2-shape-and-home-z
 
 - **Every other outfield player runs to their anchor**, from [Formation and Shape System](formation-and-shape-system.md#anchors)
 - **Each re-targets every 0.44, staggered.** A team's re-targets are spread evenly through that cycle, one player at a time in turn through the team, and between turns each runs to their last target. Each slot belongs to a player: when the keeper's or either chaser's slot comes round, it passes unused. So a player released from going for the ball stands where they stopped until their own slot comes round. So the shape trails a moving ball by up to 0.44, as the reference's did
-- **Players run straight at their own speed and stop exactly on arrival.** No acceleration, no easing in, no overshoot. A player standing still faces the ball
+- **Players run straight at their own speed and stop exactly on arrival.** No acceleration, no easing in, no overshoot. Which way they face is [Movement](on-the-ball-mechanics.md#movement)'s
 - **Only their anchors keep teammates apart.** Bodies pass through each other, per [Movement](on-the-ball-mechanics.md#movement), and nothing pushes teammates apart
 - **The debug overlay draws each player's target** beside the shadow formation's anchor marker, with the controlled and second players marked, per [Playtesting](../../../ways-of-working/playtesting.md#debug-visualisation). A target off the anchor for anyone but those two is this doc's bug
 
@@ -87,7 +87,7 @@ From [3.2 Shape and Home Zones](../../../project/milestones/3.2-shape-and-home-z
 From [3.1 Dumb Five a Side](../../../project/milestones/3.1-dumb-five-a-side.md), where running at the ball is all a CPU player does. The header trigger is from [3.3 Decision Loop](../../../project/milestones/3.3-decision-loop.md).
 
 - **Off the ball, it runs at the ball itself**, not at where a ball in the air will land:
-  - **It points the stick the eighth nearest the ball**
+  - **It points the stick the eighth nearest the ball**, rounded as [Movement](on-the-ball-mechanics.md#movement) rounds facing off the stick
   - **It re-aims every tick within 28 of the ball**, and otherwise only every 0.32, holding its last direction between re-aims
   - **With no human playing, it wanders** up to 45° off that line
 - **It heads or volleys towards the opponent's end, timed on the ball's height.** It presses the button when it is:
@@ -224,6 +224,7 @@ From [5.1 Kick-off](../../../project/milestones/5.1-kick-off.md). When each of t
 - **Does control flap in play?** The reference has no hysteresis, but the second player's exclusion may hide a flap. Watch two players converge in swos-port before [2.2](../../../project/milestones/2.2-two-attackers.md) is Ready
 - **When does the second player stop running?** Once started, they ignore the stop rule until their team's pass state resets, and what resets it isn't fully traced. Watch in swos-port whether they end up beside their own carrier, or hold off. Before 2.2 is Ready
 - **How is the controlled player marked?** Read the reference before 2.2 draws it
+- **The CPU's kick cooldown has a second gate.** The reference also waits until the team's kick timer is below 13 — a count whose unit isn't traced — which the 0.6 in [The CPU on the Ball](#the-cpu-on-the-ball) leaves out. Trace what that timer counts and convert it before [3.3](../../../project/milestones/3.3-decision-loop.md) is Ready
 - **Can the CPU slide from the on-ball rules?** They run on distance alone, so a press there with the opponent on the ball may slide. Read before [3.3](../../../project/milestones/3.3-decision-loop.md) is Ready
 - **The keeper's dive, save and speed rules, and the order its rules branch in** — `ShouldGoalkeeperDive` and its skill tables. Read before [3.4](../../../project/milestones/3.4-keeper-ai.md) is Ready
 - **How the CPU takes restarts** — throw-ins, free kicks, corners, goal kicks and penalties, and what it does with the throw-in's third and the free kick's lane recorded in [Stoppages](match-state-machine.md#stoppages). Research into `sources/` before [5.1](../../../project/milestones/5.1-kick-off.md) is Ready

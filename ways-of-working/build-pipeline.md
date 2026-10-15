@@ -47,7 +47,7 @@ No Steam listing required — Developer Mode is enough:
 
 ## Sideloaded Art
 
-Exports never carry it, by construction — see [Local Data](../docs/decisions/licensing-and-ip.md#local-data). Each machine that runs the game needs its own copy in `user://`, once, and again only when the art changes:
+Exports never carry it, by construction — see [Local Data](../docs/decisions/licensing-and-ip.md#local-data). Each machine that runs the game needs its own copy in `user://`, laid out per [Sideloaded Art](../docs/design/match-engine/sprites.md#sideloaded-art), once, and again only when the art changes:
 
 | Machine | `user://` |
 | --- | --- |

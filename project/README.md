@@ -31,7 +31,7 @@ Three routes out, set by what the criteria say:
 
 - **They fix a number** — matching it is the exit condition, and *Asking* is thin or absent
 - **They are a range judged by playing** — the milestone falls back to a playtest judgement and *Asking* carries the weight. See [Playtesting](../ways-of-working/playtesting.md)
-- **There is no design doc** — Phase 0 is invisible scaffolding, the *neither* route in [the spec chain](../ways-of-working/spec-chain.md), and exits on working
+- **There is no design doc** — invisible scaffolding, such as the Input Map or the Deck build, the *neither* route in [the spec chain](../ways-of-working/spec-chain.md), and exits on working
 
 A milestone that is correctness- or variety-shaped rather than feel-shaped — most of Phase 5 — skips *Asking* and *Session shape* entirely rather than forcing a playtest protocol where none is warranted.
 

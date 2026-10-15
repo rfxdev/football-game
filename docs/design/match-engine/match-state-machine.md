@@ -1,6 +1,6 @@
 # Match State Machine
 
-The match's record of what's going on: whether play is live, which restart is pending, the score, the clock and period, cards, injuries, and who kicks off and which way. Other systems report events to it (a goal, the ball going out, a foul, a tackle) and read the state back. None keeps a copy of its own. What a system does *during* a state is that system's.
+The match's record of what's going on: whether play is live, which restart is pending, the score, the clock and period, cards, injuries, and who kicks off and which way. Other systems report events to it (a goal, the ball going out, a foul, a tackle) and read the state back. None keeps a copy of its own. The record is one part of the simulation state, per [Architecture and Stack](../../decisions/architecture-and-stack.md); each player's state and the ball's belong to the systems that set them. What a system does *during* a state is that system's.
 
 ## At a Glance
 
@@ -11,7 +11,7 @@ The match's record of what's going on: whether play is live, which restart is pe
 - **A foul may also draw a card**: [Cards](#cards)
 - **The match runs in two halves of game minutes**, each ending only once no attack is on. [Clock and Periods](#clock-and-periods)
 
-Each section names the milestone that first builds it. Until [5.1](../../../project/milestones/5.1-kick-off.md), a ball leaving the pitch resets the scenario, per [0.2](../../../project/milestones/0.2-sandbox-scene.md). Positions are in world units, per [Architecture and Stack](../../decisions/architecture-and-stack.md), speeds in world units a second, and durations in seconds. The pitch's lines are [Pitch and Environment](pitch-and-environment.md)'s; the ball's walls while play is stopped are [Stopped Play](ball-physics-and-aerial-simulation.md#stopped-play)'s; the score and clock on screen are Match HUD's.
+Each section names the milestone that first builds it. Until [5.1](../../../project/milestones/5.1-kick-off.md) a goal, and until [5.2](../../../project/milestones/5.2-out-of-play.md) a ball leaving the pitch, resets the scenario, per [0.2](../../../project/milestones/0.2-sandbox-scene.md). Positions are in world units, per [Architecture and Stack](../../decisions/architecture-and-stack.md), speeds in world units a second, and durations in seconds. The pitch's lines are [Pitch and Environment](pitch-and-environment.md)'s; the ball's walls while play is stopped are [Stopped Play](ball-physics-and-aerial-simulation.md#stopped-play)'s; the score and clock on screen are Match HUD's.
 
 ## Play States
 
