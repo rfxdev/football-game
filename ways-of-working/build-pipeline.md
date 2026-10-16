@@ -10,7 +10,7 @@ Near-zero friction on this path was the deciding factor for Godot over Unity in 
 
 - Godot needs **export templates** — prebuilt engine binaries for each target platform. Editor → Manage Export Templates
 - **They must match the editor version exactly**, including the build suffix. Upgrading Godot means re-downloading templates, and a mismatch fails at export time rather than silently producing something odd
-- One download covers every platform *and* both debug and release variants. There is no per-platform module to install and no scripting backend to choose
+- **Pick the platforms you build for** — the download offers each OS and architecture separately, each covering debug and release. Linux x86_64 is the Deck's; the dev machine's own is the local check. Nothing needs the 32-bit or the Windows and Linux arm64 ones. There is no scripting backend to choose
 - Per machine — Windows and the MacBook each need their own download, at the same editor version
 
 ## Debug vs Release Exports
@@ -25,6 +25,14 @@ Near-zero friction on this path was the deciding factor for Godot over Unity in 
 - Export templates are prebuilt binaries, so producing a Linux x86_64 build on Windows or an ARM Mac is just Godot packaging your project alongside a prebuilt x86_64 engine binary. No cross-compiler toolchain, no VM required to *produce* the artefact
 - Target **Linux x86_64** — the Deck is x86_64, not ARM
 
+## What Goes in the Build
+
+Exporting all resources takes everything the editor imports. What stays out is decided by who needs it:
+
+- **Godot never needs it → a `.gdignore` in the folder.** Docs, research, recordings, builds, test reports. The editor never scans or imports it, so nothing in it can reach an export, by construction — an image left in `sources/` or `recordings/` included. A gitignored folder commits its `.gdignore` through an exception in `.gitignore`
+- **The editor needs it, the game doesn't → the preset's exclude filter.** `test/*, addons/gdUnit4/*` — ignored, the suite couldn't run. A build carrying GdUnit4 would also owe its licence notice, per [Third-Party Intake](../docs/decisions/licensing-and-ip.md#third-party-intake). Every preset needs the filter, so check a new one's Resources tab
+- Files at the root can't be ignored one by one. They're Markdown and config, which export skips anyway
+
 ## Intermediate Check: Linux VM
 
 - A Linux guest as a sanity check before touching real hardware. Catches API and file-path problems; it will tell you **nothing useful about performance**
@@ -34,16 +42,17 @@ Near-zero friction on this path was the deciding factor for Godot over Unity in 
 
 ## Getting It Onto the Deck
 
-No Steam listing required — Developer Mode is enough:
+No Steam listing and no console — a non-Steam shortcut in Gaming Mode, set up once:
 
-1. Enable **Developer Mode** in Steam Deck settings
-2. Enable **SSH**, then `scp` the build across. Alternative: USB-C hub and a USB drive
-3. Switch to **Desktop Mode** (power menu) and open a terminal
-4. `chmod +x ./YourGame && ./YourGame`
+1. **Copy the build across** — an exFAT USB drive through a USB-C adapter, or `scp` over the local network. A cable to the PC doesn't work: the Deck's port is a host, not a drive
+2. In **Desktop Mode** (power menu), copy it into the home folder with Dolphin, then Properties → Permissions → **Is executable**
+3. Steam → Games → **Add a Non-Steam Game** → browse to it. It runs the main scene: export templates refuse a scene path on the command line, though the editor binary takes one
+4. Launch from the library in **Gaming Mode**. The Steam button's **Exit Game** quits it, and the Performance overlay shows the frame rate
 
-- The executable bit is the classic stumble — it doesn't reliably survive transfer, particularly via exFAT USB drives. A binary that appears to do nothing is usually this
-- **SSH remote deploy** in the Linux export preset can replace steps 2–4 for debug builds: one click in the editor copies the build to the Deck and runs it, attached to the debugger. Confirm the option for the Godot version in use
-- To exercise Gaming Mode and Steam Input rather than just the binary, add it as a non-Steam game on the Deck instead of launching from a terminal — see [Deck Input Parity](deck-input-parity.md)
+- **The executable bit doesn't survive a FAT or exFAT copy.** Re-tick it after copying a new build over the old one. A binary that appears to do nothing is usually this
+- **Gaming Mode is the run, not the terminal.** It's where Steam Input is in the path, per [Deck Input Parity](deck-input-parity.md), and the only place a fullscreen export can be left — the game has no quit of its own until it has a front end. Launched from Desktop Mode, Steam + X's keyboard has Alt+F4
+- **SSH needs only the local network.** Set the `deck` user's password with `passwd`, then `sudo systemctl start sshd`. A Wi-Fi extender can keep the two apart; the USB drive doesn't care
+- **SSH remote deploy** in the Linux export preset can replace steps 1–4 for debug builds: one click in the editor copies the build to the Deck and runs it, attached to the debugger. Unconfirmed — the first run had no network to try it on
 
 ## Sideloaded Art
 
@@ -86,5 +95,6 @@ At each phase boundary, per [Roadmap](../project/roadmap.md) — not every itera
 
 - Does CI ever produce exports (headless `--export-release`), or stay lint-and-test only?
 - What's the Deck performance target — locked 60fps at 1280×800, and what battery life is acceptable alongside it?
-- Is the Linux VM step worth setting up at all, or is the Deck round trip cheap enough to skip it?
-- Does the remote debugger actually reach the Deck over the local network without firewall fiddling? Worth confirming during the first pipeline run, while nothing else is in flight
+- Is the Linux VM step worth setting up at all, or is the Deck round trip cheap enough to skip it? The first run skipped it; its one surprise, the refused scene path, was the template's, which a local export of the dev machine's own OS catches too
+- Does the remote debugger actually reach the Deck over the local network without firewall fiddling? The first pipeline run had no network to try it on
+- How does a Deck build reach more than one scene, or more than one scenario in the sandbox? It runs only the main scene, as saved. Answer it at the first phase boundary with more than one thing to look at on the Deck

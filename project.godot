@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="football-game"
-run/main_scene="res://scenes/debug/input_check.tscn"
+run/main_scene="res://scenes/sandbox/sandbox.tscn"
 config/features=PackedStringArray("4.7")
 
 [display]
@@ -23,6 +23,7 @@ window/size/window_height_override=800
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 window/stretch/scale_mode="integer"
+window/size/mode.template=3
 
 [editor_plugins]
 
