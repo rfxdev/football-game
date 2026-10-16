@@ -60,7 +60,7 @@ The reference's own sprites and palettes, from a copy the player owns, standing 
 
 What a fresh clone draws wherever sideloaded art is missing, per [Local Data](../../decisions/licensing-and-ip.md#local-data). Original and committed, so they are also what any published capture shows until the project's own look replaces them.
 
-- **Dimensions and anchor match the sprite they stand in for.** Y-sort and ball contact read the anchor, so a placeholder that differs plays differently. Each is fixed in its system's doc when the milestone that first needs the sprite is written, per [Roadmap](../../../project/roadmap.md) — the ball's and shadow's in [Showing Height](ball-physics-and-aerial-simulation.md#showing-height)
+- **Dimensions and anchor match the sprite they stand in for.** Y-sort and ball contact read the anchor, so a placeholder that differs plays differently. Each is fixed in its system's doc when the milestone that first needs the sprite is written, per [Roadmap](../../../project/roadmap.md) — the ball's and shadow's in [Showing Height](ball-physics-and-aerial-simulation.md#showing-height), the outfield player's in [Movement](on-the-ball-mechanics.md#movement)
 - **Flat shapes, not art.** A silhouette in kit entries, with facing shown — a darker back of the head, or a notch on the leading edge
 - **One frame per facing, no animation.** Every column of a row holds the same frame, so the sheet keeps its description's layout. Timing is the design's, not the frames', so a still frame changes nothing about play
 - **Kit regions are drawn in the reserved entries**, so they recolour like any other sprite's, per [Kits](kits.md#recolouring)

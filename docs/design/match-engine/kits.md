@@ -13,6 +13,8 @@ A team has two kits, drawn by recolouring shared art; when two teams' kits read 
 
 ## Recolouring
 
+From [1.1 Movement and Possession](../../../project/milestones/1.1-movement-and-possession.md), the first sprite with a kit; the keeper's shirt from [2.1 Keeper Drill](../../../project/milestones/2.1-keeper-drill.md).
+
 - **Recoloured by palette swap, never drawn per kit.** Kit regions — shirt, second shirt colour, shorts, socks — are drawn in reserved palette entries, and the sprite shader colours them from the kit at match start, per [Sheets](sprites.md#sheets). Every art source uses the reference's entries
 - **A plain shirt reuses the vertical-stripe art** with both shirt colours the same, so three sets of shirt art serve four shirt types
 - **The keeper's shirt is drawn in a fixed entry**, not the reserved ones, since it is never recoloured — the reference's shadow entry, which no kit or surface swaps

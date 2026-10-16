@@ -29,6 +29,10 @@ From [1.1 Movement and Possession](../../../project/milestones/1.1-movement-and-
 - The same intent produces the same movement from keyboard and pad
 - **Judged by playing:** a player can be nudged a few world units to line up with the ball without overshooting, and a resting stick never moves them
 
+*Derived from: Controls and Movement, [Match Mechanics](../../../sources/swos/match-mechanics.md).*
+
+*Departs from SWOS: an analogue stick stands in for the reference's digital joystick, snapped to eighths so it plays the same.*
+
 ## Movement
 
 From [1.1](../../../project/milestones/1.1-movement-and-possession.md).
@@ -48,26 +52,36 @@ From [1.1](../../../project/milestones/1.1-movement-and-possession.md).
 | Running | 91 | 95 | 100 | 104 | 109 | 113 | 118 | 122 |
 | Carrying | 79 | 83 | 87 | 91 | 95 | 99 | 103 | 107 |
 
+- **Shown: an outfield player is a 13 × 15 cell, placed by the unit five in from the left on the third row from the bottom**, per [Sheets](sprites.md#sheets). That point is the player's position — what Y-sort and every reach in this doc measure from. The reference's frames fit the cell with their centre point on it
+- **Three cells per facing: standing and two strides.** Standing shows its cell alone; running cycles stride, standing, the other stride, standing, each frame lasting the table's time for the player's Speed — quicker players' legs move quicker, and carrying slows the cycle with the run. Starting, stopping or a change of facing restarts it at its first stride
+- **The player's shadow is drawn in each cell**, in the shadow entry, not as a sprite of its own like the ball's
+
+| Speed | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Running frame lasts, seconds | 0.16 | 0.16 | 0.16 | 0.14 | 0.14 | 0.12 | 0.12 | 0.12 |
+| Carrying frame lasts, seconds | 0.18 | 0.18 | 0.18 | 0.16 | 0.16 | 0.16 | 0.14 | 0.14 |
+
 **Acceptance criteria:**
 
 - The player faces and moves in the stick's new direction on the tick it changes, with the ball and without, and keeps that facing while the stick is centred
 - Off the stick, a player faces the eighth they run in, or standing, the eighth towards the ball or the restart spot — exact at every edge and tie
 - Running speed matches the table at every Speed
+- A running player holds each frame for the table's time at every Speed, running and carrying, to the tick, and the cycle restarts on starting, stopping and every change of facing — exact tests
 
-*Derived from: Movement and Engine Performance, [Match Mechanics](../../../sources/swos/match-mechanics.md).*
+*Derived from: Movement, Sprite Data and Engine Performance, [Match Mechanics](../../../sources/swos/match-mechanics.md).*
 
-*Departs from SWOS: the stick is read every tick, not every other, so a turn lands on the tick the stick moves — per *Team updates* in [Architecture and Stack](../../decisions/architecture-and-stack.md). Players not being solid is decided here; the research doesn't cover bodies meeting.*
+*Departs from SWOS: the stick is read every tick, not every other, so a turn lands on the tick the stick moves, and the run cycle restarts on that tick — per *Team updates* in [Architecture and Stack](../../decisions/architecture-and-stack.md). Players not being solid is decided here; the research doesn't cover bodies meeting.*
 
 ## Carrying the Ball
 
-From [1.1](../../../project/milestones/1.1-movement-and-possession.md); the pressure rule is judged at [2.3 Contests](../../../project/milestones/2.3-contests.md).
+From [1.1](../../../project/milestones/1.1-movement-and-possession.md); the pressure rule is judged at [2.3 Contests](../../../project/milestones/2.3-contests.md). Delivers the [Player Manual](../../manual/player-manual.md#running-with-the-ball)'s Running With the Ball.
 
 - **A player takes the ball by running onto it** — within 5.7 of it (a squared distance of 32), the ball no higher than 12, the stick held in a direction. With the stick centred they stop, and the ball isn't carried
 - **Carrying slows everyone by the same share** — to 87.5% of top speed, the Carrying row in [Movement](#movement)'s table
 - **The ball runs ahead in touches.** Carried, it creeps ahead of the carrier until it's out of reach, runs loose for a moment, and is caught again, at the rate in the table below — a poor dribbler is out of reach about every second, a good one every several. The reference gets there by setting the ball to the carrier's speed plus a Ball Control offset on two ticks in four, less a little friction each tick; resetting it every tick, per *Team updates* in [Architecture and Stack](../../decisions/architecture-and-stack.md), changes that sum, so the creep is the target and the mechanism is tuned to it
 - **A turn while the ball is out of reach leaves it behind.** Only a ball in reach turns with the carrier; a loose one keeps going the old way. This is how a poor dribbler loses the ball with nobody near, and why turning on the ball is a matter of timing. Whether a lost ball reads as the player's mistake or the game's is what [1.1](../../../project/milestones/1.1-movement-and-possession.md) is judging
 - **After a turn, the ball swings round to catch up.** While it sits 90° or more off the carrier's facing, it runs a further 25 faster until it's back in front
-- **Under pressure, changing direction too often loses touch too.** Each change of direction on the ball counts once the new direction has held for 2 ticks, and centring the stick on the ball resets the count. The hold stands in for the reference reading the stick only every other tick, which let a quick roll past a diagonal go uncounted — whether 2 is enough is judged at 1.1. At the table's count, the carrier loses touch for 0.32 seconds and the ball runs on loose — if any opponent who isn't down is within 8.5 of the ball, sliding and heading included. Unopposed the count climbs without cost, so a player who has weaved freely can meet a challenge already over the limit
+- **Under pressure, changing direction too often loses touch too.** Each change of direction on the ball counts once the new direction has held for 2 ticks, and centring the stick on the ball resets the count. The hold stands in for the reference reading the stick only every other tick, which let a quick roll past a diagonal go uncounted — whether 2 is enough is judged at 1.1, by watching the count. At the table's count, the carrier loses touch for 0.32 seconds and the ball runs on loose — if any opponent who isn't down is within 8.5 of the ball, sliding and heading included. Unopposed the count climbs without cost, so a player who has weaved freely can meet a challenge already over the limit
 
 | Ball Control | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -268,7 +282,8 @@ From [2.3 Contests](../../../project/milestones/2.3-contests.md), where two play
 
 ## Open Questions
 
-- **Confirm the creep rates against the reference.** They are worked from the code, not measured; run swos-port before 1.1 is Ready
+- **Which eighth does a stick exactly between two snap to?** [Input as Intent](#input-as-intent) gives no tie rule; off the stick, a tie goes clockwise. Tests keep clear of exact ties until it's decided
+- **Confirm the creep rates against the reference.** They are worked from the code, not measured. Judged by playing at [1.1](../../../project/milestones/1.1-movement-and-possession.md)'s session rather than measured before it; if they read wrong there, measure them in swos-port before retuning
 - **Not yet in the research:** the duration that splits tap from hold, aftertouch's strength and fade, the kick and pass speeds, the pass cone and length by Passing, and the duel's probability table. Read before 1.2 and 2.3 are Ready
 - **How does the duel's boost for extra players apply, and how big is it?** A shift in the difference between averages per extra player, or a change to the odds the table gives — original design, with no reference numbers. Decide before [2.3](../../../project/milestones/2.3-contests.md) is Ready; 2.3 is one against one, so it's first judged at [3.1](../../../project/milestones/3.1-dumb-five-a-side.md)
 - **How much advantage when two strike on the same tick?** Reusing the passive duel's probability table on the attribute difference is the obvious start. Decide before 2.3 is Ready

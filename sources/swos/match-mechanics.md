@@ -20,6 +20,13 @@ Speed sets a player's base movement value, looked up from a table by their Speed
 - **Standing, a player faces the ball,** by the same rounding of the player-to-ball direction worked out at the end of the previous tick (`swos.asm:117503-117530`). While play is stopped for a restart or kick-off, the restart spot (`foulXCoordinate`) stands in for the ball
 - **The exceptions keep their facing when standing:** each team's controlled player, which takes its facing from the stick — the CPU's virtual stick included — and the player taking a kick. A keeper faces the ball even while moving, whenever the ball is in either penalty area unless the keeper has the ball and is playing it like an outfielder (`goalkeeperPlaying`)
 
+**Running is a four-frame cycle, quicker for a quicker player:**
+
+- **Running shows stride, standing, the other stride, standing; standing shows the standing frame alone**, per facing (`swos-port/src/game/animation/animationTables.in:74-89`). The frames are under Sprite Data
+- **A frame lasts (1280 − speed) ÷ 128, rounded down, plus 6 ticks**, from the speed the player's update last set — carrying's 87.5% included. So 8 ticks at Speed 0–2, 7 at 3–4 and 6 at 5–7; carrying, 9 at 0–2, 8 at 3–5 and 7 at 6–7 (`original-amiga-swos.asm:35520-35525`; `swos-port/src/game/player.cpp:128-130`)
+- **The cycle advances every tick**, for every player on screen — the per-tick routine, not the team update (`original-amiga-swos.asm:20820-20926`, called from `maingame` at `:31096`; `swos-port/src/sprites/updateSprite.cpp:215-251`, `:284-293`)
+- **Starting, stopping or a change of facing restarts it.** The team update sets the running or standing table afresh, and the first stride shows on the next tick (`original-amiga-swos.asm:45205-45229`; `swos-port/src/game/animation/animation.cpp:35-64`)
+
 ### Ball Control
 
 Ball Control governs how well a carrier keeps the ball at their feet while running and turning — the manual: "as you run faster and attempt to turn with the ball you'll find it harder to keep control." The disassembled engine (`CalculateIfPlayerWinsBall`, `swos-port/swos/swos.asm:108107-108351`, `original-amiga-swos.asm:35144-35277`) pins down the specifics behind that line:
@@ -320,6 +327,8 @@ Team 1 changes kit only at step 3; from step 5 on, it always wears its primary. 
 
 **What the player frames hold**, read from the DOS 96/97 data files:
 
+- **Standing and running are three frames per facing: standing, then two strides.** Team 1's first complexion numbers them up 341–343, down 344–346, right 347–349, left 350–352, down-left 353–355, down-right 356–358, up-left 359–361 and up-right 362–364, the standing frame first of each three (`swos-port/src/game/animation/animationTables.in:74-89`)
+- **Each of those frames is 15 lines tall and 8 to 13 pixels wide, its centre point 12 lines down** and 1 to 5 pixels in from the left, so the body reaches at most 5 pixels left of the centre and 7 right. Read from swos-port's converted sprites, which keep each frame's size and centre point at 12× (`swos-port/assets/sprites/game/player/background/spr0000`–`spr0023`, the `.png` and its `.txt`)
 - **A player's shadow is part of each frame**, drawn in entry 8, the near-black entry the keeper's shirt also uses. Only the ball has a separate shadow sprite, per Ball Height
 - **No kick frames.** The animation tables keep the running or standing frame through a kick, and in play the ball just leaves the player, the frames not always lining up with it
 - **Some frames exist for only some facings:** celebrations facing up and down only (365–370), the injured player up-right and up-left only (411–414), and the booked player down only (415–416). Numbers are team 1's first complexion
