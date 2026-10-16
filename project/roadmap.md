@@ -1,6 +1,6 @@
 # Roadmap
 
-The build order for a SWOS clone, arranged so something is playable at every phase — which keeps solo-dev motivation up, and keeps a new problem down to one candidate explanation. Original design, meaning anything that departs from the reference, waits until the clone plays. The roadmap holds only what's scheduled; everything else is in [Ideas](ideas.md) until it's added.
+The build order for a SWOS clone, arranged so something is playable at every phase — which keeps solo-dev motivation up, and keeps a new problem down to one candidate explanation. Original design — a new mechanic, or a change meant to make the game play differently — waits until the clone plays. A departure that plays near enough the same can land sooner, whether our platform forces it or it's simply less to build, per [Writing From SWOS](../ways-of-working/spec-chain.md#writing-from-swos). The roadmap holds only what's scheduled; everything else is in [Ideas](ideas.md) until it's added.
 
 How a milestone file works — what it is, how it exits, its status — is in the [project README](README.md). Cross-phase notes are after the phases.
 

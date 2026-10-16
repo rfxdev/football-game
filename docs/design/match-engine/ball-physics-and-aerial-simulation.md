@@ -2,7 +2,7 @@
 
 ## At a Glance
 
-- **The ball steers toward a point, re-aimed every tick.** Moving the point is what bends its path — [Ball Movement](#ball-movement)
+- **The ball steers toward a point, re-aimed every tick.** Moving the point is what steers it — [Ball Movement](#ball-movement)
 - **Height is faked.** The ball carries its own height and vertical speed outside the engine's physics, falling and bouncing until it rolls — [Fake Height](#fake-height)
 - **Height is shown by drawing the ball raised above a fixed shadow.** The gap between them is what the player reads — [Showing Height](#showing-height)
 - **The surface changes how the loose ball rolls and bounces**, and nothing else — [Pitch Conditions](#pitch-conditions)
@@ -15,17 +15,17 @@ Speeds are in world units per second, and their changes per second each second.
 
 - **The ball heads for a point, re-aimed every tick.** It never stores a heading of its own: each tick, the offset from ball to point picks one of 256 directions, and the ball steps that way at its speed
 - **A direction is linear within each eighth of a turn, not a true angle.** The offset is taken between whole units, and both parts are halved, rounding down, until each is under 32 world units. The direction's angle from the nearer axis is then 32 × the smaller part ÷ the larger, rounded, in 256ths of a turn — so halfway between an axis and a diagonal the ball heads about 4° nearer the axis
-- **A step is the speed times the direction's sine and cosine, each cut to 128ths, rounding down.** Straight along an axis the ball covers 127/128 of its speed
-- **A ball at its point doesn't move**, and keeps its speed
-- **A fixed point gives a straight line; moving the point bends the path.** Aftertouch moves it, per [Kicking](on-the-ball-mechanics.md#kicking), and so does a rebound off the frame, per [The Goalframe](#the-goalframe)
+- **A step is the speed times the direction's sine and cosine, each cut to 128ths, rounding down.** Rounding down takes a negative part away from zero, so along +x or +y the ball covers 127/128 of its speed, and along −x or −y all of it
+- **A ball at its point doesn't move**, and keeps its speed — only slowing takes any off
+- **A fixed point gives a straight line along an axis; moving the point bends the path.** Off an axis each re-aim is a little off the true direction, so the path bends slightly by itself — a few units over a pitch length on a kick's diagonal, more at other angles. Aftertouch moves it, per [Kicking](on-the-ball-mechanics.md#kicking), and so does a rebound off the frame, per [The Goalframe](#the-goalframe)
 - **A kick sets the point far past the pitch** — 1000 out along each axis it travels. A pass to a teammate aims at them, stretched to just past the pitch edge. Set pieces have their own points
 - **The ball moves itself, not a `RigidBody2D`.** Position, heading and height are integrated by its own code each physics tick, so steering, friction and bounce are exactly what this doc says
 
 **Acceptance criteria:**
 
-- A ball with a fixed point travels in a straight line
+- A ball heading along an axis travels in a straight line
 - The direction picked for every offset follows the rule above, and a step's size the rounding — exact tests
-- Moving the point mid-flight bends the path toward it, and nothing else does
+- Moving the point mid-flight bends the path toward it; along an axis, nothing else moves the ball off its line
 - A ball at its point stays there
 
 *Derived from: Ball Movement, [Match Mechanics](../../../sources/swos/match-mechanics.md).*
@@ -33,7 +33,7 @@ Speeds are in world units per second, and their changes per second each second.
 ## Fake Height
 
 - **Height is a float the ball owns, outside Godot's physics**, with its own vertical speed. Nothing in the engine maintains it, so anything that cares about height has to check it
-- **Gravity pulls the ball down while it's in the air** — about 176 off the vertical speed
+- **Gravity pulls the ball down once it has left the ground** — about 176 off the vertical speed, every tick it starts above the ground. A kick or a bounce lifts it at its full vertical speed, and gravity starts the tick after
 - **Below zero, the ball bounces.** Height goes back to 0 and the pitch's fractions come off its ground and vertical speed, per [Pitch Conditions](#pitch-conditions). A bounce that leaves 31 or less of vertical speed ends it, and the ball rolls
 - **The ball slows less in the air than on the ground** — by about 49 in the air, 78 on the ground, plus the pitch's friction while it's loose. Pitch friction doesn't apply in the air. Otherwise ground movement ignores height
 - **A keeper holds the ball at a fixed height** — 5, rising to it at 100 or falling at 50
@@ -45,6 +45,8 @@ Speeds are in world units per second, and their changes per second each second.
 - Gravity, both slowdowns and the bounce cut-off match their values — exact tests
 
 *Derived from: Ball Height, [Match Mechanics](../../../sources/swos/match-mechanics.md).*
+
+*Departs from SWOS: SWOS runs gravity while the vertical speed isn't zero, so it pulls on a ball the tick it's kicked up or bounces, and leaves one let go in the air with none hanging there. Here gravity waits until the ball has left the ground, and a dropped ball falls — the simpler rule. Each arc runs about a tick longer, which plays the same.*
 
 ## Showing Height
 
@@ -65,6 +67,7 @@ A top-down view can't show height directly, and aerial play runs through the who
 
 - The ball's and shadow's drawn positions are exact functions of height — exact tests
 - A rolling ball holds each frame for its speed's time, to the tick — exact tests
+- The ball layers at its ground position at every height, and the shadow 10 further up the screen than it's drawn — exact tests
 
 *Derived from: Ball Height, [Match Mechanics](../../../sources/swos/match-mechanics.md).*
 
@@ -134,5 +137,6 @@ From [5.2 Out of Play](../../../project/milestones/5.2-out-of-play.md); until th
 
 ## Open Questions
 
+- **What unit are SWOS's ball slowdowns and pitch friction in?** Ball Height and Pitch Conditions in [Match Mechanics](../../../sources/swos/match-mechanics.md) give them per tick with no scale; 78, 49 and the friction row assume 1/512 of a pixel a tick. Research it into `sources/` so the values can be checked
 - **Does the ball bounce off players in SWOS**, beyond being controlled, tackled or headed? Not researched
 - **Does a jumping player get a height, and a shadow?** Not researched — the header's frames may show the jump on their own. A reference player's shadow is part of each frame, not a sprite of its own, per Sprite Data in [Match Mechanics](../../../sources/swos/match-mechanics.md)

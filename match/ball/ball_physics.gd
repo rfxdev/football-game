@@ -83,10 +83,11 @@ static func _slow(ball: BallState, tuning: BallTuning, seconds: float) -> void:
 	ball.speed = maxf(ball.speed - slowdown * seconds, 0.0)
 
 
+## Gravity waits until the ball has left the ground, per Fake Height, so a kick
+## or a bounce lifts it at its full vertical speed.
 static func _rise_and_fall(ball: BallState, tuning: BallTuning, seconds: float) -> void:
-	if ball.height == 0.0 and ball.vertical_speed == 0.0:
-		return
-	ball.vertical_speed -= tuning.gravity * seconds
+	if ball.height > 0.0:
+		ball.vertical_speed -= tuning.gravity * seconds
 	ball.height += ball.vertical_speed * seconds
 	if ball.height >= 0.0:
 		return
