@@ -19,14 +19,19 @@ mono_crash.*.json
 #IDE
 .idea
 
+# Local-only folders below keep their .gdignore committed (see ways-of-working/build-pipeline.md)
+
 # Playtest session recordings — large, kept locally (see ways-of-working/playtesting.md)
-recordings/
+recordings/*
+!recordings/.gdignore
 
 # Exported builds (see ways-of-working/build-pipeline.md)
-builds/
+builds/*
+!builds/.gdignore
 
 # Raw third-party research material — not our own words, kept local only (see sources/README.md)
 sources/**/raw/
 
 # GdUnit4 test reports, written on every run
-reports/
+reports/*
+!reports/.gdignore
